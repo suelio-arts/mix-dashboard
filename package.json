@@ -1,0 +1,13 @@
+{
+  "name": "mix-dashboard-exporter",
+  "version": "1.0.0",
+  "description": "Export Firebase Firestore data to JSON for Mix Dashboard",
+  "main": "export-firebase-data.js",
+  "scripts": {
+    "export": "node export-firebase-data.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  },
+  "type": "commonjs"
+}

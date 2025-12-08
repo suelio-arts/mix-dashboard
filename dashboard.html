@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Data Dashboard</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #sidebar {
+            width: 320px;
+            background: #ffffff;
+            border-right: 1px solid #e5e7eb;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        body.dark-mode #sidebar {
+            background: #1f2937;
+            border-right-color: #374151;
+        }
+
+        #map {
+            flex: 1;
+            height: 100vh;
+        }
+
+        .sidebar-section {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        body.dark-mode .sidebar-section {
+            border-bottom-color: #374151;
+        }
+
+        .sidebar-section h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #111827;
+        }
+
+        body.dark-mode .sidebar-section h2 {
+            color: #f9fafb;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        body.dark-mode .stat-item {
+            color: #d1d5db;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        body.dark-mode .stat-value {
+            color: #f9fafb;
+        }
+
+        .filter-group {
+            margin-bottom: 16px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #374151;
+        }
+
+        body.dark-mode .filter-group label {
+            color: #d1d5db;
+        }
+
+        .filter-group input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #ffffff;
+            color: #111827;
+        }
+
+        body.dark-mode .filter-group input[type="date"] {
+            background: #374151;
+            border-color: #4b5563;
+            color: #f9fafb;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        body.dark-mode .checkbox-item {
+            color: #d1d5db;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .toggle-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        body.dark-mode .toggle-item {
+            color: #d1d5db;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #d1d5db;
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #3b82f6;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        .legend {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #4b5563;
+        }
+
+        body.dark-mode .legend-item {
+            color: #d1d5db;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .legend-marker {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        #chart-container {
+            height: 200px;
+            margin-top: 12px;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-size: 18px;
+            color: #6b7280;
+        }
+
+        body.dark-mode .loading {
+            background: #111827;
+            color: #9ca3af;
+        }
+
+        /* Leaflet popup styling */
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px;
+        }
+
+        body.dark-mode .leaflet-popup-content-wrapper {
+            background: #1f2937;
+            color: #f9fafb;
+        }
+
+        body.dark-mode .leaflet-popup-tip {
+            background: #1f2937;
+        }
+
+        .popup-content {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .popup-activity {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .popup-activity-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .popup-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+        }
+
+        .popup-label {
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        body.dark-mode .popup-label {
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading" class="loading">Loading data...</div>
+
+    <div id="sidebar" style="display: none;">
+        <div class="sidebar-section">
+            <h2>Data Summary</h2>
+            <div class="stat-item">
+                <span>Total Locations</span>
+                <span class="stat-value" id="stat-locations">0</span>
+            </div>
+            <div class="stat-item">
+                <span>Total Visits</span>
+                <span class="stat-value" id="stat-visits">0</span>
+            </div>
+            <div class="stat-item">
+                <span>Date Range</span>
+                <span class="stat-value" id="stat-daterange">-</span>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <h2>Date Filters</h2>
+            <div class="filter-group">
+                <label for="date-start">Start Date</label>
+                <input type="date" id="date-start">
+            </div>
+            <div class="filter-group">
+                <label for="date-end">End Date</label>
+                <input type="date" id="date-end">
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <h2>Layers</h2>
+            <div class="toggle-item">
+                <span>Location Points</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggle-locations" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="toggle-item">
+                <span>Visits</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggle-visits" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <h2>Activity Filter</h2>
+            <div class="checkbox-group">
+                <label class="checkbox-item">
+                    <input type="checkbox" data-activity="stationary" checked>
+                    <span>Stationary</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" data-activity="walking" checked>
+                    <span>Walking</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" data-activity="running" checked>
+                    <span>Running</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" data-activity="cycling" checked>
+                    <span>Cycling</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" data-activity="automotive" checked>
+                    <span>Automotive</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" data-activity="unknown" checked>
+                    <span>Unknown</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <h2>Upload Frequency</h2>
+            <div id="chart-container">
+                <canvas id="frequency-chart"></canvas>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <h2>Legend</h2>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #9333ea;"></div>
+                    <span>Stationary</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #22c55e;"></div>
+                    <span>Walking</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #f97316;"></div>
+                    <span>Running</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #3b82f6;"></div>
+                    <span>Cycling</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #ef4444;"></div>
+                    <span>Automotive</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #9ca3af;"></div>
+                    <span>Unknown</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-marker" style="background: #22c55e;"></div>
+                    <span>Visit Arrival</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-marker" style="background: #ef4444;"></div>
+                    <span>Visit Departure</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="map" style="display: none;"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+
+    <script>
+        // Parse dates as local time (not UTC)
+        function parseLocalDate(dateString) {
+            const [year, month, day] = dateString.split('-').map(Number);
+            return new Date(year, month - 1, day);
+        }
+
+        // Activity color mapping
+        const ACTIVITY_COLORS = {
+            stationary: '#9333ea',
+            walking: '#22c55e',
+            running: '#f97316',
+            cycling: '#3b82f6',
+            automotive: '#ef4444',
+            unknown: '#9ca3af'
+        };
+
+        // Confidence mapping
+        const CONFIDENCE_LABELS = {
+            0: 'Low',
+            1: 'Medium',
+            2: 'High'
+        };
+
+        // Global state
+        let map;
+        let locationsData = [];
+        let motionData = [];
+        let visitsData = [];
+        let locationMarkers = [];
+        let visitMarkers = [];
+        let chart;
+
+        // Detect dark mode
+        function isDarkMode() {
+            return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+
+        // Apply dark mode
+        function applyDarkMode() {
+            if (isDarkMode()) {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+        }
+
+        // Initialize map
+        function initMap() {
+            const darkMode = isDarkMode();
+            const tileUrl = darkMode
+                ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+                : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+
+            map = L.map('map').setView([0, 0], 2);
+
+            L.tileLayer(tileUrl, {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 19
+            }).addTo(map);
+        }
+
+        // Binary search to find nearest motion activity by timestamp
+        function findNearestMotion(timestamp, motionArray) {
+            if (!motionArray || motionArray.length === 0) {
+                return null;
+            }
+
+            let left = 0;
+            let right = motionArray.length - 1;
+            let closest = null;
+            let minDiff = Infinity;
+
+            while (left <= right) {
+                const mid = Math.floor((left + right) / 2);
+                const motion = motionArray[mid];
+                const diff = Math.abs(new Date(motion.timestamp).getTime() - new Date(timestamp).getTime());
+
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    closest = motion;
+                }
+
+                if (new Date(motion.timestamp).getTime() < new Date(timestamp).getTime()) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+
+            return closest;
+        }
+
+        // Determine activity type from motion data
+        function getActivityType(motion) {
+            if (!motion) return 'unknown';
+            if (motion.isStationary) return 'stationary';
+            if (motion.isWalking) return 'walking';
+            if (motion.isRunning) return 'running';
+            if (motion.isCycling) return 'cycling';
+            if (motion.isAutomotive) return 'automotive';
+            return 'unknown';
+        }
+
+        // Create popup content
+        function createPopupContent(location, activity, motion) {
+            const activityColor = ACTIVITY_COLORS[activity];
+            const confidence = motion ? CONFIDENCE_LABELS[motion.confidence] || 'Unknown' : 'Unknown';
+            const timestamp = new Date(location.timestamp).toLocaleString();
+
+            return `
+                <div class="popup-content">
+                    <div class="popup-activity">
+                        <div class="popup-activity-dot" style="background: ${activityColor};"></div>
+                        <span>${activity.charAt(0).toUpperCase() + activity.slice(1)}</span>
+                    </div>
+                    <div class="popup-row">
+                        <span class="popup-label">Confidence:</span>
+                        <span>${confidence}</span>
+                    </div>
+                    <div class="popup-row">
+                        <span class="popup-label">Time:</span>
+                        <span>${timestamp}</span>
+                    </div>
+                    <div class="popup-row">
+                        <span class="popup-label">Lat/Lon:</span>
+                        <span>${location.latitude.toFixed(6)}, ${location.longitude.toFixed(6)}</span>
+                    </div>
+                    <div class="popup-row">
+                        <span class="popup-label">Accuracy:</span>
+                        <span>${location.horizontalAccuracy ? location.horizontalAccuracy.toFixed(1) + 'm' : 'N/A'}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Create visit popup content
+        function createVisitPopupContent(visit, isArrival) {
+            const type = isArrival ? 'Arrival' : 'Departure';
+            const date = new Date(isArrival ? visit.arrivalDate : visit.departureDate).toLocaleString();
+
+            return `
+                <div class="popup-content">
+                    <div class="popup-activity">
+                        <div class="popup-activity-dot" style="background: ${isArrival ? '#22c55e' : '#ef4444'};"></div>
+                        <span>Visit ${type}</span>
+                    </div>
+                    <div class="popup-row">
+                        <span class="popup-label">Time:</span>
+                        <span>${date}</span>
+                    </div>
+                    <div class="popup-row">
+                        <span class="popup-label">Lat/Lon:</span>
+                        <span>${visit.latitude.toFixed(6)}, ${visit.longitude.toFixed(6)}</span>
+                    </div>
+                    <div class="popup-row">
+                        <span class="popup-label">Accuracy:</span>
+                        <span>${visit.horizontalAccuracy ? visit.horizontalAccuracy.toFixed(1) + 'm' : 'N/A'}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render location markers
+        function renderLocations() {
+            // Clear existing markers
+            locationMarkers.forEach(marker => map.removeLayer(marker));
+            locationMarkers = [];
+
+            // Get filter values
+            const startDate = document.getElementById('date-start').value
+                ? parseLocalDate(document.getElementById('date-start').value).getTime()
+                : -Infinity;
+            const endDate = document.getElementById('date-end').value
+                ? parseLocalDate(document.getElementById('date-end').value).setHours(23, 59, 59, 999)
+                : Infinity;
+
+            const showLocations = document.getElementById('toggle-locations').checked;
+            if (!showLocations) return;
+
+            // Get activity filters
+            const activityFilters = {};
+            document.querySelectorAll('[data-activity]').forEach(checkbox => {
+                activityFilters[checkbox.dataset.activity] = checkbox.checked;
+            });
+
+            // Filter and render locations
+            locationsData.forEach(location => {
+                const locationTime = new Date(location.timestamp).getTime();
+
+                // Date filter
+                if (locationTime < startDate || locationTime > endDate) return;
+
+                // Find matching motion activity
+                const motion = findNearestMotion(location.timestamp, motionData);
+                const activity = getActivityType(motion);
+
+                // Activity filter
+                if (!activityFilters[activity]) return;
+
+                // Create marker
+                const marker = L.circleMarker([location.latitude, location.longitude], {
+                    radius: 6,
+                    fillColor: ACTIVITY_COLORS[activity],
+                    color: '#ffffff',
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                });
+
+                marker.bindPopup(createPopupContent(location, activity, motion));
+                marker.addTo(map);
+                locationMarkers.push(marker);
+            });
+
+            fitMapBounds();
+        }
+
+        // Render visit markers
+        function renderVisits() {
+            // Clear existing markers
+            visitMarkers.forEach(marker => map.removeLayer(marker));
+            visitMarkers = [];
+
+            const showVisits = document.getElementById('toggle-visits').checked;
+            if (!showVisits) return;
+
+            // Get filter values
+            const startDate = document.getElementById('date-start').value
+                ? parseLocalDate(document.getElementById('date-start').value).getTime()
+                : -Infinity;
+            const endDate = document.getElementById('date-end').value
+                ? parseLocalDate(document.getElementById('date-end').value).setHours(23, 59, 59, 999)
+                : Infinity;
+
+            visitsData.forEach(visit => {
+                const arrivalTime = new Date(visit.arrivalDate).getTime();
+                const departureTime = visit.departureDate ? new Date(visit.departureDate).getTime() : null;
+
+                // Arrival marker
+                if (arrivalTime >= startDate && arrivalTime <= endDate) {
+                    const arrivalMarker = L.marker([visit.latitude, visit.longitude], {
+                        icon: L.divIcon({
+                            className: 'visit-marker',
+                            html: `<div style="background: #22c55e; width: 12px; height: 12px; border-radius: 2px; border: 2px solid white;"></div>`,
+                            iconSize: [12, 12]
+                        })
+                    });
+                    arrivalMarker.bindPopup(createVisitPopupContent(visit, true));
+                    arrivalMarker.addTo(map);
+                    visitMarkers.push(arrivalMarker);
+                }
+
+                // Departure marker
+                if (departureTime && departureTime >= startDate && departureTime <= endDate) {
+                    const departureMarker = L.marker([visit.latitude, visit.longitude], {
+                        icon: L.divIcon({
+                            className: 'visit-marker',
+                            html: `<div style="background: #ef4444; width: 12px; height: 12px; border-radius: 2px; border: 2px solid white;"></div>`,
+                            iconSize: [12, 12]
+                        })
+                    });
+                    departureMarker.bindPopup(createVisitPopupContent(visit, false));
+                    departureMarker.addTo(map);
+                    visitMarkers.push(departureMarker);
+                }
+            });
+
+            fitMapBounds();
+        }
+
+        // Fit map to visible markers
+        function fitMapBounds() {
+            const allMarkers = [...locationMarkers, ...visitMarkers];
+            if (allMarkers.length === 0) return;
+
+            const group = L.featureGroup(allMarkers);
+            map.fitBounds(group.getBounds(), { padding: [50, 50] });
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('stat-locations').textContent = locationsData.length.toLocaleString();
+            document.getElementById('stat-visits').textContent = visitsData.length.toLocaleString();
+
+            if (locationsData.length > 0) {
+                const timestamps = locationsData.map(l => new Date(l.timestamp).getTime());
+                const minDate = new Date(Math.min(...timestamps));
+                const maxDate = new Date(Math.max(...timestamps));
+                document.getElementById('stat-daterange').textContent =
+                    `${minDate.toLocaleDateString()} - ${maxDate.toLocaleDateString()}`;
+            }
+        }
+
+        // Create frequency chart
+        function createFrequencyChart() {
+            const timestamps = locationsData.map(l => new Date(l.timestamp));
+
+            // Group by date
+            const dateCounts = {};
+            timestamps.forEach(ts => {
+                const dateKey = ts.toISOString().split('T')[0];
+                dateCounts[dateKey] = (dateCounts[dateKey] || 0) + 1;
+            });
+
+            // Sort dates
+            const sortedDates = Object.keys(dateCounts).sort();
+            const counts = sortedDates.map(date => dateCounts[date]);
+
+            // Format labels
+            const labels = sortedDates.map(date => {
+                const d = new Date(date);
+                return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            });
+
+            const ctx = document.getElementById('frequency-chart').getContext('2d');
+            const darkMode = isDarkMode();
+
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Uploads',
+                        data: counts,
+                        backgroundColor: '#3b82f6',
+                        borderColor: '#2563eb',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: darkMode ? '#d1d5db' : '#6b7280'
+                            },
+                            grid: {
+                                color: darkMode ? '#374151' : '#e5e7eb'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: darkMode ? '#d1d5db' : '#6b7280',
+                                maxRotation: 45,
+                                minRotation: 45
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Load data files
+        async function loadData() {
+            try {
+                const [locationsRes, motionRes, visitsRes] = await Promise.all([
+                    fetch('./data/locations.json'),
+                    fetch('./data/motion.json'),
+                    fetch('./data/visits.json')
+                ]);
+
+                locationsData = await locationsRes.json();
+                motionData = await motionRes.json();
+                visitsData = await visitsRes.json();
+
+                // Sort motion data by timestamp for binary search
+                motionData.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+
+                return true;
+            } catch (error) {
+                console.error('Error loading data:', error);
+                alert('Error loading data files. Please ensure locations.json, motion.json, and visits.json are in the ./data/ folder.');
+                return false;
+            }
+        }
+
+        // Initialize dashboard
+        async function initDashboard() {
+            applyDarkMode();
+
+            const dataLoaded = await loadData();
+            if (!dataLoaded) return;
+
+            // Hide loading, show UI
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('sidebar').style.display = 'flex';
+            document.getElementById('map').style.display = 'block';
+
+            initMap();
+            updateStats();
+            createFrequencyChart();
+            renderLocations();
+            renderVisits();
+
+            // Event listeners
+            document.getElementById('date-start').addEventListener('change', () => {
+                renderLocations();
+                renderVisits();
+            });
+
+            document.getElementById('date-end').addEventListener('change', () => {
+                renderLocations();
+                renderVisits();
+            });
+
+            document.getElementById('toggle-locations').addEventListener('change', renderLocations);
+            document.getElementById('toggle-visits').addEventListener('change', renderVisits);
+
+            document.querySelectorAll('[data-activity]').forEach(checkbox => {
+                checkbox.addEventListener('change', renderLocations);
+            });
+
+            // Watch for dark mode changes
+            if (window.matchMedia) {
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                    location.reload(); // Reload to update map tiles
+                });
+            }
+        }
+
+        // Start the app
+        initDashboard();
+    </script>
+</body>
+</html>

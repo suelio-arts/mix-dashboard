@@ -1,0 +1,17 @@
+[
+  {
+    "id": "wb2mYdCNHg5ItmhAcUCf",
+    "latitude": 42.3728,
+    "longitude": -71.1032,
+    "location": {
+      "latitude": 42.3728,
+      "longitude": -71.1032
+    },
+    "timestamp": "2025-12-01T22:13:55.609Z",
+    "horizontalAccuracy": 10,
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "dataSharingConsent": true,
+    "serverTimestamp": "2025-12-01T22:13:56.456Z",
+    "createdAt": "2025-12-01T22:13:56.456Z"
+  }
+]
