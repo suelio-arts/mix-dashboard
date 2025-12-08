@@ -2,6 +2,7 @@ services:
   - type: web
     name: mix-dashboard
     runtime: static
+    plan: starter
     buildCommand: ""
     staticPublishPath: .
     routes:

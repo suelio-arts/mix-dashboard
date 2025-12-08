@@ -573,14 +573,18 @@
 
         // Create visit popup content
         function createVisitPopupContent(visit, isArrival) {
-            const type = isArrival ? 'Arrival' : 'Departure';
-            const date = new Date(isArrival ? visit.arrivalDate : visit.departureDate).toLocaleString();
+            const type = isArrival ? 'Arrival' : (visit.departureDate ? 'Departure' : 'Visit');
+            // Handle both arrivalDate/departureDate and plain timestamp
+            const dateField = isArrival
+                ? (visit.arrivalDate || visit.timestamp)
+                : (visit.departureDate || visit.timestamp);
+            const date = new Date(dateField).toLocaleString();
 
             return `
                 <div class="popup-content">
                     <div class="popup-activity">
                         <div class="popup-activity-dot" style="background: ${isArrival ? '#22c55e' : '#ef4444'};"></div>
-                        <span>Visit ${type}</span>
+                        <span>${type}</span>
                     </div>
                     <div class="popup-row">
                         <span class="popup-label">Time:</span>
@@ -671,11 +675,14 @@
                 : Infinity;
 
             visitsData.forEach(visit => {
-                const arrivalTime = new Date(visit.arrivalDate).getTime();
+                // Support both arrivalDate/departureDate format and plain timestamp format
+                const arrivalTime = visit.arrivalDate
+                    ? new Date(visit.arrivalDate).getTime()
+                    : (visit.timestamp ? new Date(visit.timestamp).getTime() : null);
                 const departureTime = visit.departureDate ? new Date(visit.departureDate).getTime() : null;
 
-                // Arrival marker
-                if (arrivalTime >= startDate && arrivalTime <= endDate) {
+                // Arrival/Visit marker (green square)
+                if (arrivalTime && arrivalTime >= startDate && arrivalTime <= endDate) {
                     const arrivalMarker = L.marker([visit.latitude, visit.longitude], {
                         icon: L.divIcon({
                             className: 'visit-marker',
@@ -688,7 +695,7 @@
                     visitMarkers.push(arrivalMarker);
                 }
 
-                // Departure marker
+                // Departure marker (red square) - only if we have separate departure time
                 if (departureTime && departureTime >= startDate && departureTime <= endDate) {
                     const departureMarker = L.marker([visit.latitude, visit.longitude], {
                         icon: L.divIcon({
