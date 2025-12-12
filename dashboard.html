@@ -775,7 +775,10 @@
 
         // Create frequency chart
         function createFrequencyChart() {
-            const timestamps = locationsData.map(l => new Date(l.timestamp));
+            const timestamps = locationsData.map(l => {
+                const ts = l.timestamp || l.serverTimestamp;
+                return new Date(ts);
+            });
 
             // Group by date
             const dateCounts = {};
@@ -788,9 +791,10 @@
             const sortedDates = Object.keys(dateCounts).sort();
             const counts = sortedDates.map(date => dateCounts[date]);
 
-            // Format labels
+            // Format labels - parse date string as local time, not UTC
             const labels = sortedDates.map(date => {
-                const d = new Date(date);
+                const [year, month, day] = date.split('-').map(Number);
+                const d = new Date(year, month - 1, day);  // Local time
                 return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
             });
 
@@ -884,8 +888,6 @@
             const startTimestamp = Timestamp.fromDate(startDate);
             const endTimestamp = Timestamp.fromDate(endDate);
 
-            console.log(`Querying Firestore for ${userId} from ${startDate.toISOString()} to ${endDate.toISOString()}`);
-
             try {
                 // Query locations
                 const locationsQuery = query(
@@ -897,7 +899,6 @@
                 );
                 const locationsSnapshot = await getDocs(locationsQuery);
                 locationsData = locationsSnapshot.docs.map(convertDocument);
-                console.log(`Loaded ${locationsData.length} locations`);
 
                 // Query motion activities
                 const motionQuery = query(
@@ -909,7 +910,6 @@
                 );
                 const motionSnapshot = await getDocs(motionQuery);
                 motionData = motionSnapshot.docs.map(convertDocument);
-                console.log(`Loaded ${motionData.length} motion activities`);
 
                 // Query visits
                 const visitsQuery = query(
@@ -921,7 +921,6 @@
                 );
                 const visitsSnapshot = await getDocs(visitsQuery);
                 visitsData = visitsSnapshot.docs.map(convertDocument);
-                console.log(`Loaded ${visitsData.length} visits`);
 
                 // Sort motion data by timestamp for binary search
                 motionData.sort((a, b) => new Date(a.timestamp || a.serverTimestamp).getTime() - new Date(b.timestamp || b.serverTimestamp).getTime());
