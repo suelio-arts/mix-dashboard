@@ -434,6 +434,43 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
 
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
+        import { getFirestore, collection, query, where, orderBy, getDocs, Timestamp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDOAuOCT4_N2-erb_lWPYYdv1buhYvMXcg",
+            authDomain: "suelio-ar.firebaseapp.com",
+            projectId: "suelio-ar",
+            storageBucket: "suelio-ar.appspot.com",
+            messagingSenderId: "182810396935",
+            appId: "1:182810396935:web:f8e8f8f8f8f8f8f8f8f8f8"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // User ID to query
+        const USER_ID = 'qaCPu4bNgYOFsjQaSRjjMb4fJRf2';
+
+        // Make Firestore available globally
+        window.firestoreDB = db;
+        window.firestoreQuery = query;
+        window.firestoreCollection = collection;
+        window.firestoreWhere = where;
+        window.firestoreOrderBy = orderBy;
+        window.firestoreGetDocs = getDocs;
+        window.firestoreTimestamp = Timestamp;
+        window.FIRESTORE_USER_ID = USER_ID;
+        window.firebaseReady = true;
+
+        // Dispatch event when Firebase is ready
+        window.dispatchEvent(new Event('firebaseReady'));
+    </script>
+
     <script>
         // Parse dates as local time (not UTC)
         function parseLocalDate(dateString) {
@@ -805,27 +842,153 @@
             });
         }
 
-        // Load data files
-        async function loadData() {
-            try {
-                const [locationsRes, motionRes, visitsRes] = await Promise.all([
-                    fetch('./data/locations.json'),
-                    fetch('./data/motion.json'),
-                    fetch('./data/visits.json')
-                ]);
+        // Convert Firestore Timestamp to ISO string
+        function convertTimestamp(value) {
+            if (value && typeof value.toDate === 'function') {
+                return value.toDate().toISOString();
+            }
+            return value;
+        }
 
-                locationsData = await locationsRes.json();
-                motionData = await motionRes.json();
-                visitsData = await visitsRes.json();
+        // Convert Firestore document to plain object
+        function convertDocument(doc) {
+            const data = doc.data();
+            const converted = { id: doc.id };
+
+            for (const [key, value] of Object.entries(data)) {
+                if (value && typeof value.toDate === 'function') {
+                    // Firestore Timestamp
+                    converted[key] = value.toDate().toISOString();
+                } else if (value && typeof value.latitude === 'number' && typeof value.longitude === 'number') {
+                    // Firestore GeoPoint
+                    converted[key] = { latitude: value.latitude, longitude: value.longitude };
+                } else {
+                    converted[key] = value;
+                }
+            }
+            return converted;
+        }
+
+        // Query Firestore for data within date range
+        async function queryFirestoreData(startDate, endDate) {
+            const db = window.firestoreDB;
+            const query = window.firestoreQuery;
+            const collection = window.firestoreCollection;
+            const where = window.firestoreWhere;
+            const orderBy = window.firestoreOrderBy;
+            const getDocs = window.firestoreGetDocs;
+            const Timestamp = window.firestoreTimestamp;
+            const userId = window.FIRESTORE_USER_ID;
+
+            // Convert dates to Firestore Timestamps
+            const startTimestamp = Timestamp.fromDate(startDate);
+            const endTimestamp = Timestamp.fromDate(endDate);
+
+            console.log(`Querying Firestore for ${userId} from ${startDate.toISOString()} to ${endDate.toISOString()}`);
+
+            try {
+                // Query locations
+                const locationsQuery = query(
+                    collection(db, 'user_locations'),
+                    where('userId', '==', userId),
+                    where('serverTimestamp', '>=', startTimestamp),
+                    where('serverTimestamp', '<=', endTimestamp),
+                    orderBy('serverTimestamp', 'desc')
+                );
+                const locationsSnapshot = await getDocs(locationsQuery);
+                locationsData = locationsSnapshot.docs.map(convertDocument);
+                console.log(`Loaded ${locationsData.length} locations`);
+
+                // Query motion activities
+                const motionQuery = query(
+                    collection(db, 'user_motion_activities'),
+                    where('userId', '==', userId),
+                    where('serverTimestamp', '>=', startTimestamp),
+                    where('serverTimestamp', '<=', endTimestamp),
+                    orderBy('serverTimestamp', 'desc')
+                );
+                const motionSnapshot = await getDocs(motionQuery);
+                motionData = motionSnapshot.docs.map(convertDocument);
+                console.log(`Loaded ${motionData.length} motion activities`);
+
+                // Query visits
+                const visitsQuery = query(
+                    collection(db, 'user_visits'),
+                    where('userId', '==', userId),
+                    where('serverTimestamp', '>=', startTimestamp),
+                    where('serverTimestamp', '<=', endTimestamp),
+                    orderBy('serverTimestamp', 'desc')
+                );
+                const visitsSnapshot = await getDocs(visitsQuery);
+                visitsData = visitsSnapshot.docs.map(convertDocument);
+                console.log(`Loaded ${visitsData.length} visits`);
 
                 // Sort motion data by timestamp for binary search
-                motionData.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+                motionData.sort((a, b) => new Date(a.timestamp || a.serverTimestamp).getTime() - new Date(b.timestamp || b.serverTimestamp).getTime());
+
+                return true;
+            } catch (error) {
+                console.error('Error querying Firestore:', error);
+                throw error;
+            }
+        }
+
+        // Load data from Firestore with default 30-day range
+        async function loadData() {
+            try {
+                // Default to last 30 days
+                const endDate = new Date();
+                endDate.setHours(23, 59, 59, 999);
+                const startDate = new Date();
+                startDate.setDate(startDate.getDate() - 30);
+                startDate.setHours(0, 0, 0, 0);
+
+                await queryFirestoreData(startDate, endDate);
+
+                // Set date inputs to match the query range
+                document.getElementById('date-start').value = startDate.toISOString().split('T')[0];
+                document.getElementById('date-end').value = endDate.toISOString().split('T')[0];
 
                 return true;
             } catch (error) {
                 console.error('Error loading data:', error);
-                alert('Error loading data files. Please ensure locations.json, motion.json, and visits.json are in the ./data/ folder.');
+                alert('Error loading data from Firestore: ' + error.message);
                 return false;
+            }
+        }
+
+        // Re-query Firestore and refresh display when date range changes
+        async function onDateRangeChange() {
+            const startInput = document.getElementById('date-start').value;
+            const endInput = document.getElementById('date-end').value;
+
+            if (!startInput || !endInput) return;
+
+            const startDate = parseLocalDate(startInput);
+            startDate.setHours(0, 0, 0, 0);
+            const endDate = parseLocalDate(endInput);
+            endDate.setHours(23, 59, 59, 999);
+
+            // Show loading indicator
+            document.getElementById('loading').textContent = 'Refreshing data...';
+            document.getElementById('loading').style.display = 'flex';
+
+            try {
+                await queryFirestoreData(startDate, endDate);
+
+                // Update UI
+                updateStats();
+                if (chart) {
+                    chart.destroy();
+                }
+                createFrequencyChart();
+                renderLocations();
+                renderVisits();
+            } catch (error) {
+                console.error('Error refreshing data:', error);
+                alert('Error refreshing data: ' + error.message);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
             }
         }
 
@@ -847,16 +1010,9 @@
             renderLocations();
             renderVisits();
 
-            // Event listeners
-            document.getElementById('date-start').addEventListener('change', () => {
-                renderLocations();
-                renderVisits();
-            });
-
-            document.getElementById('date-end').addEventListener('change', () => {
-                renderLocations();
-                renderVisits();
-            });
+            // Event listeners - re-query Firestore when date range changes
+            document.getElementById('date-start').addEventListener('change', onDateRangeChange);
+            document.getElementById('date-end').addEventListener('change', onDateRangeChange);
 
             document.getElementById('toggle-locations').addEventListener('change', renderLocations);
             document.getElementById('toggle-visits').addEventListener('change', renderVisits);
@@ -873,8 +1029,17 @@
             }
         }
 
+        // Wait for Firebase to be ready before starting
+        function startApp() {
+            if (window.firebaseReady) {
+                initDashboard();
+            } else {
+                window.addEventListener('firebaseReady', initDashboard);
+            }
+        }
+
         // Start the app
-        initDashboard();
+        startApp();
     </script>
 </body>
 </html>

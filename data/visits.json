@@ -1,5 +1,103 @@
 [
   {
+    "id": "2p6O8vEp1RZsW5l2ltXJ",
+    "latitude": 42.372821135391256,
+    "longitude": -71.1031003519246,
+    "location": {
+      "latitude": 42.372821135391256,
+      "longitude": -71.1031003519246
+    },
+    "timestamp": "2025-12-11T20:51:19.999Z",
+    "horizontalAccuracy": 22.073949399729397,
+    "arrivalDate": "2025-12-11T20:51:19.999Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "dataSharingConsent": true,
+    "serverTimestamp": "2025-12-11T20:52:38.060Z",
+    "createdAt": "2025-12-11T20:52:38.060Z"
+  },
+  {
+    "id": "Pqn5ieYIEn3ypYBrMU4e",
+    "latitude": 42.36180707548469,
+    "longitude": -71.08507677395052,
+    "location": {
+      "latitude": 42.36180707548469,
+      "longitude": -71.08507677395052
+    },
+    "timestamp": "2025-12-11T19:07:36.747Z",
+    "horizontalAccuracy": 25.83679534013239,
+    "arrivalDate": "2025-12-11T17:36:53.859Z",
+    "departureDate": "2025-12-11T19:07:36.747Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "dataSharingConsent": true,
+    "serverTimestamp": "2025-12-11T19:09:17.148Z",
+    "createdAt": "2025-12-11T19:09:17.149Z"
+  },
+  {
+    "id": "fOa0JPxCOa7kCuetAZ0e",
+    "latitude": 42.36154837890124,
+    "longitude": -71.0854418612628,
+    "location": {
+      "latitude": 42.36154837890124,
+      "longitude": -71.0854418612628
+    },
+    "timestamp": "2025-12-11T17:36:53.859Z",
+    "horizontalAccuracy": 54.705022448539566,
+    "arrivalDate": "2025-12-11T17:36:53.859Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "dataSharingConsent": true,
+    "serverTimestamp": "2025-12-11T17:37:51.637Z",
+    "createdAt": "2025-12-11T17:37:51.637Z"
+  },
+  {
+    "id": "63BTW5RCC9pVhYzX48CR",
+    "latitude": 42.37276891655266,
+    "longitude": -71.10302234766593,
+    "location": {
+      "latitude": 42.37276891655266,
+      "longitude": -71.10302234766593
+    },
+    "timestamp": "2025-12-10T22:16:05.999Z",
+    "horizontalAccuracy": 19.57605394120803,
+    "arrivalDate": "2025-12-10T22:16:05.999Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "dataSharingConsent": true,
+    "serverTimestamp": "2025-12-10T22:17:56.732Z",
+    "createdAt": "2025-12-10T22:17:56.732Z"
+  },
+  {
+    "id": "vOWLrE2w5J7X4Xdbh9ed",
+    "latitude": 42.37289466679563,
+    "longitude": -71.10316521191164,
+    "location": {
+      "latitude": 42.37289466679563,
+      "longitude": -71.10316521191164
+    },
+    "timestamp": "2025-12-11T17:28:07.915Z",
+    "horizontalAccuracy": 9.499121196007133,
+    "arrivalDate": "2025-12-10T22:16:05.999Z",
+    "departureDate": "2025-12-11T17:28:07.915Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "dataSharingConsent": true,
+    "serverTimestamp": "2025-12-11T17:29:04.503Z",
+    "createdAt": "2025-12-11T17:29:04.503Z"
+  },
+  {
+    "id": "xIGrijSsaRI83q1vEHB4",
+    "latitude": 42.35968571462775,
+    "longitude": -71.09317731634248,
+    "location": {
+      "latitude": 42.35968571462775,
+      "longitude": -71.09317731634248
+    },
+    "timestamp": "2025-12-10T13:59:55.831Z",
+    "horizontalAccuracy": 19.4174406958336,
+    "arrivalDate": "2025-12-10T13:59:55.831Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "dataSharingConsent": true,
+    "serverTimestamp": "2025-12-10T14:01:13.566Z",
+    "createdAt": "2025-12-10T14:01:13.566Z"
+  },
+  {
     "id": "wb2mYdCNHg5ItmhAcUCf",
     "latitude": 42.3728,
     "longitude": -71.1032,
