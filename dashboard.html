@@ -488,6 +488,9 @@
             unknown: '#9ca3af'
         };
 
+        // Maximum time difference between location and motion to consider a match
+        const MAX_MOTION_MATCH_SECONDS = 90; // Maximum seconds between location and motion to consider a match
+
         // Confidence mapping
         const CONFIDENCE_LABELS = {
             0: 'Low',
@@ -560,6 +563,11 @@
                 } else {
                     right = mid - 1;
                 }
+            }
+
+            // Return null if the time difference exceeds the threshold
+            if (minDiff > MAX_MOTION_MATCH_SECONDS * 1000) {
+                return null;
             }
 
             return closest;
