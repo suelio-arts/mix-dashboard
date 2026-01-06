@@ -684,6 +684,19 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
         }
 
+        /* Dwell statistics dark mode support */
+        body.dark-mode #dwell-stats-display > div {
+            border-bottom-color: #374151;
+        }
+
+        body.dark-mode #dwell-stats-display span:first-child {
+            color: #9ca3af;
+        }
+
+        body.dark-mode #dwell-stats-display span:last-child {
+            color: #f9fafb;
+        }
+
         /* Responsive analytics */
         @media (max-width: 1200px) {
             .analytics-grid {
@@ -873,9 +886,9 @@
                 <div class="metric-detail">Shannon entropy of location visits</div>
             </div>
             <div class="metric-card thesis-metric">
-                <div class="metric-label">Avg Dwell Time <span class="thesis-badge">Thesis Core</span></div>
+                <div class="metric-label">Away Dwell Time <span class="thesis-badge">Thesis Core</span></div>
                 <div class="metric-value" id="metric-dwell">--</div>
-                <div class="metric-detail">Average time at visited locations</div>
+                <div class="metric-detail">Average time spent at non-home locations per visit</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label">Total Distance</div>
@@ -937,6 +950,45 @@
                 <p class="card-description">Weekly characteristic travel distance - measure of mobility range</p>
                 <div class="analytics-chart-container" style="height: 200px;">
                     <canvas id="radius-gyration-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Dwell Time Distribution -->
+            <div class="analytics-card thesis-metric">
+                <h3>Dwell Time Distribution <span class="thesis-badge">Spatial</span></h3>
+                <p class="card-description">Distribution of visit durations at non-home places</p>
+                <div class="analytics-chart-container">
+                    <canvas id="dwell-distribution-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Dwell Time Statistics -->
+            <div class="analytics-card thesis-metric">
+                <h3>Dwell Time Statistics <span class="thesis-badge">Spatial</span></h3>
+                <p class="card-description">Statistical measures of time spent at non-home locations</p>
+                <div class="analytics-chart-container">
+                    <div id="dwell-stats-display" style="height: 250px; display: flex; flex-direction: column; justify-content: center; padding: 20px;">
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                            <span style="color: #6b7280; font-size: 14px;">Median Dwell Time</span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-median">--</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                            <span style="color: #6b7280; font-size: 14px;">25th Percentile</span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-p25">--</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                            <span style="color: #6b7280; font-size: 14px;">75th Percentile</span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-p75">--</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                            <span style="color: #6b7280; font-size: 14px;">Unique Places Visited</span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-unique-places">--</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0;">
+                            <span style="color: #6b7280; font-size: 14px;">Total Away Visits</span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-total-visits">--</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1698,12 +1750,13 @@
             return entropy;
         }
 
-        // Calculate average dwell time from visits
+        // Calculate average dwell time from away visits only (not home)
         function calculateAverageDwellTime() {
-            if (visitsData.length === 0) return 0;
+            const awayVisits = getAwayVisits();
+            if (awayVisits.length === 0) return 0;
 
             const durations = [];
-            visitsData.forEach(visit => {
+            awayVisits.forEach(visit => {
                 if (visit.arrivalDate && visit.departureDate) {
                     const arrival = new Date(visit.arrivalDate).getTime();
                     const departure = new Date(visit.departureDate).getTime();
@@ -1716,6 +1769,106 @@
 
             if (durations.length === 0) return 0;
             return durations.reduce((a, b) => a + b, 0) / durations.length;
+        }
+
+        // Calculate dwell time statistics from away visits
+        function calculateDwellTimeStatistics() {
+            const awayVisits = getAwayVisits();
+            if (awayVisits.length === 0) {
+                return {
+                    median: 0,
+                    p25: 0,
+                    p75: 0,
+                    uniquePlaces: 0,
+                    totalVisits: 0
+                };
+            }
+
+            const durations = [];
+            awayVisits.forEach(visit => {
+                if (visit.arrivalDate && visit.departureDate) {
+                    const arrival = new Date(visit.arrivalDate).getTime();
+                    const departure = new Date(visit.departureDate).getTime();
+                    const duration = (departure - arrival) / 1000 / 60; // minutes
+                    if (duration > 0) {
+                        durations.push(duration);
+                    }
+                }
+            });
+
+            if (durations.length === 0) {
+                return {
+                    median: 0,
+                    p25: 0,
+                    p75: 0,
+                    uniquePlaces: 0,
+                    totalVisits: 0
+                };
+            }
+
+            // Sort durations for percentile calculations
+            const sorted = [...durations].sort((a, b) => a - b);
+
+            // Calculate percentiles
+            const getPercentile = (arr, p) => {
+                const index = Math.ceil(arr.length * p) - 1;
+                return arr[Math.max(0, index)];
+            };
+
+            const median = getPercentile(sorted, 0.5);
+            const p25 = getPercentile(sorted, 0.25);
+            const p75 = getPercentile(sorted, 0.75);
+
+            // Calculate unique places (grid-based clustering at ~100m resolution)
+            const uniqueLocations = new Set();
+            awayVisits.forEach(visit => {
+                const cellLat = Math.round(visit.latitude * 1000);
+                const cellLng = Math.round(visit.longitude * 1000);
+                uniqueLocations.add(`${cellLat},${cellLng}`);
+            });
+
+            return {
+                median,
+                p25,
+                p75,
+                uniquePlaces: uniqueLocations.size,
+                totalVisits: durations.length
+            };
+        }
+
+        // Get dwell time distribution buckets
+        function getDwellTimeDistribution() {
+            const awayVisits = getAwayVisits();
+
+            const buckets = {
+                '0-5 min': 0,
+                '5-15 min': 0,
+                '15-30 min': 0,
+                '30-60 min': 0,
+                '1-2 hrs': 0,
+                '2-4 hrs': 0,
+                '4+ hrs': 0
+            };
+
+            awayVisits.forEach(visit => {
+                if (visit.arrivalDate && visit.departureDate) {
+                    const arrival = new Date(visit.arrivalDate).getTime();
+                    const departure = new Date(visit.departureDate).getTime();
+                    const minutes = (departure - arrival) / 1000 / 60;
+
+                    if (minutes > 0) {
+                        if (minutes < 5) buckets['0-5 min']++;
+                        else if (minutes < 15) buckets['5-15 min']++;
+                        else if (minutes < 30) buckets['15-30 min']++;
+                        else if (minutes < 60) buckets['30-60 min']++;
+                        else if (minutes < 120) buckets['1-2 hrs']++;
+                        else if (minutes < 240) buckets['2-4 hrs']++;
+                        else buckets['4+ hrs']++;
+                    }
+                }
+            });
+
+            return buckets;
         }
 
         // Calculate total distance traveled
@@ -1836,6 +1989,25 @@
                 const percentage = (cluster.length / nighttimePoints.length) * 100;
                 return { lat, lng, count: cluster.length, percentage };
             }).sort((a, b) => b.count - a.count);
+        }
+
+        // Filter visits to only include those NOT within 500m of any detected home
+        function getAwayVisits() {
+            const homes = detectHomeClusters();
+            if (homes.length === 0) return visitsData;
+
+            const HOME_THRESHOLD = 500; // meters
+
+            return visitsData.filter(visit => {
+                // Check distance to all detected homes
+                const distancesToHomes = homes.map(home =>
+                    haversineDistance(home.lat, home.lng, visit.latitude, visit.longitude)
+                );
+                const minDistance = Math.min(...distancesToHomes);
+
+                // Only include if farther than 500m from ALL homes
+                return minDistance > HOME_THRESHOLD;
+            });
         }
 
         // Create home detection map
@@ -2232,6 +2404,72 @@
             });
         }
 
+        // Create dwell time distribution chart
+        function createDwellDistributionChart() {
+            const distribution = getDwellTimeDistribution();
+            const labels = Object.keys(distribution);
+            const data = Object.values(distribution);
+
+            const ctx = document.getElementById('dwell-distribution-chart').getContext('2d');
+            const darkMode = isDarkMode();
+
+            analyticsCharts.dwellDistribution = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Number of Visits',
+                        data: data,
+                        backgroundColor: '#3b82f6',
+                        borderColor: '#2563eb',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: darkMode ? '#d1d5db' : '#6b7280',
+                                stepSize: 1
+                            },
+                            grid: {
+                                color: darkMode ? '#374151' : '#e5e7eb'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: darkMode ? '#d1d5db' : '#6b7280',
+                                maxRotation: 45,
+                                minRotation: 45
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update dwell time statistics display
+        function updateDwellTimeStatistics() {
+            const stats = calculateDwellTimeStatistics();
+
+            document.getElementById('stat-median').textContent = formatDuration(stats.median);
+            document.getElementById('stat-p25').textContent = formatDuration(stats.p25);
+            document.getElementById('stat-p75').textContent = formatDuration(stats.p75);
+            document.getElementById('stat-unique-places').textContent = stats.uniquePlaces.toLocaleString();
+            document.getElementById('stat-total-visits').textContent = stats.totalVisits.toLocaleString();
+        }
+
         // Main render analytics function
         function renderAnalytics() {
             // Destroy old charts
@@ -2256,6 +2494,8 @@
             createHomeAwayChart();
             createExplorationVariance();
             createRadiusGyrationChart();
+            createDwellDistributionChart();
+            updateDwellTimeStatistics();
         }
 
         // Start the app
