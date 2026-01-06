@@ -244,9 +244,23 @@
             color: #6b7280;
         }
 
+        .loading.loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 1000;
+        }
+
         body.dark-mode .loading {
             background: #111827;
             color: #9ca3af;
+        }
+
+        body.dark-mode .loading.loading-overlay {
+            background: rgba(17, 24, 39, 0.9);
         }
 
         /* Leaflet popup styling */
@@ -1544,9 +1558,11 @@
             const endDate = parseLocalDate(endInput);
             endDate.setHours(23, 59, 59, 999);
 
-            // Show loading indicator
-            document.getElementById('loading').textContent = 'Refreshing data...';
-            document.getElementById('loading').style.display = 'flex';
+            // Show loading overlay (doesn't affect layout)
+            const loadingEl = document.getElementById('loading');
+            loadingEl.textContent = 'Refreshing data...';
+            loadingEl.classList.add('loading-overlay');
+            loadingEl.style.display = 'flex';
 
             try {
                 await queryFirestoreData(startDate, endDate);
@@ -1569,7 +1585,8 @@
                 console.error('Error refreshing data:', error);
                 alert('Error refreshing data: ' + error.message);
             } finally {
-                document.getElementById('loading').style.display = 'none';
+                loadingEl.style.display = 'none';
+                loadingEl.classList.remove('loading-overlay');
             }
         }
 
@@ -1923,18 +1940,19 @@
 
         // Destroy all analytics charts
         function destroyAnalyticsCharts() {
-            Object.values(analyticsCharts).forEach(chart => {
-                if (chart && typeof chart.destroy === 'function') {
+            // Destroy home detection map FIRST (before resetting object)
+            if (analyticsCharts.homeDetectionMap) {
+                analyticsCharts.homeDetectionMap.remove();
+            }
+
+            // Destroy Chart.js charts
+            Object.entries(analyticsCharts).forEach(([key, chart]) => {
+                if (key !== 'homeDetectionMap' && chart && typeof chart.destroy === 'function') {
                     chart.destroy();
                 }
             });
-            analyticsCharts = {};
 
-            // Destroy home detection map if it exists
-            if (analyticsCharts.homeDetectionMap) {
-                analyticsCharts.homeDetectionMap.remove();
-                analyticsCharts.homeDetectionMap = null;
-            }
+            analyticsCharts = {};
         }
 
         // Detect home clusters using nighttime density (proper DBSCAN expansion)
