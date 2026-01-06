@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Location Data Dashboard</title>
+    <title>MIX Location Data Dashboard</title>
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -434,6 +434,280 @@
                 height: 150px;
             }
         }
+
+        /* Tab Navigation Styles */
+        .tab-nav {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            background: #f9fafb;
+        }
+
+        body.dark-mode .tab-nav {
+            background: #374151;
+            border-bottom-color: #4b5563;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        body.dark-mode .tab-btn {
+            color: #9ca3af;
+        }
+
+        .tab-btn:hover {
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .tab-btn.active {
+            color: #3b82f6;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #3b82f6;
+        }
+
+        /* Analytics View Styles */
+        #analytics-view {
+            flex: 1;
+            height: 100vh;
+            overflow-y: auto;
+            background: #f3f4f6;
+            padding: 24px;
+            display: none;
+        }
+
+        body.dark-mode #analytics-view {
+            background: #111827;
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 24px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        .analytics-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .analytics-card {
+            background: #1f2937;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .analytics-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #111827;
+        }
+
+        body.dark-mode .analytics-card h3 {
+            color: #f9fafb;
+        }
+
+        .analytics-card .card-description {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 16px;
+        }
+
+        body.dark-mode .analytics-card .card-description {
+            color: #9ca3af;
+        }
+
+        .analytics-chart-container {
+            height: 250px;
+            position: relative;
+        }
+
+        .analytics-card.wide {
+            grid-column: span 2;
+        }
+
+        .analytics-card.tall {
+            grid-row: span 2;
+        }
+
+        /* Metric cards */
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .metric-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .metric-card {
+            background: #1f2937;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .metric-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        body.dark-mode .metric-label {
+            color: #9ca3af;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        body.dark-mode .metric-value {
+            color: #f9fafb;
+        }
+
+        .metric-detail {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        body.dark-mode .metric-detail {
+            color: #9ca3af;
+        }
+
+        /* Heatmap styles */
+        .heatmap-grid {
+            display: grid;
+            gap: 2px;
+        }
+
+        .heatmap-cell {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 2px;
+            min-width: 8px;
+            min-height: 8px;
+        }
+
+        .heatmap-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #6b7280;
+            margin-top: 8px;
+        }
+
+        body.dark-mode .heatmap-labels {
+            color: #9ca3af;
+        }
+
+        .heatmap-row-label {
+            font-size: 10px;
+            color: #6b7280;
+            text-align: right;
+            padding-right: 4px;
+        }
+
+        body.dark-mode .heatmap-row-label {
+            color: #9ca3af;
+        }
+
+        /* Thesis metrics highlight */
+        .thesis-metric {
+            border-left: 4px solid #3b82f6;
+        }
+
+        .thesis-badge {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        body.dark-mode .thesis-badge {
+            background: #1e3a5f;
+            color: #60a5fa;
+        }
+
+        /* Experimental warning banner */
+        .experimental-warning {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #78350f;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 4px rgba(251, 191, 36, 0.3);
+        }
+
+        body.dark-mode .experimental-warning {
+            background: linear-gradient(135deg, #92400e 0%, #78350f 100%);
+            color: #fbbf24;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Responsive analytics */
+        @media (max-width: 1200px) {
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+            .analytics-card.wide {
+                grid-column: span 1;
+            }
+            .metrics-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            #analytics-view {
+                padding: 16px;
+            }
+            .metrics-row {
+                grid-template-columns: 1fr;
+            }
+            .analytics-chart-container {
+                height: 200px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -449,6 +723,11 @@
             <span class="mobile-close-title">Filters & Stats</span>
             <button class="mobile-close-btn" aria-label="Close filters">✕</button>
         </div>
+        <!-- Tab Navigation -->
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="map">Map View</button>
+            <button class="tab-btn" data-tab="analytics">Analytics</button>
+        </nav>
         <div class="sidebar-section">
             <h2>Data Summary</h2>
             <div class="stat-item">
@@ -578,6 +857,90 @@
     </div>
 
     <div id="map" style="display: none;"></div>
+
+    <!-- Analytics View -->
+    <div id="analytics-view">
+        <!-- Experimental Warning Banner -->
+        <div class="experimental-warning">
+            <span style="font-size: 18px;">⚠️</span>
+            <span>Experimental Analytics - These metrics are under development and may not be accurate</span>
+        </div>
+        <!-- Key Metrics Row -->
+        <div class="metrics-row">
+            <div class="metric-card thesis-metric">
+                <div class="metric-label">Mobility Entropy <span class="thesis-badge">Thesis Core</span></div>
+                <div class="metric-value" id="metric-entropy">--</div>
+                <div class="metric-detail">Shannon entropy of location visits</div>
+            </div>
+            <div class="metric-card thesis-metric">
+                <div class="metric-label">Avg Dwell Time <span class="thesis-badge">Thesis Core</span></div>
+                <div class="metric-value" id="metric-dwell">--</div>
+                <div class="metric-detail">Average time at visited locations</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Total Distance</div>
+                <div class="metric-value" id="metric-distance">--</div>
+                <div class="metric-detail">Estimated distance traveled</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Active Days</div>
+                <div class="metric-value" id="metric-active-days">--</div>
+                <div class="metric-detail">Days with location data</div>
+            </div>
+        </div>
+
+        <!-- Analytics Charts Grid -->
+        <div class="analytics-grid">
+            <!-- Home Detection Card -->
+            <div class="analytics-card">
+                <h3>Home Detection <span class="thesis-badge">Spatial</span></h3>
+                <p class="card-description">Auto-detected home clusters from nighttime (22:00-06:00) location density</p>
+                <div class="analytics-chart-container">
+                    <div id="home-detection-map" style="height: 250px;"></div>
+                </div>
+            </div>
+
+            <!-- Daily Exploration Radius -->
+            <div class="analytics-card thesis-metric">
+                <h3>Daily Exploration Radius <span class="thesis-badge">Spatial</span></h3>
+                <p class="card-description">Maximum distance from nearest home each day (km)</p>
+                <div class="analytics-chart-container">
+                    <canvas id="daily-exploration-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Home vs Away Time -->
+            <div class="analytics-card wide thesis-metric">
+                <h3>Home vs Away Time <span class="thesis-badge">Spatial</span></h3>
+                <p class="card-description">Hours spent at home (&lt;500m from any detected home) vs away by day</p>
+                <div class="analytics-chart-container" style="height: 200px;">
+                    <canvas id="home-away-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Exploration Consistency -->
+            <div class="analytics-card">
+                <h3>Exploration Consistency <span class="thesis-badge">Spatial</span></h3>
+                <p class="card-description">Standard deviation of daily radius - high variance = exploratory, low = routine</p>
+                <div class="analytics-chart-container">
+                    <div id="exploration-variance-display" style="height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <div style="font-size: 64px; font-weight: 700; color: #3b82f6;" id="variance-value">--</div>
+                        <div style="font-size: 14px; color: #6b7280; margin-top: 8px;">km std deviation</div>
+                        <div style="font-size: 12px; color: #9ca3af; margin-top: 16px; text-align: center;" id="variance-label">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Radius of Gyration -->
+            <div class="analytics-card wide thesis-metric">
+                <h3>Radius of Gyration Over Time <span class="thesis-badge">Spatial</span></h3>
+                <p class="card-description">Weekly characteristic travel distance - measure of mobility range</p>
+                <div class="analytics-chart-container" style="height: 200px;">
+                    <canvas id="radius-gyration-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -1232,6 +1595,20 @@
             // Mobile toggle functionality
             setupMobileToggle();
 
+            // Tab switching handlers
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    switchTab(btn.dataset.tab);
+                });
+            });
+
+            // Check for URL parameter to auto-switch tabs
+            const urlParams = new URLSearchParams(window.location.search);
+            const tabParam = urlParams.get('tab');
+            if (tabParam === 'analytics') {
+                switchTab('analytics');
+            }
+
             // Watch for dark mode changes
             if (window.matchMedia) {
                 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
@@ -1247,6 +1624,632 @@
             } else {
                 window.addEventListener('firebaseReady', initDashboard);
             }
+        }
+
+        // Analytics charts tracking
+        let analyticsCharts = {};
+
+        // Tab switching logic
+        function switchTab(tabName) {
+            const mapView = document.getElementById('map');
+            const analyticsView = document.getElementById('analytics-view');
+            const tabButtons = document.querySelectorAll('.tab-btn');
+
+            tabButtons.forEach(btn => {
+                if (btn.dataset.tab === tabName) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            if (tabName === 'analytics') {
+                mapView.style.display = 'none';
+                analyticsView.style.display = 'block';
+                renderAnalytics();
+            } else {
+                mapView.style.display = 'block';
+                analyticsView.style.display = 'none';
+            }
+        }
+
+        // Calculate Haversine distance between two points
+        function haversineDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371000; // Earth radius in meters
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        // Calculate mobility entropy (Shannon entropy)
+        function calculateMobilityEntropy() {
+            if (locationsData.length === 0) return 0;
+
+            // Grid locations into ~100m cells
+            const cellCounts = {};
+            locationsData.forEach(loc => {
+                const cellLat = Math.round(loc.latitude * 1000);
+                const cellLng = Math.round(loc.longitude * 1000);
+                const cellKey = `${cellLat},${cellLng}`;
+                cellCounts[cellKey] = (cellCounts[cellKey] || 0) + 1;
+            });
+
+            const total = locationsData.length;
+            let entropy = 0;
+
+            // Calculate Shannon entropy: H = -Σ(p_i * log2(p_i))
+            Object.values(cellCounts).forEach(count => {
+                const p = count / total;
+                if (p > 0) {
+                    entropy -= p * Math.log2(p);
+                }
+            });
+
+            return entropy;
+        }
+
+        // Calculate average dwell time from visits
+        function calculateAverageDwellTime() {
+            if (visitsData.length === 0) return 0;
+
+            const durations = [];
+            visitsData.forEach(visit => {
+                if (visit.arrivalDate && visit.departureDate) {
+                    const arrival = new Date(visit.arrivalDate).getTime();
+                    const departure = new Date(visit.departureDate).getTime();
+                    const duration = (departure - arrival) / 1000 / 60; // minutes
+                    if (duration > 0) {
+                        durations.push(duration);
+                    }
+                }
+            });
+
+            if (durations.length === 0) return 0;
+            return durations.reduce((a, b) => a + b, 0) / durations.length;
+        }
+
+        // Calculate total distance traveled
+        function calculateTotalDistance() {
+            if (locationsData.length < 2) return 0;
+
+            const sorted = [...locationsData].sort((a, b) =>
+                new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+            );
+
+            let totalDistance = 0;
+            for (let i = 1; i < sorted.length; i++) {
+                const prev = sorted[i - 1];
+                const curr = sorted[i];
+                totalDistance += haversineDistance(
+                    prev.latitude, prev.longitude,
+                    curr.latitude, curr.longitude
+                );
+            }
+
+            return totalDistance;
+        }
+
+        // Count unique active days
+        function countActiveDays() {
+            if (locationsData.length === 0) return 0;
+
+            const uniqueDays = new Set();
+            locationsData.forEach(loc => {
+                const date = new Date(loc.timestamp).toISOString().split('T')[0];
+                uniqueDays.add(date);
+            });
+
+            return uniqueDays.size;
+        }
+
+        // Format distance for display
+        function formatDistance(meters) {
+            if (meters >= 1000) {
+                return (meters / 1000).toFixed(1) + ' km';
+            }
+            return meters.toFixed(0) + ' m';
+        }
+
+        // Format duration for display
+        function formatDuration(minutes) {
+            if (minutes >= 60) {
+                return (minutes / 60).toFixed(1) + ' hrs';
+            }
+            return minutes.toFixed(0) + ' min';
+        }
+
+        // Destroy all analytics charts
+        function destroyAnalyticsCharts() {
+            Object.values(analyticsCharts).forEach(chart => {
+                if (chart && typeof chart.destroy === 'function') {
+                    chart.destroy();
+                }
+            });
+            analyticsCharts = {};
+
+            // Destroy home detection map if it exists
+            if (analyticsCharts.homeDetectionMap) {
+                analyticsCharts.homeDetectionMap.remove();
+                analyticsCharts.homeDetectionMap = null;
+            }
+        }
+
+        // Detect home clusters using nighttime density (proper DBSCAN expansion)
+        function detectHomeClusters() {
+            const nighttimePoints = locationsData.filter(loc => {
+                const hour = new Date(loc.timestamp).getHours();
+                return hour >= 22 || hour < 6;
+            });
+
+            if (nighttimePoints.length === 0) return [];
+
+            // DBSCAN-like clustering with proper expansion
+            const CLUSTER_RADIUS = 500; // meters
+            const clusters = [];
+            const visited = new Set();
+
+            nighttimePoints.forEach((point, idx) => {
+                if (visited.has(idx)) return;
+
+                const cluster = [point];
+                visited.add(idx);
+                const queue = [idx]; // Queue for proper cluster expansion
+
+                // Expand cluster by checking neighbors of all added points
+                while (queue.length > 0) {
+                    const currentIdx = queue.shift();
+                    const currentPoint = nighttimePoints[currentIdx];
+
+                    nighttimePoints.forEach((otherPoint, otherIdx) => {
+                        if (visited.has(otherIdx)) return;
+
+                        const distance = haversineDistance(
+                            currentPoint.latitude, currentPoint.longitude,
+                            otherPoint.latitude, otherPoint.longitude
+                        );
+
+                        if (distance <= CLUSTER_RADIUS) {
+                            cluster.push(otherPoint);
+                            visited.add(otherIdx);
+                            queue.push(otherIdx); // Add to queue for further expansion
+                        }
+                    });
+                }
+
+                clusters.push(cluster);
+            });
+
+            // Calculate centroids and percentages
+            return clusters.map(cluster => {
+                const lat = cluster.reduce((sum, p) => sum + p.latitude, 0) / cluster.length;
+                const lng = cluster.reduce((sum, p) => sum + p.longitude, 0) / cluster.length;
+                const percentage = (cluster.length / nighttimePoints.length) * 100;
+                return { lat, lng, count: cluster.length, percentage };
+            }).sort((a, b) => b.count - a.count);
+        }
+
+        // Create home detection map
+        function createHomeDetectionMap() {
+            const container = document.getElementById('home-detection-map');
+            container.innerHTML = '';
+
+            const homes = detectHomeClusters();
+            if (homes.length === 0) {
+                container.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #6b7280;">No nighttime data available</div>';
+                return;
+            }
+
+            const darkMode = isDarkMode();
+            const tileUrl = darkMode
+                ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+                : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+
+            const homeMap = L.map(container).setView([0, 0], 2);
+            L.tileLayer(tileUrl, {
+                attribution: '&copy; OpenStreetMap &copy; CARTO',
+                subdomains: 'abcd',
+                maxZoom: 19
+            }).addTo(homeMap);
+
+            // Collect all markers to calculate bounds
+            const markers = [];
+
+            // Add markers for each detected home centroid only
+            homes.forEach((home, idx) => {
+                const isPrimary = idx === 0;
+                const label = isPrimary ? 'Primary Home' : `Home ${idx + 1}`;
+                const color = isPrimary ? '#3b82f6' : '#f97316';
+
+                const marker = L.circleMarker([home.lat, home.lng], {
+                    radius: 8,
+                    fillColor: color,
+                    color: '#ffffff',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(homeMap).bindPopup(`
+                    <strong>${label} - ${home.percentage.toFixed(1)}%</strong><br>
+                    ${home.count} nighttime points
+                `);
+
+                markers.push(marker);
+
+                // Draw 500m radius circle
+                L.circle([home.lat, home.lng], {
+                    radius: 500,
+                    color: color,
+                    fillColor: color,
+                    fillOpacity: 0.1,
+                    weight: 1
+                }).addTo(homeMap);
+            });
+
+            // Fit bounds to show all home centroids
+            if (markers.length > 0) {
+                const group = L.featureGroup(markers);
+                homeMap.fitBounds(group.getBounds(), { padding: [30, 30] });
+            }
+
+            analyticsCharts.homeDetectionMap = homeMap;
+        }
+
+        // Create daily exploration radius chart
+        function createDailyExplorationChart() {
+            const homes = detectHomeClusters();
+            if (homes.length === 0 || locationsData.length === 0) return;
+
+            const dailyMaxDistances = {};
+
+            locationsData.forEach(loc => {
+                const date = new Date(loc.timestamp).toISOString().split('T')[0];
+
+                // Find distance to NEAREST home (not just primary)
+                const distancesToHomes = homes.map(home =>
+                    haversineDistance(home.lat, home.lng, loc.latitude, loc.longitude) / 1000
+                );
+                const distance = Math.min(...distancesToHomes);
+
+                if (!dailyMaxDistances[date] || distance > dailyMaxDistances[date]) {
+                    dailyMaxDistances[date] = distance;
+                }
+            });
+
+            const sortedDates = Object.keys(dailyMaxDistances).sort();
+            const maxDistances = sortedDates.map(date => dailyMaxDistances[date]);
+
+            const labels = sortedDates.map(date => {
+                const [year, month, day] = date.split('-').map(Number);
+                const d = new Date(year, month - 1, day);
+                return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            });
+
+            const ctx = document.getElementById('daily-exploration-chart').getContext('2d');
+            const darkMode = isDarkMode();
+
+            analyticsCharts.dailyExploration = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Max Distance (km)',
+                        data: maxDistances,
+                        backgroundColor: maxDistances.map(d => d > 50 ? '#ef4444' : '#3b82f6'),
+                        borderColor: maxDistances.map(d => d > 50 ? '#dc2626' : '#2563eb'),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: darkMode ? '#d1d5db' : '#6b7280',
+                                callback: function(value) {
+                                    return value.toFixed(0) + ' km';
+                                }
+                            },
+                            grid: {
+                                color: darkMode ? '#374151' : '#e5e7eb'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: darkMode ? '#d1d5db' : '#6b7280',
+                                maxRotation: 45,
+                                minRotation: 45
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create home vs away time chart
+        function createHomeAwayChart() {
+            const homes = detectHomeClusters();
+            if (homes.length === 0 || locationsData.length === 0) return;
+
+            const HOME_THRESHOLD = 500; // meters
+            const dailyData = {};
+
+            locationsData.forEach(loc => {
+                const date = new Date(loc.timestamp).toISOString().split('T')[0];
+
+                // Check if within 500m of ANY detected home
+                const distancesToHomes = homes.map(home =>
+                    haversineDistance(home.lat, home.lng, loc.latitude, loc.longitude)
+                );
+                const minDistance = Math.min(...distancesToHomes);
+                const isHome = minDistance <= HOME_THRESHOLD;
+
+                if (!dailyData[date]) {
+                    dailyData[date] = { homeCount: 0, awayCount: 0 };
+                }
+
+                if (isHome) {
+                    dailyData[date].homeCount++;
+                } else {
+                    dailyData[date].awayCount++;
+                }
+            });
+
+            // Estimate hours (assuming location updates every 5 min on average)
+            const AVG_UPDATE_INTERVAL = 5 / 60; // hours
+            const sortedDates = Object.keys(dailyData).sort();
+            const homeHours = sortedDates.map(date => dailyData[date].homeCount * AVG_UPDATE_INTERVAL);
+            const awayHours = sortedDates.map(date => dailyData[date].awayCount * AVG_UPDATE_INTERVAL);
+
+            const labels = sortedDates.map(date => {
+                const [year, month, day] = date.split('-').map(Number);
+                const d = new Date(year, month - 1, day);
+                return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            });
+
+            const ctx = document.getElementById('home-away-chart').getContext('2d');
+            const darkMode = isDarkMode();
+
+            analyticsCharts.homeAway = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'At Home',
+                            data: homeHours,
+                            backgroundColor: '#22c55e',
+                            borderColor: '#16a34a',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Away',
+                            data: awayHours,
+                            backgroundColor: '#ef4444',
+                            borderColor: '#dc2626',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: darkMode ? '#d1d5db' : '#4b5563'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            ticks: {
+                                color: darkMode ? '#d1d5db' : '#6b7280',
+                                maxRotation: 45,
+                                minRotation: 45
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            ticks: {
+                                color: darkMode ? '#d1d5db' : '#6b7280',
+                                callback: function(value) {
+                                    return value.toFixed(1) + ' hrs';
+                                }
+                            },
+                            grid: {
+                                color: darkMode ? '#374151' : '#e5e7eb'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Calculate average home time percentage
+            const totalHome = homeHours.reduce((a, b) => a + b, 0);
+            const totalAway = awayHours.reduce((a, b) => a + b, 0);
+            const homePercentage = (totalHome / (totalHome + totalAway)) * 100;
+            console.log(`Average time at home: ${homePercentage.toFixed(1)}%`);
+        }
+
+        // Create exploration variance display
+        function createExplorationVariance() {
+            const homes = detectHomeClusters();
+            if (homes.length === 0 || locationsData.length === 0) return;
+
+            const dailyMaxDistances = {};
+
+            locationsData.forEach(loc => {
+                const date = new Date(loc.timestamp).toISOString().split('T')[0];
+
+                // Find distance to NEAREST home (not just primary)
+                const distancesToHomes = homes.map(home =>
+                    haversineDistance(home.lat, home.lng, loc.latitude, loc.longitude) / 1000
+                );
+                const distance = Math.min(...distancesToHomes);
+
+                if (!dailyMaxDistances[date] || distance > dailyMaxDistances[date]) {
+                    dailyMaxDistances[date] = distance;
+                }
+            });
+
+            const distances = Object.values(dailyMaxDistances);
+            const mean = distances.reduce((a, b) => a + b, 0) / distances.length;
+            const variance = distances.reduce((sum, d) => sum + Math.pow(d - mean, 2), 0) / distances.length;
+            const stdDev = Math.sqrt(variance);
+
+            document.getElementById('variance-value').textContent = stdDev.toFixed(2);
+
+            let label = '';
+            if (stdDev < 5) {
+                label = 'Very Routine - Consistent daily patterns';
+            } else if (stdDev < 15) {
+                label = 'Moderately Routine - Some variation';
+            } else if (stdDev < 30) {
+                label = 'Exploratory - Significant variation';
+            } else {
+                label = 'Highly Exploratory - Large day-to-day differences';
+            }
+            document.getElementById('variance-label').textContent = label;
+        }
+
+        // Create radius of gyration chart
+        function createRadiusGyrationChart() {
+            if (locationsData.length === 0) return;
+
+            // Group locations by week
+            const weeklyLocations = {};
+            locationsData.forEach(loc => {
+                const date = new Date(loc.timestamp);
+                const weekStart = new Date(date);
+                weekStart.setDate(date.getDate() - date.getDay()); // Sunday
+                const weekKey = weekStart.toISOString().split('T')[0];
+
+                if (!weeklyLocations[weekKey]) {
+                    weeklyLocations[weekKey] = [];
+                }
+                weeklyLocations[weekKey].push(loc);
+            });
+
+            // Calculate radius of gyration for each week
+            const sortedWeeks = Object.keys(weeklyLocations).sort();
+            const rogValues = sortedWeeks.map(week => {
+                const points = weeklyLocations[week];
+
+                // Calculate centroid
+                const centroidLat = points.reduce((sum, p) => sum + p.latitude, 0) / points.length;
+                const centroidLng = points.reduce((sum, p) => sum + p.longitude, 0) / points.length;
+
+                // Calculate RoG: sqrt(sum(distance^2) / n)
+                const sumSquaredDistances = points.reduce((sum, p) => {
+                    const d = haversineDistance(centroidLat, centroidLng, p.latitude, p.longitude);
+                    return sum + (d * d);
+                }, 0);
+
+                return Math.sqrt(sumSquaredDistances / points.length) / 1000; // km
+            });
+
+            const labels = sortedWeeks.map(week => {
+                const [year, month, day] = week.split('-').map(Number);
+                const d = new Date(year, month - 1, day);
+                return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            });
+
+            const ctx = document.getElementById('radius-gyration-chart').getContext('2d');
+            const darkMode = isDarkMode();
+
+            analyticsCharts.radiusGyration = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Radius of Gyration (km)',
+                        data: rogValues,
+                        borderColor: '#9333ea',
+                        backgroundColor: 'rgba(147, 51, 234, 0.1)',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#9333ea'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: darkMode ? '#d1d5db' : '#6b7280',
+                                callback: function(value) {
+                                    return value.toFixed(1) + ' km';
+                                }
+                            },
+                            grid: {
+                                color: darkMode ? '#374151' : '#e5e7eb'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: darkMode ? '#d1d5db' : '#6b7280',
+                                maxRotation: 45,
+                                minRotation: 45
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Main render analytics function
+        function renderAnalytics() {
+            // Destroy old charts
+            destroyAnalyticsCharts();
+
+            // Calculate and update metrics
+            const entropy = calculateMobilityEntropy();
+            document.getElementById('metric-entropy').textContent = entropy.toFixed(2);
+
+            const dwellTime = calculateAverageDwellTime();
+            document.getElementById('metric-dwell').textContent = formatDuration(dwellTime);
+
+            const distance = calculateTotalDistance();
+            document.getElementById('metric-distance').textContent = formatDistance(distance);
+
+            const activeDays = countActiveDays();
+            document.getElementById('metric-active-days').textContent = activeDays;
+
+            // Create all spatial analytics charts
+            createHomeDetectionMap();
+            createDailyExplorationChart();
+            createHomeAwayChart();
+            createExplorationVariance();
+            createRadiusGyrationChart();
         }
 
         // Start the app
