@@ -1507,6 +1507,12 @@
                 createFrequencyChart();
                 renderLocations();
                 renderVisits();
+
+                // Update analytics if that tab is active
+                const analyticsView = document.getElementById('analytics-view');
+                if (analyticsView && analyticsView.style.display !== 'none') {
+                    renderAnalytics();
+                }
             } catch (error) {
                 console.error('Error refreshing data:', error);
                 alert('Error refreshing data: ' + error.message);
