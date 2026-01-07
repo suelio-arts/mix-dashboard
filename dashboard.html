@@ -122,6 +122,16 @@
             color: #f9fafb;
         }
 
+        body.dark-mode #user-selector {
+            background: #374151;
+            border-color: #4b5563;
+            color: #f9fafb;
+        }
+
+        body.dark-mode #user-stats {
+            color: #9ca3af;
+        }
+
         .checkbox-group {
             display: flex;
             flex-direction: column;
@@ -761,6 +771,18 @@
             <button class="tab-btn active" data-tab="map">Map View</button>
             <button class="tab-btn" data-tab="analytics">Analytics</button>
         </nav>
+
+        <!-- User Selector -->
+        <div class="sidebar-section" style="padding-bottom: 12px;">
+            <h2>User</h2>
+            <div class="filter-group" style="margin-bottom: 0;">
+                <select id="user-selector" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; background: #ffffff; color: #111827; cursor: pointer;">
+                    <option value="qaCPu4bNgYOFsjQaSRjjMb4fJRf2">Loading users...</option>
+                </select>
+                <div id="user-stats" style="font-size: 11px; color: #6b7280; margin-top: 6px;"></div>
+            </div>
+        </div>
+
         <div class="sidebar-section">
             <h2>Data Summary</h2>
             <div class="stat-item">
@@ -1099,7 +1121,28 @@
             <div class="analytics-card wide" style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); color: white;">
                 <h3 style="color: white;">Activity Inference <span class="thesis-badge" style="background: rgba(255,255,255,0.2); color: white;">Speed Analysis</span></h3>
                 <p class="card-description" style="color: rgba(255,255,255,0.8);">Inferring activity types from GPS movement speed when motion sensors report "unknown"</p>
-                <details style="font-size: 11px; margin-top: 8px; color: rgba(255,255,255,0.7);">
+
+                <!-- Key Metrics Summary -->
+                <div id="inference-summary" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; padding: 16px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                    <div style="text-align: center;">
+                        <div id="inference-metric-points" style="font-size: 24px; font-weight: 700;">--</div>
+                        <div style="font-size: 11px; opacity: 0.8;">Point Pairs</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div id="inference-metric-agreement" style="font-size: 24px; font-weight: 700;">--</div>
+                        <div style="font-size: 11px; opacity: 0.8;">Agreement Rate</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div id="inference-metric-reclassified" style="font-size: 24px; font-weight: 700;">--</div>
+                        <div style="font-size: 11px; opacity: 0.8;">Unknown → Classified</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div id="inference-metric-walking" style="font-size: 24px; font-weight: 700;">--</div>
+                        <div style="font-size: 11px; opacity: 0.8;">Walking Distance</div>
+                    </div>
+                </div>
+
+                <details style="font-size: 11px; margin-top: 12px; color: rgba(255,255,255,0.7);">
                     <summary style="cursor: pointer;">ℹ️ How this works</summary>
                     <div style="margin-top: 8px; line-height: 1.6;">
                         <strong>Speed Calculation:</strong> Distance between consecutive GPS points ÷ time elapsed.<br>
@@ -1201,8 +1244,8 @@
         const db = getFirestore(app);
         const functions = getFunctions(app);
 
-        // User ID to query
-        const USER_ID = 'qaCPu4bNgYOFsjQaSRjjMb4fJRf2';
+        // Default user ID (can be changed via user selector)
+        const DEFAULT_USER_ID = 'qaCPu4bNgYOFsjQaSRjjMb4fJRf2';
 
         // Make Firestore available globally
         window.firestoreDB = db;
@@ -1216,8 +1259,51 @@
         // Make Functions available globally
         window.firebaseFunctions = functions;
         window.httpsCallable = httpsCallable;
-        window.FIRESTORE_USER_ID = USER_ID;
+        window.FIRESTORE_USER_ID = DEFAULT_USER_ID;
+        window.DEFAULT_USER_ID = DEFAULT_USER_ID;
         window.firebaseReady = true;
+
+        // Function to load all available users from Firestore
+        window.loadAvailableUsers = async function() {
+            const usersMap = new Map();
+
+            // Query each collection for distinct userIds
+            const collections = ['user_locations', 'user_motion_activities', 'user_visits'];
+
+            for (const colName of collections) {
+                try {
+                    const snapshot = await getDocs(collection(db, colName));
+                    snapshot.forEach(doc => {
+                        const userId = doc.data().userId;
+                        if (!userId || userId.startsWith('test')) return;
+
+                        if (!usersMap.has(userId)) {
+                            usersMap.set(userId, {
+                                locations: 0, motion: 0, visits: 0,
+                                minDate: null, maxDate: null
+                            });
+                        }
+
+                        const stats = usersMap.get(userId);
+                        if (colName === 'user_locations') stats.locations++;
+                        else if (colName === 'user_motion_activities') stats.motion++;
+                        else if (colName === 'user_visits') stats.visits++;
+
+                        // Track date range
+                        const ts = doc.data().serverTimestamp || doc.data().timestamp || doc.data().arrivalDate;
+                        if (ts) {
+                            const date = ts.toDate ? ts.toDate() : new Date(ts);
+                            if (!stats.minDate || date < stats.minDate) stats.minDate = date;
+                            if (!stats.maxDate || date > stats.maxDate) stats.maxDate = date;
+                        }
+                    });
+                } catch (e) {
+                    console.warn(`Error loading ${colName}:`, e);
+                }
+            }
+
+            return usersMap;
+        };
 
         // Dispatch event when Firebase is ready
         window.dispatchEvent(new Event('firebaseReady'));
@@ -1258,6 +1344,154 @@
         let locationMarkers = [];
         let visitMarkers = [];
         let chart;
+        let availableUsers = new Map(); // userId -> stats
+
+        // ============================================================
+        // USER SWITCHING
+        // ============================================================
+
+        // Populate user selector dropdown
+        async function populateUserSelector() {
+            const selector = document.getElementById('user-selector');
+            const statsEl = document.getElementById('user-stats');
+
+            selector.innerHTML = '<option value="">Loading users...</option>';
+            statsEl.textContent = 'Scanning database...';
+
+            try {
+                availableUsers = await window.loadAvailableUsers();
+
+                // Sort by total records (most data first)
+                const sorted = [...availableUsers.entries()].sort((a, b) => {
+                    const totalA = a[1].locations + a[1].motion + a[1].visits;
+                    const totalB = b[1].locations + b[1].motion + b[1].visits;
+                    return totalB - totalA;
+                });
+
+                selector.innerHTML = '';
+                sorted.forEach(([userId, stats], index) => {
+                    const total = stats.locations + stats.motion + stats.visits;
+                    const option = document.createElement('option');
+                    option.value = userId;
+
+                    // Create display label (truncate long IDs)
+                    const shortId = userId.length > 12 ? userId.substring(0, 12) + '...' : userId;
+                    const isDefault = userId === window.DEFAULT_USER_ID;
+                    option.textContent = `${shortId} (${total.toLocaleString()} pts)${isDefault ? ' ★' : ''}`;
+                    option.title = userId; // Full ID on hover
+
+                    if (userId === window.FIRESTORE_USER_ID) {
+                        option.selected = true;
+                    }
+
+                    selector.appendChild(option);
+                });
+
+                // Update stats display
+                updateUserStatsDisplay();
+
+                statsEl.textContent = `${availableUsers.size} users found`;
+            } catch (error) {
+                console.error('Error loading users:', error);
+                selector.innerHTML = `<option value="${window.DEFAULT_USER_ID}">Default User</option>`;
+                statsEl.textContent = 'Error loading users';
+            }
+        }
+
+        // Update the user stats display below selector
+        function updateUserStatsDisplay() {
+            const statsEl = document.getElementById('user-stats');
+            const userId = window.FIRESTORE_USER_ID;
+            const stats = availableUsers.get(userId);
+
+            if (stats) {
+                const dateRange = stats.minDate && stats.maxDate
+                    ? `${stats.minDate.toLocaleDateString()} - ${stats.maxDate.toLocaleDateString()}`
+                    : 'No dates';
+                statsEl.textContent = `${stats.locations.toLocaleString()} locs · ${stats.motion.toLocaleString()} motion · ${dateRange}`;
+            }
+        }
+
+        // Handle user change
+        async function onUserChange() {
+            const selector = document.getElementById('user-selector');
+            const newUserId = selector.value;
+
+            if (!newUserId || newUserId === window.FIRESTORE_USER_ID) return;
+
+            // Update global user ID
+            window.FIRESTORE_USER_ID = newUserId;
+
+            // Clear Walk Score cache (it's user-specific)
+            try {
+                localStorage.removeItem('walkscore_cache_v1');
+            } catch (e) {}
+
+            // Get user's date range
+            const stats = availableUsers.get(newUserId);
+            let startDate, endDate;
+
+            if (stats && stats.minDate && stats.maxDate) {
+                // Use user's data range, but cap to last 30 days if longer
+                endDate = new Date(Math.min(stats.maxDate.getTime(), Date.now()));
+                endDate.setHours(23, 59, 59, 999);
+
+                const thirtyDaysAgo = new Date(endDate);
+                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+                startDate = new Date(Math.max(stats.minDate.getTime(), thirtyDaysAgo.getTime()));
+                startDate.setHours(0, 0, 0, 0);
+            } else {
+                // Default to last 30 days
+                endDate = new Date();
+                endDate.setHours(23, 59, 59, 999);
+                startDate = new Date();
+                startDate.setDate(startDate.getDate() - 30);
+                startDate.setHours(0, 0, 0, 0);
+            }
+
+            // Update date inputs
+            document.getElementById('date-start').value = startDate.toISOString().split('T')[0];
+            document.getElementById('date-end').value = endDate.toISOString().split('T')[0];
+
+            // Update stats display
+            updateUserStatsDisplay();
+
+            // Show loading
+            const loadingEl = document.getElementById('loading');
+            loadingEl.textContent = 'Switching user...';
+            loadingEl.classList.add('loading-overlay');
+            loadingEl.style.display = 'flex';
+
+            try {
+                // Reload data for new user
+                await queryFirestoreData(startDate, endDate);
+
+                // Update all displays
+                updateStats();
+                if (chart) chart.destroy();
+                createFrequencyChart();
+                renderLocations();
+                renderVisits();
+
+                // If on analytics tab, refresh analytics
+                const analyticsView = document.getElementById('analytics-view');
+                if (analyticsView && analyticsView.style.display !== 'none') {
+                    renderAnalytics();
+                }
+
+            } catch (error) {
+                console.error('Error switching user:', error);
+                alert('Error loading user data: ' + error.message);
+            } finally {
+                loadingEl.style.display = 'none';
+                loadingEl.classList.remove('loading-overlay');
+            }
+        }
+
+        // ============================================================
+        // END USER SWITCHING
+        // ============================================================
 
         // Detect dark mode
         function isDarkMode() {
@@ -1829,6 +2063,12 @@
             // Event listeners - re-query Firestore when date range changes
             document.getElementById('date-start').addEventListener('change', onDateRangeChange);
             document.getElementById('date-end').addEventListener('change', onDateRangeChange);
+
+            // User selector event listener
+            document.getElementById('user-selector').addEventListener('change', onUserChange);
+
+            // Load available users (async, don't block)
+            populateUserSelector();
 
             document.getElementById('toggle-locations').addEventListener('change', renderLocations);
             document.getElementById('toggle-visits').addEventListener('change', renderVisits);
@@ -3291,6 +3531,16 @@
                     `${unknownPct}% had unknown sensor data. ` +
                     `${analytics.agreementRate.toFixed(1)}% agreement where both available.`
                 );
+
+                // Update header summary metrics
+                document.getElementById('inference-metric-points').textContent =
+                    analytics.totalPoints.toLocaleString();
+                document.getElementById('inference-metric-agreement').textContent =
+                    analytics.agreementRate.toFixed(1) + '%';
+                document.getElementById('inference-metric-reclassified').textContent =
+                    analytics.reclassifiedRate.toFixed(0) + '%';
+                document.getElementById('inference-metric-walking').textContent =
+                    (analytics.totalWalkingDistance / 1000).toFixed(1) + ' km';
 
                 // Render visualizations
                 createInferredActivityChart(analytics);
