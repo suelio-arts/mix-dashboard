@@ -1020,7 +1020,15 @@
             <!-- Walk Score Section Header -->
             <div class="analytics-card wide" style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white;">
                 <h3 style="color: white;">Walk Score Analytics <span class="thesis-badge" style="background: rgba(255,255,255,0.2); color: white;">Walkability</span></h3>
-                <p class="card-description" style="color: rgba(255,255,255,0.8);">Contextualizing walking behavior against neighborhood walkability scores</p>
+                <p class="card-description" style="color: rgba(255,255,255,0.8);">Contextualizing walking behavior against neighborhood walkability scores (excludes home locations)</p>
+                <details style="font-size: 11px; margin-top: 8px; color: rgba(255,255,255,0.7);">
+                    <summary style="cursor: pointer;">ℹ️ How this works</summary>
+                    <div style="margin-top: 8px; line-height: 1.5;">
+                        Walk Score (0-100) measures how walkable an area is based on proximity to amenities.<br>
+                        • 90-100: Walker's Paradise • 70-89: Very Walkable • 50-69: Somewhat Walkable • 0-49: Car-Dependent<br>
+                        All metrics below exclude locations within 500m of detected home(s) to show true "out and about" behavior.
+                    </div>
+                </details>
                 <div id="walkscore-status" style="font-size: 12px; margin-top: 8px; color: rgba(255,255,255,0.7);">
                     Loading Walk Score data...
                 </div>
@@ -1029,7 +1037,7 @@
             <!-- Walking Efficiency Index -->
             <div class="analytics-card">
                 <h3>Walking Efficiency <span class="thesis-badge">Walkability</span></h3>
-                <p class="card-description">Are you walking as much as your environment enables?</p>
+                <p class="card-description" title="Formula: (Actual Walking %) / (Expected Walking %). Expected = Walk Score × 0.7. Example: Walk Score 80 → expect ~56% walking.">Are you walking as much as your environment enables? <span style="color: #9ca3af; cursor: help;">ⓘ</span></p>
                 <div class="analytics-chart-container">
                     <div id="walking-efficiency-display" style="height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                         <div id="efficiency-value" style="font-size: 64px; font-weight: 700; color: #3b82f6;">--</div>
@@ -1044,7 +1052,7 @@
             <!-- Time by Walkability Zone -->
             <div class="analytics-card">
                 <h3>Time by Walkability <span class="thesis-badge">Walkability</span></h3>
-                <p class="card-description">Hours spent in areas by Walk Score category</p>
+                <p class="card-description" title="Time spent at away-from-home locations grouped by Walk Score zone. High=70-100, Medium=50-69, Low=25-49, Very Low=0-24.">Hours spent in areas by Walk Score category (away from home) <span style="color: #9ca3af; cursor: help;">ⓘ</span></p>
                 <div class="analytics-chart-container">
                     <canvas id="walkability-zone-chart"></canvas>
                 </div>
@@ -1053,7 +1061,7 @@
             <!-- Walking Rate vs Walk Score -->
             <div class="analytics-card wide">
                 <h3>Walking Rate vs Walkability <span class="thesis-badge">Walkability</span></h3>
-                <p class="card-description">Your walking percentage compared to area Walk Score</p>
+                <p class="card-description" title="Each bubble is a ~200m grid cell you visited. X-axis: Walk Score of that area. Y-axis: % of time you were walking there. Bubble size = time spent. Dashed line shows expected walking rate.">Your walking % at each location vs its Walk Score <span style="color: #9ca3af; cursor: help;">ⓘ</span></p>
                 <div class="analytics-chart-container" style="height: 200px;">
                     <canvas id="walking-vs-walkscore-chart"></canvas>
                 </div>
@@ -1062,23 +1070,23 @@
             <!-- Walk Score Statistics -->
             <div class="analytics-card">
                 <h3>Walkability Statistics <span class="thesis-badge">Walkability</span></h3>
-                <p class="card-description">Summary of walkability across visited locations</p>
+                <p class="card-description">Summary across away-from-home locations</p>
                 <div class="analytics-chart-container">
                     <div id="walkscore-stats-display" style="height: 250px; display: flex; flex-direction: column; justify-content: center; padding: 20px;">
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
-                            <span style="color: #6b7280; font-size: 14px;">Avg Walk Score</span>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;" title="Simple average of Walk Scores across all visited grid cells">
+                            <span style="color: #6b7280; font-size: 14px;">Avg Walk Score <span style="color: #9ca3af; cursor: help;">ⓘ</span></span>
                             <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-avg-walkscore">--</span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
-                            <span style="color: #6b7280; font-size: 14px;">Time-Weighted Avg</span>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;" title="Walk Score weighted by time spent at each location - reflects where you actually spend time">
+                            <span style="color: #6b7280; font-size: 14px;">Time-Weighted Avg <span style="color: #9ca3af; cursor: help;">ⓘ</span></span>
                             <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-weighted-walkscore">--</span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
-                            <span style="color: #6b7280; font-size: 14px;">Walking in High Walkability</span>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;" title="% of time spent walking in areas with Walk Score ≥70">
+                            <span style="color: #6b7280; font-size: 14px;">Walking in High (70+) <span style="color: #9ca3af; cursor: help;">ⓘ</span></span>
                             <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-walking-high">--</span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0;">
-                            <span style="color: #6b7280; font-size: 14px;">Walking in Low Walkability</span>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0;" title="% of time spent walking in areas with Walk Score <50">
+                            <span style="color: #6b7280; font-size: 14px;">Walking in Low (<50) <span style="color: #9ca3af; cursor: help;">ⓘ</span></span>
                             <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-walking-low">--</span>
                         </div>
                     </div>
@@ -2216,14 +2224,29 @@
 
         // Estimate Walk Score based on location density (fallback when API unavailable)
         // This uses the locations data to estimate walkability from visit patterns
+        // Excludes home locations for consistency with other Walk Score analytics
         function estimateWalkScoreFromData() {
             if (locationsData.length === 0) return null;
+
+            // Get home clusters to exclude
+            const homes = detectHomeClusters();
+            const HOME_THRESHOLD = 500;
+
+            // Filter to away locations
+            const awayLocations = homes.length === 0 ? locationsData : locationsData.filter(loc => {
+                const distancesToHomes = homes.map(home =>
+                    haversineDistance(home.lat, home.lng, loc.latitude, loc.longitude)
+                );
+                return Math.min(...distancesToHomes) > HOME_THRESHOLD;
+            });
+
+            if (awayLocations.length === 0) return null;
 
             // Grid-based estimation: areas with more walking activity likely have higher walkability
             const gridScores = {};
 
             // Count walking vs other activities per grid cell
-            locationsData.forEach(loc => {
+            awayLocations.forEach(loc => {
                 const gridKey = getWalkScoreGridKey(loc.latitude, loc.longitude);
                 if (!gridScores[gridKey]) {
                     gridScores[gridKey] = { walking: 0, other: 0, total: 0 };
@@ -2325,9 +2348,26 @@
             return scores;
         }
 
-        // Calculate Walk Score analytics
+        // Calculate Walk Score analytics (excludes home locations)
         function calculateWalkScoreAnalytics(walkScores) {
             if (!walkScores || Object.keys(walkScores).length === 0) {
+                return null;
+            }
+
+            // Get home clusters to exclude home locations
+            const homes = detectHomeClusters();
+            const HOME_THRESHOLD = 500; // meters
+
+            // Filter to only away locations
+            const awayLocations = homes.length === 0 ? locationsData : locationsData.filter(loc => {
+                const distancesToHomes = homes.map(home =>
+                    haversineDistance(home.lat, home.lng, loc.latitude, loc.longitude)
+                );
+                const minDistance = Math.min(...distancesToHomes);
+                return minDistance > HOME_THRESHOLD;
+            });
+
+            if (awayLocations.length === 0) {
                 return null;
             }
 
@@ -2335,7 +2375,7 @@
             const cellData = {};
             let totalPoints = 0;
 
-            locationsData.forEach(loc => {
+            awayLocations.forEach(loc => {
                 const gridKey = getWalkScoreGridKey(loc.latitude, loc.longitude);
                 const score = walkScores[gridKey];
                 if (score === undefined) return;
