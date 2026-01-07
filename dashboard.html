@@ -2194,7 +2194,7 @@
                     gridScores[gridKey] = { walking: 0, other: 0, total: 0 };
                 }
 
-                const motion = findMatchingMotion(loc);
+                const motion = findNearestMotion(loc.timestamp, motionData);
                 const activity = getActivityType(motion);
 
                 gridScores[gridKey].total++;
@@ -2314,7 +2314,7 @@
                     };
                 }
 
-                const motion = findMatchingMotion(loc);
+                const motion = findNearestMotion(loc.timestamp, motionData);
                 const activity = getActivityType(motion);
 
                 cellData[gridKey].total++;
