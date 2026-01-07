@@ -1094,6 +1094,81 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Activity Inference Section Header -->
+            <div class="analytics-card wide" style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); color: white;">
+                <h3 style="color: white;">Activity Inference <span class="thesis-badge" style="background: rgba(255,255,255,0.2); color: white;">Speed Analysis</span></h3>
+                <p class="card-description" style="color: rgba(255,255,255,0.8);">Inferring activity types from GPS movement speed when motion sensors report "unknown"</p>
+                <details style="font-size: 11px; margin-top: 8px; color: rgba(255,255,255,0.7);">
+                    <summary style="cursor: pointer;">ℹ️ How this works</summary>
+                    <div style="margin-top: 8px; line-height: 1.6;">
+                        <strong>Speed Calculation:</strong> Distance between consecutive GPS points ÷ time elapsed.<br>
+                        Uses Haversine formula for accurate spherical distance.<br><br>
+                        <strong>Speed Thresholds (research-based):</strong><br>
+                        • Stationary: &lt;0.15 m/s (0.5 km/h)<br>
+                        • Walking: 0.15-2.0 m/s (0.5-7.2 km/h)<br>
+                        • Cycling: 2.0-8.0 m/s (7.2-29 km/h)<br>
+                        • Driving: &gt;8.0 m/s (29+ km/h)<br><br>
+                        <strong>Likely Walking Routes:</strong> Consecutive segments where speed stays in walking range for 3+ points with directional movement (not just stationary).
+                    </div>
+                </details>
+                <div id="inference-status" style="font-size: 12px; margin-top: 8px; color: rgba(255,255,255,0.7);">
+                    Analyzing GPS trajectories...
+                </div>
+            </div>
+
+            <!-- Inferred Activity Distribution -->
+            <div class="analytics-card">
+                <h3>Inferred Activity <span class="thesis-badge">Speed</span></h3>
+                <p class="card-description" title="Activity type inferred from speed between consecutive GPS points. Based on academic research thresholds.">Speed-based activity classification <span style="color: #9ca3af; cursor: help;">ⓘ</span></p>
+                <div class="analytics-chart-container">
+                    <canvas id="inferred-activity-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Sensor vs Inferred Comparison -->
+            <div class="analytics-card">
+                <h3>Sensor vs Inferred <span class="thesis-badge">Speed</span></h3>
+                <p class="card-description" title="Comparing motion sensor data with speed-based inference. Shows agreement/disagreement rates.">How well does speed match sensor data? <span style="color: #9ca3af; cursor: help;">ⓘ</span></p>
+                <div class="analytics-chart-container">
+                    <canvas id="sensor-vs-inferred-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Speed Distribution Histogram -->
+            <div class="analytics-card wide">
+                <h3>Speed Distribution <span class="thesis-badge">Speed</span></h3>
+                <p class="card-description" title="Histogram of calculated speeds between GPS points. Shows natural clusters that may indicate different activity types.">Distribution of movement speeds <span style="color: #9ca3af; cursor: help;">ⓘ</span></p>
+                <div class="analytics-chart-container" style="height: 200px;">
+                    <canvas id="speed-histogram-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Walking Route Statistics -->
+            <div class="analytics-card">
+                <h3>Likely Walking Routes <span class="thesis-badge">Speed</span></h3>
+                <p class="card-description" title="Consecutive GPS segments where speed indicates walking (0.15-2.0 m/s) for 3+ points">Detected walking-speed segments</p>
+                <div class="analytics-chart-container">
+                    <div id="walking-routes-display" style="height: 250px; display: flex; flex-direction: column; justify-content: center; padding: 20px;">
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;" title="Number of continuous segments with walking-speed movement">
+                            <span style="color: #6b7280; font-size: 14px;">Walking Segments <span style="color: #9ca3af; cursor: help;">ⓘ</span></span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-walking-segments">--</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;" title="Total distance of all likely walking routes">
+                            <span style="color: #6b7280; font-size: 14px;">Total Walking Distance <span style="color: #9ca3af; cursor: help;">ⓘ</span></span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-walking-distance">--</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;" title="Average speed during inferred walking segments">
+                            <span style="color: #6b7280; font-size: 14px;">Avg Walking Speed <span style="color: #9ca3af; cursor: help;">ⓘ</span></span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-avg-walking-speed">--</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0;" title="Percentage of GPS points that were reclassified from 'unknown' to a specific activity">
+                            <span style="color: #6b7280; font-size: 14px;">Unknown Reclassified <span style="color: #9ca3af; cursor: help;">ⓘ</span></span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-reclassified">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -2733,6 +2808,506 @@
         // END WALK SCORE ANALYTICS
         // ============================================================
 
+        // ============================================================
+        // ACTIVITY INFERENCE FROM GPS SPEED
+        // ============================================================
+
+        // Speed thresholds for activity inference (m/s)
+        const SPEED_THRESHOLDS = {
+            stationary: 0.15,   // < 0.15 m/s = essentially not moving
+            walking: 2.0,       // 0.15-2.0 m/s = walking (0.5-7.2 km/h)
+            cycling: 8.0,       // 2.0-8.0 m/s = cycling (7.2-29 km/h)
+            // > 8.0 m/s = driving
+        };
+
+        // Calculate speed and inferred activity between consecutive GPS points
+        function calculateSpeedAndActivity(locations) {
+            if (locations.length < 2) return [];
+
+            // Sort by timestamp
+            const sorted = [...locations].sort((a, b) =>
+                new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+            );
+
+            const results = [];
+
+            for (let i = 1; i < sorted.length; i++) {
+                const prev = sorted[i - 1];
+                const curr = sorted[i];
+
+                const distance = haversineDistance(
+                    prev.latitude, prev.longitude,
+                    curr.latitude, curr.longitude
+                );
+
+                const timeDeltaMs = new Date(curr.timestamp).getTime() - new Date(prev.timestamp).getTime();
+                const timeDeltaSec = timeDeltaMs / 1000;
+
+                // Skip if time gap is too large (> 10 minutes) or too small (< 1 second)
+                if (timeDeltaSec > 600 || timeDeltaSec < 1) continue;
+
+                const speed = distance / timeDeltaSec; // m/s
+
+                // Skip unrealistic speeds (> 50 m/s = 180 km/h)
+                if (speed > 50) continue;
+
+                // Infer activity from speed
+                let inferredActivity;
+                if (speed < SPEED_THRESHOLDS.stationary) {
+                    inferredActivity = 'stationary';
+                } else if (speed < SPEED_THRESHOLDS.walking) {
+                    inferredActivity = 'walking';
+                } else if (speed < SPEED_THRESHOLDS.cycling) {
+                    inferredActivity = 'cycling';
+                } else {
+                    inferredActivity = 'automotive';
+                }
+
+                // Get sensor activity for comparison
+                const motion = findNearestMotion(curr.timestamp, motionData);
+                let sensorActivity = 'unknown';
+                if (motion) {
+                    if (motion.isStationary) sensorActivity = 'stationary';
+                    else if (motion.isWalking) sensorActivity = 'walking';
+                    else if (motion.isRunning) sensorActivity = 'running';
+                    else if (motion.isCycling) sensorActivity = 'cycling';
+                    else if (motion.isAutomotive) sensorActivity = 'automotive';
+                    else if (motion.isUnknown) sensorActivity = 'unknown';
+                }
+
+                results.push({
+                    timestamp: curr.timestamp,
+                    latitude: curr.latitude,
+                    longitude: curr.longitude,
+                    distance,
+                    timeDeltaSec,
+                    speed,
+                    inferredActivity,
+                    sensorActivity,
+                    prevPoint: prev
+                });
+            }
+
+            return results;
+        }
+
+        // Detect likely walking routes (consecutive walking-speed segments)
+        function detectLikelyWalkingRoutes(speedData) {
+            const routes = [];
+            let currentRoute = null;
+            const MIN_POINTS = 3; // Minimum 3 consecutive points to be a route
+
+            for (const point of speedData) {
+                if (point.inferredActivity === 'walking') {
+                    if (!currentRoute) {
+                        currentRoute = {
+                            points: [point],
+                            totalDistance: point.distance,
+                            speeds: [point.speed]
+                        };
+                    } else {
+                        currentRoute.points.push(point);
+                        currentRoute.totalDistance += point.distance;
+                        currentRoute.speeds.push(point.speed);
+                    }
+                } else {
+                    // End current route if it has enough points
+                    if (currentRoute && currentRoute.points.length >= MIN_POINTS) {
+                        currentRoute.avgSpeed = currentRoute.speeds.reduce((a, b) => a + b, 0) / currentRoute.speeds.length;
+                        routes.push(currentRoute);
+                    }
+                    currentRoute = null;
+                }
+            }
+
+            // Don't forget the last route
+            if (currentRoute && currentRoute.points.length >= MIN_POINTS) {
+                currentRoute.avgSpeed = currentRoute.speeds.reduce((a, b) => a + b, 0) / currentRoute.speeds.length;
+                routes.push(currentRoute);
+            }
+
+            return routes;
+        }
+
+        // Calculate activity inference analytics
+        function calculateActivityInferenceAnalytics(speedData) {
+            if (speedData.length === 0) return null;
+
+            // Count inferred activities
+            const inferredCounts = {
+                stationary: 0,
+                walking: 0,
+                cycling: 0,
+                automotive: 0
+            };
+
+            // Count sensor activities
+            const sensorCounts = {
+                stationary: 0,
+                walking: 0,
+                running: 0,
+                cycling: 0,
+                automotive: 0,
+                unknown: 0
+            };
+
+            // Comparison metrics
+            let agreementCount = 0;
+            let unknownReclassified = 0;
+            let unknownTotal = 0;
+
+            // Speed bins for histogram
+            const speedBins = {
+                '0-0.5': 0,
+                '0.5-1': 0,
+                '1-2': 0,
+                '2-4': 0,
+                '4-8': 0,
+                '8-15': 0,
+                '15-30': 0,
+                '30+': 0
+            };
+
+            speedData.forEach(point => {
+                // Count inferred
+                inferredCounts[point.inferredActivity]++;
+
+                // Count sensor
+                sensorCounts[point.sensorActivity]++;
+
+                // Check agreement (simplified: both walking or both stationary, etc.)
+                const inferredSimple = point.inferredActivity;
+                const sensorSimple = point.sensorActivity === 'running' ? 'walking' : point.sensorActivity;
+                if (sensorSimple !== 'unknown' && inferredSimple === sensorSimple) {
+                    agreementCount++;
+                }
+
+                // Count unknown reclassified
+                if (point.sensorActivity === 'unknown') {
+                    unknownTotal++;
+                    if (point.inferredActivity !== 'unknown') {
+                        unknownReclassified++;
+                    }
+                }
+
+                // Bin speeds (in m/s)
+                const speed = point.speed;
+                if (speed < 0.5) speedBins['0-0.5']++;
+                else if (speed < 1) speedBins['0.5-1']++;
+                else if (speed < 2) speedBins['1-2']++;
+                else if (speed < 4) speedBins['2-4']++;
+                else if (speed < 8) speedBins['4-8']++;
+                else if (speed < 15) speedBins['8-15']++;
+                else if (speed < 30) speedBins['15-30']++;
+                else speedBins['30+']++;
+            });
+
+            // Detect walking routes
+            const walkingRoutes = detectLikelyWalkingRoutes(speedData);
+
+            // Calculate totals
+            const totalWithSensor = speedData.filter(p => p.sensorActivity !== 'unknown').length;
+            const agreementRate = totalWithSensor > 0 ? (agreementCount / totalWithSensor) * 100 : 0;
+            const reclassifiedRate = unknownTotal > 0 ? (unknownReclassified / unknownTotal) * 100 : 0;
+
+            // Total walking distance from routes
+            const totalWalkingDistance = walkingRoutes.reduce((sum, r) => sum + r.totalDistance, 0);
+
+            // Average walking speed from all walking points
+            const walkingPoints = speedData.filter(p => p.inferredActivity === 'walking');
+            const avgWalkingSpeed = walkingPoints.length > 0
+                ? walkingPoints.reduce((sum, p) => sum + p.speed, 0) / walkingPoints.length
+                : 0;
+
+            return {
+                inferredCounts,
+                sensorCounts,
+                agreementRate,
+                reclassifiedRate,
+                unknownTotal,
+                unknownReclassified,
+                speedBins,
+                walkingRoutes,
+                totalWalkingDistance,
+                avgWalkingSpeed,
+                totalPoints: speedData.length
+            };
+        }
+
+        // Update inference status message
+        function updateInferenceStatus(message) {
+            const statusEl = document.getElementById('inference-status');
+            if (statusEl) {
+                statusEl.textContent = message;
+            }
+        }
+
+        // Create inferred activity donut chart
+        function createInferredActivityChart(analytics) {
+            const ctx = document.getElementById('inferred-activity-chart');
+            if (!ctx) return;
+
+            if (analyticsCharts.inferredActivity) {
+                analyticsCharts.inferredActivity.destroy();
+            }
+
+            const darkMode = isDarkMode();
+            const data = analytics.inferredCounts;
+            const total = Object.values(data).reduce((a, b) => a + b, 0);
+
+            analyticsCharts.inferredActivity = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Stationary', 'Walking', 'Cycling', 'Driving'],
+                    datasets: [{
+                        data: [data.stationary, data.walking, data.cycling, data.automotive],
+                        backgroundColor: [
+                            ACTIVITY_COLORS.stationary,
+                            ACTIVITY_COLORS.walking,
+                            ACTIVITY_COLORS.cycling,
+                            ACTIVITY_COLORS.automotive
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: darkMode ? '#d1d5db' : '#4b5563',
+                                padding: 15,
+                                usePointStyle: true
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const pct = ((context.raw / total) * 100).toFixed(1);
+                                    return `${context.label}: ${context.raw} (${pct}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create sensor vs inferred comparison chart
+        function createSensorVsInferredChart(analytics) {
+            const ctx = document.getElementById('sensor-vs-inferred-chart');
+            if (!ctx) return;
+
+            if (analyticsCharts.sensorVsInferred) {
+                analyticsCharts.sensorVsInferred.destroy();
+            }
+
+            const darkMode = isDarkMode();
+
+            // Prepare data for grouped bar chart
+            const categories = ['Stationary', 'Walking', 'Cycling', 'Driving', 'Unknown'];
+            const sensorData = [
+                analytics.sensorCounts.stationary,
+                analytics.sensorCounts.walking + analytics.sensorCounts.running,
+                analytics.sensorCounts.cycling,
+                analytics.sensorCounts.automotive,
+                analytics.sensorCounts.unknown
+            ];
+            const inferredData = [
+                analytics.inferredCounts.stationary,
+                analytics.inferredCounts.walking,
+                analytics.inferredCounts.cycling,
+                analytics.inferredCounts.automotive,
+                0 // Inferred never produces 'unknown'
+            ];
+
+            analyticsCharts.sensorVsInferred = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: categories,
+                    datasets: [
+                        {
+                            label: 'Sensor',
+                            data: sensorData,
+                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Inferred',
+                            data: inferredData,
+                            backgroundColor: 'rgba(168, 85, 247, 0.7)',
+                            borderColor: 'rgba(168, 85, 247, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: darkMode ? '#d1d5db' : '#4b5563'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: darkMode ? '#9ca3af' : '#6b7280' },
+                            grid: { color: darkMode ? '#374151' : '#e5e7eb' }
+                        },
+                        y: {
+                            ticks: { color: darkMode ? '#9ca3af' : '#6b7280' },
+                            grid: { color: darkMode ? '#374151' : '#e5e7eb' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create speed histogram chart
+        function createSpeedHistogramChart(analytics) {
+            const ctx = document.getElementById('speed-histogram-chart');
+            if (!ctx) return;
+
+            if (analyticsCharts.speedHistogram) {
+                analyticsCharts.speedHistogram.destroy();
+            }
+
+            const darkMode = isDarkMode();
+            const bins = analytics.speedBins;
+
+            // Color code bins by activity zone
+            const binColors = [
+                ACTIVITY_COLORS.stationary, // 0-0.5
+                ACTIVITY_COLORS.walking,     // 0.5-1
+                ACTIVITY_COLORS.walking,     // 1-2
+                ACTIVITY_COLORS.cycling,     // 2-4
+                ACTIVITY_COLORS.cycling,     // 4-8
+                ACTIVITY_COLORS.automotive,  // 8-15
+                ACTIVITY_COLORS.automotive,  // 15-30
+                ACTIVITY_COLORS.automotive   // 30+
+            ];
+
+            analyticsCharts.speedHistogram = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['0-0.5', '0.5-1', '1-2', '2-4', '4-8', '8-15', '15-30', '30+'],
+                    datasets: [{
+                        label: 'GPS Point Pairs',
+                        data: Object.values(bins),
+                        backgroundColor: binColors.map(c => c + 'cc'),
+                        borderColor: binColors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    return `Speed: ${context[0].label} m/s`;
+                                },
+                                label: function(context) {
+                                    const pct = ((context.raw / analytics.totalPoints) * 100).toFixed(1);
+                                    return `${context.raw} point pairs (${pct}%)`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Speed (m/s)',
+                                color: darkMode ? '#d1d5db' : '#6b7280'
+                            },
+                            ticks: { color: darkMode ? '#9ca3af' : '#6b7280' },
+                            grid: { display: false }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Count',
+                                color: darkMode ? '#d1d5db' : '#6b7280'
+                            },
+                            ticks: { color: darkMode ? '#9ca3af' : '#6b7280' },
+                            grid: { color: darkMode ? '#374151' : '#e5e7eb' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update walking routes statistics display
+        function updateWalkingRoutesDisplay(analytics) {
+            document.getElementById('stat-walking-segments').textContent =
+                analytics.walkingRoutes.length.toLocaleString();
+
+            document.getElementById('stat-walking-distance').textContent =
+                (analytics.totalWalkingDistance / 1000).toFixed(2) + ' km';
+
+            document.getElementById('stat-avg-walking-speed').textContent =
+                analytics.avgWalkingSpeed.toFixed(2) + ' m/s (' +
+                (analytics.avgWalkingSpeed * 3.6).toFixed(1) + ' km/h)';
+
+            document.getElementById('stat-reclassified').textContent =
+                analytics.reclassifiedRate.toFixed(1) + '% (' +
+                analytics.unknownReclassified + '/' + analytics.unknownTotal + ')';
+        }
+
+        // Main function to render activity inference analytics
+        function renderActivityInferenceAnalytics() {
+            updateInferenceStatus('Calculating speed-based activity inference...');
+
+            try {
+                // Calculate speed and inferred activity for all GPS points
+                const speedData = calculateSpeedAndActivity(locationsData);
+
+                if (speedData.length === 0) {
+                    updateInferenceStatus('Insufficient GPS data for activity inference.');
+                    return;
+                }
+
+                // Calculate analytics
+                const analytics = calculateActivityInferenceAnalytics(speedData);
+
+                if (!analytics) {
+                    updateInferenceStatus('Could not calculate activity inference metrics.');
+                    return;
+                }
+
+                // Update status
+                const unknownPct = (analytics.sensorCounts.unknown / analytics.totalPoints * 100).toFixed(1);
+                updateInferenceStatus(
+                    `Analyzed ${analytics.totalPoints.toLocaleString()} point pairs. ` +
+                    `${unknownPct}% had unknown sensor data. ` +
+                    `${analytics.agreementRate.toFixed(1)}% agreement where both available.`
+                );
+
+                // Render visualizations
+                createInferredActivityChart(analytics);
+                createSensorVsInferredChart(analytics);
+                createSpeedHistogramChart(analytics);
+                updateWalkingRoutesDisplay(analytics);
+
+            } catch (error) {
+                console.error('Activity inference error:', error);
+                updateInferenceStatus('Error calculating activity inference: ' + error.message);
+            }
+        }
+
+        // ============================================================
+        // END ACTIVITY INFERENCE
+        // ============================================================
+
         // Create home detection map
         function createHomeDetectionMap() {
             const container = document.getElementById('home-detection-map');
@@ -3222,6 +3797,9 @@
 
             // Create Walk Score analytics
             renderWalkScoreAnalytics();
+
+            // Create Activity Inference analytics
+            renderActivityInferenceAnalytics();
         }
 
         // Start the app

@@ -1,5 +1,56 @@
 [
   {
+    "id": "zBO0Uley2Ylm0EDhYLDG",
+    "latitude": 42.3633914412242,
+    "longitude": -71.0968312561123,
+    "location": {
+      "latitude": 42.3633914412242,
+      "longitude": -71.0968312561123
+    },
+    "timestamp": "2025-12-13T00:53:15.999Z",
+    "horizontalAccuracy": 59.20536289562028,
+    "arrivalDate": "2025-12-13T00:39:29.215Z",
+    "departureDate": "2025-12-13T00:53:15.999Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "dataSharingConsent": true,
+    "serverTimestamp": "2025-12-13T00:56:29.073Z",
+    "createdAt": "2025-12-13T00:56:29.073Z"
+  },
+  {
+    "id": "OCv7diczberbleZAxyvH",
+    "latitude": 42.35977579869435,
+    "longitude": -71.0934672184379,
+    "location": {
+      "latitude": 42.35977579869435,
+      "longitude": -71.0934672184379
+    },
+    "timestamp": "2025-12-13T00:36:50.539Z",
+    "horizontalAccuracy": 58.47724090355154,
+    "arrivalDate": "2025-12-12T23:01:32.465Z",
+    "departureDate": "2025-12-13T00:36:50.539Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "dataSharingConsent": true,
+    "serverTimestamp": "2025-12-13T00:45:23.578Z",
+    "createdAt": "2025-12-13T00:45:23.578Z"
+  },
+  {
+    "id": "5YYSqHwp290xfntHFhhA",
+    "latitude": 42.36147143296795,
+    "longitude": -71.08490135703282,
+    "location": {
+      "latitude": 42.36147143296795,
+      "longitude": -71.08490135703282
+    },
+    "timestamp": "2025-12-12T22:59:58.726Z",
+    "horizontalAccuracy": 52.78954008029384,
+    "arrivalDate": "2025-12-12T19:04:12.674Z",
+    "departureDate": "2025-12-12T22:59:58.726Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "dataSharingConsent": true,
+    "serverTimestamp": "2025-12-12T23:04:49.004Z",
+    "createdAt": "2025-12-12T23:04:49.004Z"
+  },
+  {
     "id": "2p6O8vEp1RZsW5l2ltXJ",
     "latitude": 42.372821135391256,
     "longitude": -71.1031003519246,
@@ -14,6 +65,23 @@
     "dataSharingConsent": true,
     "serverTimestamp": "2025-12-11T20:52:38.060Z",
     "createdAt": "2025-12-11T20:52:38.060Z"
+  },
+  {
+    "id": "kuPKjL92cpP3CiLaURRd",
+    "latitude": 42.372887372758115,
+    "longitude": -71.10317816238394,
+    "location": {
+      "latitude": 42.372887372758115,
+      "longitude": -71.10317816238394
+    },
+    "timestamp": "2025-12-12T18:55:14.592Z",
+    "horizontalAccuracy": 9.275079850912702,
+    "arrivalDate": "2025-12-11T20:51:19.999Z",
+    "departureDate": "2025-12-12T18:55:14.592Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "dataSharingConsent": true,
+    "serverTimestamp": "2025-12-12T18:55:55.431Z",
+    "createdAt": "2025-12-12T18:55:55.431Z"
   },
   {
     "id": "Pqn5ieYIEn3ypYBrMU4e",

@@ -1,5 +1,1301 @@
 [
   {
+    "id": "kqZM68c6YKJD1Zdyrj1e",
+    "latitude": 42.37290845226013,
+    "longitude": -71.10315893117078,
+    "location": {
+      "latitude": 42.37290845226013,
+      "longitude": -71.10315893117078
+    },
+    "timestamp": "2025-12-13T19:40:22.822Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 3.9226212486370198,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T19:40:23.013Z",
+    "createdAt": "2025-12-13T19:40:23.013Z"
+  },
+  {
+    "id": "10LqieCAe9kFDdCpo4wI",
+    "latitude": 42.37290822262009,
+    "longitude": -71.10315961653576,
+    "location": {
+      "latitude": 42.37290822262009,
+      "longitude": -71.10315961653576
+    },
+    "timestamp": "2025-12-13T19:40:04.055Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 3.9978104645097443,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T19:40:08.920Z",
+    "createdAt": "2025-12-13T19:40:08.920Z"
+  },
+  {
+    "id": "IarMx6Lly3DraWiTUsnF",
+    "latitude": 42.37291419360022,
+    "longitude": -71.10314179603319,
+    "location": {
+      "latitude": 42.37291419360022,
+      "longitude": -71.10314179603319
+    },
+    "timestamp": "2025-12-13T16:42:17.004Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 6.2439886009462,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T16:42:20.852Z",
+    "createdAt": "2025-12-13T16:42:20.852Z"
+  },
+  {
+    "id": "ZsjY4Qg4Sm2zGUnFm4H3",
+    "latitude": 42.372850288179364,
+    "longitude": -71.10323310773126,
+    "location": {
+      "latitude": 42.372850288179364,
+      "longitude": -71.10323310773126
+    },
+    "timestamp": "2025-12-13T16:33:24.027Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 7.1188227720456245,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T16:33:30.166Z",
+    "createdAt": "2025-12-13T16:33:30.166Z"
+  },
+  {
+    "id": "CF4fPh7cxEnObEc8UT2s",
+    "latitude": 42.372850288179364,
+    "longitude": -71.10323310773126,
+    "location": {
+      "latitude": 42.372850288179364,
+      "longitude": -71.10323310773126
+    },
+    "timestamp": "2025-12-13T01:02:42.136Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 7.1188227720456245,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T01:02:45.808Z",
+    "createdAt": "2025-12-13T01:02:45.808Z"
+  },
+  {
+    "id": "OGbAL17of7LlLpG9lHiS",
+    "latitude": 42.3728915821257,
+    "longitude": -71.10313574817732,
+    "location": {
+      "latitude": 42.3728915821257,
+      "longitude": -71.10313574817732
+    },
+    "timestamp": "2025-12-13T01:02:30.201Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 16.685071591734406,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T01:02:39.171Z",
+    "createdAt": "2025-12-13T01:02:39.171Z"
+  },
+  {
+    "id": "Y82PApuCdl2WNt2M7Cbw",
+    "latitude": 42.372910723943654,
+    "longitude": -71.10297351961019,
+    "location": {
+      "latitude": 42.372910723943654,
+      "longitude": -71.10297351961019
+    },
+    "timestamp": "2025-12-13T01:00:38.016Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 16.08037703806612,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T01:00:38.182Z",
+    "createdAt": "2025-12-13T01:00:38.182Z"
+  },
+  {
+    "id": "rUhVEQuWWBOBlKD0Dr7t",
+    "latitude": 42.372766089293876,
+    "longitude": -71.10315676256417,
+    "location": {
+      "latitude": 42.372766089293876,
+      "longitude": -71.10315676256417
+    },
+    "timestamp": "2025-12-13T01:00:01.008Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 7.208230873623344,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T01:00:31.903Z",
+    "createdAt": "2025-12-13T01:00:31.903Z"
+  },
+  {
+    "id": "H95qPhiQTQ7lv5UtaKRd",
+    "latitude": 42.370643674830184,
+    "longitude": -71.10429571319715,
+    "location": {
+      "latitude": 42.370643674830184,
+      "longitude": -71.10429571319715
+    },
+    "timestamp": "2025-12-13T00:58:41.999Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 14.245954523216682,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T00:58:42.169Z",
+    "createdAt": "2025-12-13T00:58:42.169Z"
+  },
+  {
+    "id": "YQlznKKNp5rnUDjQuhTn",
+    "latitude": 42.37057012381361,
+    "longitude": -71.10412790489647,
+    "location": {
+      "latitude": 42.37057012381361,
+      "longitude": -71.10412790489647
+    },
+    "timestamp": "2025-12-13T00:58:37.999Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 14.245954529841633,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T00:58:38.187Z",
+    "createdAt": "2025-12-13T00:58:38.187Z"
+  },
+  {
+    "id": "XBukWVCqHWvwMAerWtZq",
+    "latitude": 42.37049512558487,
+    "longitude": -71.10395287652685,
+    "location": {
+      "latitude": 42.37049512558487,
+      "longitude": -71.10395287652685
+    },
+    "timestamp": "2025-12-13T00:58:34.000Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 14.245954540997118,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T00:58:34.472Z",
+    "createdAt": "2025-12-13T00:58:34.472Z"
+  },
+  {
+    "id": "xzVV4638yir2Gifoa7QY",
+    "latitude": 42.36873469234625,
+    "longitude": -71.09923038984729,
+    "location": {
+      "latitude": 42.36873469234625,
+      "longitude": -71.09923038984729
+    },
+    "timestamp": "2025-12-13T00:56:34.957Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 14.805642869503588,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T00:56:35.142Z",
+    "createdAt": "2025-12-13T00:56:35.142Z"
+  },
+  {
+    "id": "67z29A6ylI5qnxvRwWBT",
+    "latitude": 42.36586060237094,
+    "longitude": -71.09583040372509,
+    "location": {
+      "latitude": 42.36586060237094,
+      "longitude": -71.09583040372509
+    },
+    "timestamp": "2025-12-13T00:53:43.000Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 4.211587917809318,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T00:53:43.272Z",
+    "createdAt": "2025-12-13T00:53:43.272Z"
+  },
+  {
+    "id": "3wbARvFPOusOzRkgGr6G",
+    "latitude": 42.3657154219981,
+    "longitude": -71.0958832977895,
+    "location": {
+      "latitude": 42.3657154219981,
+      "longitude": -71.0958832977895
+    },
+    "timestamp": "2025-12-13T00:53:39.198Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 13.572973051285967,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T00:53:39.346Z",
+    "createdAt": "2025-12-13T00:53:39.346Z"
+  },
+  {
+    "id": "RLgbmWDiE0RqmC88Aj20",
+    "latitude": 42.36545214023848,
+    "longitude": -71.09609058821216,
+    "location": {
+      "latitude": 42.36545214023848,
+      "longitude": -71.09609058821216
+    },
+    "timestamp": "2025-12-13T00:53:36.621Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 21.803070679202452,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T00:53:36.868Z",
+    "createdAt": "2025-12-13T00:53:36.868Z"
+  },
+  {
+    "id": "pTZdZPp5dXgWlNBNbqRA",
+    "latitude": 42.36530168256352,
+    "longitude": -71.09617415748286,
+    "location": {
+      "latitude": 42.36530168256352,
+      "longitude": -71.09617415748286
+    },
+    "timestamp": "2025-12-13T00:53:33.917Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 20.92197774985445,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T00:53:34.174Z",
+    "createdAt": "2025-12-13T00:53:34.174Z"
+  },
+  {
+    "id": "r7JI1LSolsPHuYw8YqYK",
+    "latitude": 42.36327851013762,
+    "longitude": -71.09738551709172,
+    "location": {
+      "latitude": 42.36327851013762,
+      "longitude": -71.09738551709172
+    },
+    "timestamp": "2025-12-13T00:45:16.223Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 39.44109504664515,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T00:45:20.370Z",
+    "createdAt": "2025-12-13T00:45:20.370Z"
+  },
+  {
+    "id": "1FA17iLoIkGDWTQ36djT",
+    "latitude": 42.363307338178984,
+    "longitude": -71.0969323635782,
+    "location": {
+      "latitude": 42.363307338178984,
+      "longitude": -71.0969323635782
+    },
+    "timestamp": "2025-12-13T00:44:36.293Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 4.325275795751313,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T00:44:36.575Z",
+    "createdAt": "2025-12-13T00:44:36.575Z"
+  },
+  {
+    "id": "HojOmfYjcsKj50lpEMn5",
+    "latitude": 42.36318570438956,
+    "longitude": -71.09681675074249,
+    "location": {
+      "latitude": 42.36318570438956,
+      "longitude": -71.09681675074249
+    },
+    "timestamp": "2025-12-13T00:44:27.971Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 18.928579737705796,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T00:44:29.074Z",
+    "createdAt": "2025-12-13T00:44:29.074Z"
+  },
+  {
+    "id": "cgkJvtc7zMVdZj7RR3o0",
+    "latitude": 42.363319801912176,
+    "longitude": -71.09664548145015,
+    "location": {
+      "latitude": 42.363319801912176,
+      "longitude": -71.09664548145015
+    },
+    "timestamp": "2025-12-13T00:42:10.538Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 66.3524440864548,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T00:42:10.671Z",
+    "createdAt": "2025-12-13T00:42:10.671Z"
+  },
+  {
+    "id": "z7yWjlaBWTp7c6IrDGW4",
+    "latitude": 42.363222697080296,
+    "longitude": -71.09678414155515,
+    "location": {
+      "latitude": 42.363222697080296,
+      "longitude": -71.09678414155515
+    },
+    "timestamp": "2025-12-13T00:42:02.628Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 19.781695810343905,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T00:42:02.736Z",
+    "createdAt": "2025-12-13T00:42:02.736Z"
+  },
+  {
+    "id": "nlp4hjkKhLMO1JOgzXz6",
+    "latitude": 42.3632533679673,
+    "longitude": -71.09684988348295,
+    "location": {
+      "latitude": 42.3632533679673,
+      "longitude": -71.09684988348295
+    },
+    "timestamp": "2025-12-13T00:41:50.305Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 89.04824381856578,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T00:41:50.475Z",
+    "createdAt": "2025-12-13T00:41:50.475Z"
+  },
+  {
+    "id": "I8RSXH7m2hiFsOwhOIWd",
+    "latitude": 42.363295002395795,
+    "longitude": -71.09687429846727,
+    "location": {
+      "latitude": 42.363295002395795,
+      "longitude": -71.09687429846727
+    },
+    "timestamp": "2025-12-13T00:41:29.621Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 27.506768814335764,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T00:41:36.771Z",
+    "createdAt": "2025-12-13T00:41:36.771Z"
+  },
+  {
+    "id": "Pg0RJSUf60Z4jEt0Y9Oj",
+    "latitude": 42.36058495804806,
+    "longitude": -71.0953635504955,
+    "location": {
+      "latitude": 42.36058495804806,
+      "longitude": -71.0953635504955
+    },
+    "timestamp": "2025-12-13T00:37:08.027Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 18.957786580925017,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-13T00:37:24.698Z",
+    "createdAt": "2025-12-13T00:37:24.698Z"
+  },
+  {
+    "id": "IRThRWXPLCOlVAkHecyg",
+    "latitude": 42.35975981371864,
+    "longitude": -71.0934765644585,
+    "location": {
+      "latitude": 42.35975981371864,
+      "longitude": -71.0934765644585
+    },
+    "timestamp": "2025-12-12T23:07:05.279Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 8.695014,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T23:07:05.434Z",
+    "createdAt": "2025-12-12T23:07:05.434Z"
+  },
+  {
+    "id": "KGCiq5yR79UvVaknbi33",
+    "latitude": 42.359427172040796,
+    "longitude": -71.09360338360331,
+    "location": {
+      "latitude": 42.359427172040796,
+      "longitude": -71.09360338360331
+    },
+    "timestamp": "2025-12-12T23:05:17.925Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 19.91627017577958,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T23:05:18.072Z",
+    "createdAt": "2025-12-12T23:05:18.072Z"
+  },
+  {
+    "id": "XU4YKgsBW8oCpOTNqjiL",
+    "latitude": 42.3596208174879,
+    "longitude": -71.09348130114402,
+    "location": {
+      "latitude": 42.3596208174879,
+      "longitude": -71.09348130114402
+    },
+    "timestamp": "2025-12-12T23:05:14.772Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 13.09310014893853,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T23:05:16.763Z",
+    "createdAt": "2025-12-12T23:05:16.763Z"
+  },
+  {
+    "id": "r5Aod1mUxlNH1tgEWPuS",
+    "latitude": 42.359760738913124,
+    "longitude": -71.09346748527919,
+    "location": {
+      "latitude": 42.359760738913124,
+      "longitude": -71.09346748527919
+    },
+    "timestamp": "2025-12-12T23:04:46.975Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 17.795014,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T23:04:47.267Z",
+    "createdAt": "2025-12-12T23:04:47.267Z"
+  },
+  {
+    "id": "LcXIXTGJlDl4SrMoQ3O4",
+    "latitude": 42.35982212987752,
+    "longitude": -71.09407605481685,
+    "location": {
+      "latitude": 42.35982212987752,
+      "longitude": -71.09407605481685
+    },
+    "timestamp": "2025-12-12T23:01:17.000Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 8.427892252582067,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T23:01:17.177Z",
+    "createdAt": "2025-12-12T23:01:17.177Z"
+  },
+  {
+    "id": "gd6J1uKuZOsxQYGZOHpp",
+    "latitude": 42.35972371082821,
+    "longitude": -71.09406379890198,
+    "location": {
+      "latitude": 42.35972371082821,
+      "longitude": -71.09406379890198
+    },
+    "timestamp": "2025-12-12T23:01:11.000Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 4.748651530192701,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T23:01:11.207Z",
+    "createdAt": "2025-12-12T23:01:11.207Z"
+  },
+  {
+    "id": "pgwPFU4UAkfmjD1Gfssd",
+    "latitude": 42.35962548129985,
+    "longitude": -71.09397963104846,
+    "location": {
+      "latitude": 42.35962548129985,
+      "longitude": -71.09397963104846
+    },
+    "timestamp": "2025-12-12T23:01:07.000Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 4.748651530192541,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T23:01:07.231Z",
+    "createdAt": "2025-12-12T23:01:07.231Z"
+  },
+  {
+    "id": "7b0LMTJdNtzV0B8XDdnG",
+    "latitude": 42.35953134703061,
+    "longitude": -71.09387286900065,
+    "location": {
+      "latitude": 42.35953134703061,
+      "longitude": -71.09387286900065
+    },
+    "timestamp": "2025-12-12T23:01:03.000Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 4.748651530191935,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T23:01:03.559Z",
+    "createdAt": "2025-12-12T23:01:03.559Z"
+  },
+  {
+    "id": "pAIV6T7BggeTjgn3awY8",
+    "latitude": 42.35945251762089,
+    "longitude": -71.09380485136296,
+    "location": {
+      "latitude": 42.35945251762089,
+      "longitude": -71.09380485136296
+    },
+    "timestamp": "2025-12-12T23:01:00.000Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 4.748651530191865,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T23:01:01.535Z",
+    "createdAt": "2025-12-12T23:01:01.535Z"
+  },
+  {
+    "id": "JjDpkNM6UkCa3Gd6whTQ",
+    "latitude": 42.35937158297146,
+    "longitude": -71.09372706296996,
+    "location": {
+      "latitude": 42.35937158297146,
+      "longitude": -71.09372706296996
+    },
+    "timestamp": "2025-12-12T23:00:57.000Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 4.748651530191764,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T23:00:57.772Z",
+    "createdAt": "2025-12-12T23:00:57.772Z"
+  },
+  {
+    "id": "FhxHLWUppUifT1pKL2fB",
+    "latitude": 42.3587710655161,
+    "longitude": -71.09332623874627,
+    "location": {
+      "latitude": 42.3587710655161,
+      "longitude": -71.09332623874627
+    },
+    "timestamp": "2025-12-12T23:00:40.005Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 17.295014,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T23:00:55.311Z",
+    "createdAt": "2025-12-12T23:00:55.311Z"
+  },
+  {
+    "id": "O43KmORAGrYZKu1scGRi",
+    "latitude": 42.358266157298104,
+    "longitude": -71.0903615413683,
+    "location": {
+      "latitude": 42.358266157298104,
+      "longitude": -71.0903615413683
+    },
+    "timestamp": "2025-12-12T22:58:54.723Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 5.6335523455744445,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T22:58:54.882Z",
+    "createdAt": "2025-12-12T22:58:54.882Z"
+  },
+  {
+    "id": "715sV4Xl8ARUCQEy3p4l",
+    "latitude": 42.35832736797854,
+    "longitude": -71.09021525157428,
+    "location": {
+      "latitude": 42.35832736797854,
+      "longitude": -71.09021525157428
+    },
+    "timestamp": "2025-12-12T22:58:50.723Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 28.045697974648903,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T22:58:50.843Z",
+    "createdAt": "2025-12-12T22:58:50.843Z"
+  },
+  {
+    "id": "bUJY2WIE9myTupimSHXk",
+    "latitude": 42.35844228895082,
+    "longitude": -71.0897579005438,
+    "location": {
+      "latitude": 42.35844228895082,
+      "longitude": -71.0897579005438
+    },
+    "timestamp": "2025-12-12T22:58:47.328Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 40.17587186436064,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T22:58:47.861Z",
+    "createdAt": "2025-12-12T22:58:47.861Z"
+  },
+  {
+    "id": "wQjCjLN5jvrPXgOtUtDz",
+    "latitude": 42.35852065746392,
+    "longitude": -71.08956642741408,
+    "location": {
+      "latitude": 42.35852065746392,
+      "longitude": -71.08956642741408
+    },
+    "timestamp": "2025-12-12T22:58:35.567Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 9.361462955777492,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T22:58:36.999Z",
+    "createdAt": "2025-12-12T22:58:36.999Z"
+  },
+  {
+    "id": "p0em8HkMBHsXy6KaePlM",
+    "latitude": 42.358772097907575,
+    "longitude": -71.08894603019111,
+    "location": {
+      "latitude": 42.358772097907575,
+      "longitude": -71.08894603019111
+    },
+    "timestamp": "2025-12-12T22:58:19.500Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 11.762871022415082,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T22:58:19.632Z",
+    "createdAt": "2025-12-12T22:58:19.632Z"
+  },
+  {
+    "id": "IQDJ58wrad1gXjpxVH3j",
+    "latitude": 42.3588906144264,
+    "longitude": -71.08852084374439,
+    "location": {
+      "latitude": 42.3588906144264,
+      "longitude": -71.08852084374439
+    },
+    "timestamp": "2025-12-12T22:58:13.301Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 36.34145517733731,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T22:58:17.439Z",
+    "createdAt": "2025-12-12T22:58:17.439Z"
+  },
+  {
+    "id": "2pWY9BNT4oCBsAAbxqwT",
+    "latitude": 42.36115476625472,
+    "longitude": -71.08467191549052,
+    "location": {
+      "latitude": 42.36115476625472,
+      "longitude": -71.08467191549052
+    },
+    "timestamp": "2025-12-12T22:23:33.114Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 19.542121521782136,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T22:23:35.277Z",
+    "createdAt": "2025-12-12T22:23:35.277Z"
+  },
+  {
+    "id": "xh3czZ38uSJwFf3U14Lz",
+    "latitude": 42.36115497146231,
+    "longitude": -71.08467094897959,
+    "location": {
+      "latitude": 42.36115497146231,
+      "longitude": -71.08467094897959
+    },
+    "timestamp": "2025-12-12T22:22:56.082Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 7.203440297457296,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T22:23:04.862Z",
+    "createdAt": "2025-12-12T22:23:04.862Z"
+  },
+  {
+    "id": "GVs73tTfIf9rVW481wjm",
+    "latitude": 42.3619110751189,
+    "longitude": -71.08486420583037,
+    "location": {
+      "latitude": 42.3619110751189,
+      "longitude": -71.08486420583037
+    },
+    "timestamp": "2025-12-12T19:07:57.479Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 29.695014,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T19:08:07.552Z",
+    "createdAt": "2025-12-12T19:08:07.552Z"
+  },
+  {
+    "id": "O8gWDKUNzXqmgSsCYtgu",
+    "latitude": 42.36441512361556,
+    "longitude": -71.08872566542738,
+    "location": {
+      "latitude": 42.36441512361556,
+      "longitude": -71.08872566542738
+    },
+    "timestamp": "2025-12-12T19:01:20.002Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 14.245954775028544,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T19:01:20.184Z",
+    "createdAt": "2025-12-12T19:01:20.184Z"
+  },
+  {
+    "id": "r0mywCVZb1DerPQPeyOE",
+    "latitude": 42.364461590138085,
+    "longitude": -71.08887946752725,
+    "location": {
+      "latitude": 42.364461590138085,
+      "longitude": -71.08887946752725
+    },
+    "timestamp": "2025-12-12T19:01:18.002Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 14.245954955143082,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T19:01:18.189Z",
+    "createdAt": "2025-12-12T19:01:18.189Z"
+  },
+  {
+    "id": "rN4BUNdCaw2e7hCa5Vbt",
+    "latitude": 42.36459095182625,
+    "longitude": -71.08901919774446,
+    "location": {
+      "latitude": 42.36459095182625,
+      "longitude": -71.08901919774446
+    },
+    "timestamp": "2025-12-12T19:01:13.680Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 14.245954590574112,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T19:01:13.890Z",
+    "createdAt": "2025-12-12T19:01:13.890Z"
+  },
+  {
+    "id": "NZi022Cl3rq36qjQuB4K",
+    "latitude": 42.36464310329734,
+    "longitude": -71.08913387870385,
+    "location": {
+      "latitude": 42.36464310329734,
+      "longitude": -71.08913387870385
+    },
+    "timestamp": "2025-12-12T19:01:11.680Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 14.245954590573985,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T19:01:11.856Z",
+    "createdAt": "2025-12-12T19:01:11.856Z"
+  },
+  {
+    "id": "Bum4Oqym46zOLZghn9Ca",
+    "latitude": 42.364691110283616,
+    "longitude": -71.08925139322473,
+    "location": {
+      "latitude": 42.364691110283616,
+      "longitude": -71.08925139322473
+    },
+    "timestamp": "2025-12-12T19:01:09.680Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 14.245954590573925,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T19:01:09.979Z",
+    "createdAt": "2025-12-12T19:01:09.979Z"
+  },
+  {
+    "id": "TN3twyT3enOnE0g0oHK3",
+    "latitude": 42.3647440580676,
+    "longitude": -71.08935021610068,
+    "location": {
+      "latitude": 42.3647440580676,
+      "longitude": -71.08935021610068
+    },
+    "timestamp": "2025-12-12T19:01:07.680Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 14.245954590573756,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T19:01:07.879Z",
+    "createdAt": "2025-12-12T19:01:07.879Z"
+  },
+  {
+    "id": "vN4QF9SBAec5Sp4e6vPQ",
+    "latitude": 42.36481400033317,
+    "longitude": -71.08943494364642,
+    "location": {
+      "latitude": 42.36481400033317,
+      "longitude": -71.08943494364642
+    },
+    "timestamp": "2025-12-12T19:01:05.680Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 14.245954590573806,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T19:01:05.881Z",
+    "createdAt": "2025-12-12T19:01:05.881Z"
+  },
+  {
+    "id": "UZthNWFiiOzVU3N0Im4v",
+    "latitude": 42.36487710984895,
+    "longitude": -71.08954058022309,
+    "location": {
+      "latitude": 42.36487710984895,
+      "longitude": -71.08954058022309
+    },
+    "timestamp": "2025-12-12T19:01:03.680Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 14.245954590574353,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T19:01:03.880Z",
+    "createdAt": "2025-12-12T19:01:03.880Z"
+  },
+  {
+    "id": "vQYuKfxvuLhQbL21wOCC",
+    "latitude": 42.36501627236046,
+    "longitude": -71.08970978733541,
+    "location": {
+      "latitude": 42.36501627236046,
+      "longitude": -71.08970978733541
+    },
+    "timestamp": "2025-12-12T19:01:01.680Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 14.24595459057438,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T19:01:01.979Z",
+    "createdAt": "2025-12-12T19:01:01.979Z"
+  },
+  {
+    "id": "FNtZUU3z8mP97jjGu2dI",
+    "latitude": 42.365132873076845,
+    "longitude": -71.0899039799742,
+    "location": {
+      "latitude": 42.365132873076845,
+      "longitude": -71.0899039799742
+    },
+    "timestamp": "2025-12-12T19:00:57.680Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 14.245954590573715,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T19:00:57.867Z",
+    "createdAt": "2025-12-12T19:00:57.867Z"
+  },
+  {
+    "id": "qsEq0F7coaQocqKXwxVG",
+    "latitude": 42.365221575769866,
+    "longitude": -71.09000566755347,
+    "location": {
+      "latitude": 42.365221575769866,
+      "longitude": -71.09000566755347
+    },
+    "timestamp": "2025-12-12T19:00:53.680Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 9.276579804746284,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T19:00:53.869Z",
+    "createdAt": "2025-12-12T19:00:53.869Z"
+  },
+  {
+    "id": "uZeBGlOgH93DojPZZlqd",
+    "latitude": 42.36530337932178,
+    "longitude": -71.09005997729093,
+    "location": {
+      "latitude": 42.36530337932178,
+      "longitude": -71.09005997729093
+    },
+    "timestamp": "2025-12-12T19:00:51.680Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 10.737447321862906,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T19:00:51.825Z",
+    "createdAt": "2025-12-12T19:00:51.825Z"
+  },
+  {
+    "id": "3RmkszcQlTTH1QfeMnfi",
+    "latitude": 42.36541155213328,
+    "longitude": -71.0901198616185,
+    "location": {
+      "latitude": 42.36541155213328,
+      "longitude": -71.0901198616185
+    },
+    "timestamp": "2025-12-12T19:00:49.680Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 14,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T19:00:49.855Z",
+    "createdAt": "2025-12-12T19:00:49.855Z"
+  },
+  {
+    "id": "VJaCXib6tYOxNSlgc8w3",
+    "latitude": 42.36545852364893,
+    "longitude": -71.09038068258762,
+    "location": {
+      "latitude": 42.36545852364893,
+      "longitude": -71.09038068258762
+    },
+    "timestamp": "2025-12-12T19:00:47.680Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 35.981947510537545,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T19:00:47.830Z",
+    "createdAt": "2025-12-12T19:00:47.830Z"
+  },
+  {
+    "id": "7m4ahPqxrmgi5RyCzyxf",
+    "latitude": 42.36578550066683,
+    "longitude": -71.09086096510468,
+    "location": {
+      "latitude": 42.36578550066683,
+      "longitude": -71.09086096510468
+    },
+    "timestamp": "2025-12-12T19:00:45.680Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 38.10290994080937,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T19:00:45.879Z",
+    "createdAt": "2025-12-12T19:00:45.879Z"
+  },
+  {
+    "id": "nChxL4ZSJnvXcnuCQ2b8",
+    "latitude": 42.36565719737939,
+    "longitude": -71.09149679865051,
+    "location": {
+      "latitude": 42.36565719737939,
+      "longitude": -71.09149679865051
+    },
+    "timestamp": "2025-12-12T19:00:40.738Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 51.36843848410624,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T19:00:41.084Z",
+    "createdAt": "2025-12-12T19:00:41.084Z"
+  },
+  {
+    "id": "U3zOHMsnpY0Eaz53bRDS",
+    "latitude": 42.37290761442565,
+    "longitude": -71.09993807652963,
+    "location": {
+      "latitude": 42.37290761442565,
+      "longitude": -71.09993807652963
+    },
+    "timestamp": "2025-12-12T18:56:03.093Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 15.739560280056583,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T18:56:03.283Z",
+    "createdAt": "2025-12-12T18:56:03.283Z"
+  },
+  {
+    "id": "tqrGxjUo8adwxIVgiRVn",
+    "latitude": 42.37296477880193,
+    "longitude": -71.10009771647076,
+    "location": {
+      "latitude": 42.37296477880193,
+      "longitude": -71.10009771647076
+    },
+    "timestamp": "2025-12-12T18:55:59.097Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 14,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T18:55:59.279Z",
+    "createdAt": "2025-12-12T18:55:59.279Z"
+  },
+  {
+    "id": "BH0sKPhZun5fJ6EQ01hI",
+    "latitude": 42.37370097280342,
+    "longitude": -71.10102687871365,
+    "location": {
+      "latitude": 42.37370097280342,
+      "longitude": -71.10102687871365
+    },
+    "timestamp": "2025-12-12T18:55:35.761Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 14,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T18:55:35.862Z",
+    "createdAt": "2025-12-12T18:55:35.862Z"
+  },
+  {
+    "id": "V5dcn3N4yWFgv5Z3gMrb",
+    "latitude": 42.37390406379112,
+    "longitude": -71.10111048118151,
+    "location": {
+      "latitude": 42.37390406379112,
+      "longitude": -71.10111048118151
+    },
+    "timestamp": "2025-12-12T18:55:32.318Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 37.998908056215996,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T18:55:32.517Z",
+    "createdAt": "2025-12-12T18:55:32.517Z"
+  },
+  {
+    "id": "tzlX99XHh1wMhj3WzIhO",
+    "latitude": 42.373795301697434,
+    "longitude": -71.1012499007077,
+    "location": {
+      "latitude": 42.373795301697434,
+      "longitude": -71.1012499007077
+    },
+    "timestamp": "2025-12-12T18:55:29.301Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 38.66061013038042,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T18:55:30.001Z",
+    "createdAt": "2025-12-12T18:55:30.001Z"
+  },
+  {
+    "id": "Vygy94fvTMtSssdpUrNu",
+    "latitude": 42.372850288179364,
+    "longitude": -71.10323310773126,
+    "location": {
+      "latitude": 42.372850288179364,
+      "longitude": -71.10323310773126
+    },
+    "timestamp": "2025-12-12T18:53:17.622Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 7.3648898143743695,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T18:53:19.619Z",
+    "createdAt": "2025-12-12T18:53:19.619Z"
+  },
+  {
+    "id": "fxxMHAj5upxfW5iIvAy2",
+    "latitude": 42.37286189280242,
+    "longitude": -71.10321409791561,
+    "location": {
+      "latitude": 42.37286189280242,
+      "longitude": -71.10321409791561
+    },
+    "timestamp": "2025-12-12T18:50:21.152Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 6.810971966164493,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T18:50:21.583Z",
+    "createdAt": "2025-12-12T18:50:21.583Z"
+  },
+  {
+    "id": "ZRr3pI1VtEL0hwUMkzaL",
+    "latitude": 42.37286189280242,
+    "longitude": -71.10321409791561,
+    "location": {
+      "latitude": 42.37286189280242,
+      "longitude": -71.10321409791561
+    },
+    "timestamp": "2025-12-12T18:50:09.137Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 6.810971966164493,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T18:50:09.488Z",
+    "createdAt": "2025-12-12T18:50:09.488Z"
+  },
+  {
+    "id": "q5QcDLmOSD7jzFtonN3G",
+    "latitude": 42.37286189280242,
+    "longitude": -71.10321409791561,
+    "location": {
+      "latitude": 42.37286189280242,
+      "longitude": -71.10321409791561
+    },
+    "timestamp": "2025-12-12T18:49:53.236Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 6.810971966164493,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T18:49:56.632Z",
+    "createdAt": "2025-12-12T18:49:56.632Z"
+  },
+  {
+    "id": "A7IMRkNYXmRts6MTuWAm",
+    "latitude": 42.372850288179364,
+    "longitude": -71.10323310773126,
+    "location": {
+      "latitude": 42.372850288179364,
+      "longitude": -71.10323310773126
+    },
+    "timestamp": "2025-12-12T18:30:50.141Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 7.3648898143743695,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T18:30:54.841Z",
+    "createdAt": "2025-12-12T18:30:54.841Z"
+  },
+  {
+    "id": "IbmKJOP1dBGc5APqbRCg",
+    "latitude": 42.372850288179364,
+    "longitude": -71.10323310773126,
+    "location": {
+      "latitude": 42.372850288179364,
+      "longitude": -71.10323310773126
+    },
+    "timestamp": "2025-12-12T18:29:17.124Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 7.3648898143743695,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T18:29:43.638Z",
+    "createdAt": "2025-12-12T18:29:43.638Z"
+  },
+  {
+    "id": "6VKpnrCHK7bLXe0cxpXM",
+    "latitude": 42.372850288179364,
+    "longitude": -71.10323310773126,
+    "location": {
+      "latitude": 42.372850288179364,
+      "longitude": -71.10323310773126
+    },
+    "timestamp": "2025-12-12T18:29:12.135Z",
+    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
+    "source": "device",
+    "backgroundCollected": true,
+    "dataSharingConsent": true,
+    "horizontalAccuracy": 7.3648898143743695,
+    "isARSession": false,
+    "serverTimestamp": "2025-12-12T18:29:41.912Z",
+    "createdAt": "2025-12-12T18:29:41.912Z"
+  },
+  {
     "id": "Wa92mPh12V4VCurUrHRP",
     "latitude": 42.37286189280242,
     "longitude": -71.10321409791561,
@@ -27646,959 +28942,5 @@
     "isARSession": false,
     "serverTimestamp": "2025-11-14T02:08:54.886Z",
     "createdAt": "2025-11-14T02:08:54.886Z"
-  },
-  {
-    "id": "mcyZdUoZgG5MxoA7zHFE",
-    "latitude": 42.37459168130582,
-    "longitude": -71.1135710863271,
-    "location": {
-      "latitude": 42.37459168130582,
-      "longitude": -71.1135710863271
-    },
-    "timestamp": "2025-11-13T18:34:26.059Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 78.09795117712119,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:34:26.222Z",
-    "createdAt": "2025-11-13T18:34:26.222Z"
-  },
-  {
-    "id": "H7q1XCeU6Zf9bUmUAoax",
-    "latitude": 42.37479754532935,
-    "longitude": -71.11410078696757,
-    "location": {
-      "latitude": 42.37479754532935,
-      "longitude": -71.11410078696757
-    },
-    "timestamp": "2025-11-13T18:34:14.001Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 20.949053329684308,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:34:20.110Z",
-    "createdAt": "2025-11-13T18:34:20.110Z"
-  },
-  {
-    "id": "jhS5riXZpNHNFuO8y2vp",
-    "latitude": 42.374829824389586,
-    "longitude": -71.1141643904489,
-    "location": {
-      "latitude": 42.374829824389586,
-      "longitude": -71.1141643904489
-    },
-    "timestamp": "2025-11-13T18:34:05.001Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 14,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:34:05.319Z",
-    "createdAt": "2025-11-13T18:34:05.319Z"
-  },
-  {
-    "id": "t7IBeTY9ythKA4tgY75Z",
-    "latitude": 42.37476359202428,
-    "longitude": -71.11426756225013,
-    "location": {
-      "latitude": 42.37476359202428,
-      "longitude": -71.11426756225013
-    },
-    "timestamp": "2025-11-13T18:33:53.357Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 17.249132096729305,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:33:53.533Z",
-    "createdAt": "2025-11-13T18:33:53.533Z"
-  },
-  {
-    "id": "Rhow05RCf7sLKn6IoC4t",
-    "latitude": 42.374917029076805,
-    "longitude": -71.11435662163076,
-    "location": {
-      "latitude": 42.374917029076805,
-      "longitude": -71.11435662163076
-    },
-    "timestamp": "2025-11-13T18:33:49.923Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 36.695014,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:33:50.387Z",
-    "createdAt": "2025-11-13T18:33:50.387Z"
-  },
-  {
-    "id": "8C164ob8lDYyhvpxBQym",
-    "latitude": 42.375065116629095,
-    "longitude": -71.11095952735796,
-    "location": {
-      "latitude": 42.375065116629095,
-      "longitude": -71.11095952735796
-    },
-    "timestamp": "2025-11-13T18:31:45.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 14.245954613404917,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:31:45.170Z",
-    "createdAt": "2025-11-13T18:31:45.170Z"
-  },
-  {
-    "id": "iPXPeMndAeW36CmmtTDV",
-    "latitude": 42.375049254161105,
-    "longitude": -71.1107823367612,
-    "location": {
-      "latitude": 42.375049254161105,
-      "longitude": -71.1107823367612
-    },
-    "timestamp": "2025-11-13T18:31:42.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 14.245954665488263,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:31:42.169Z",
-    "createdAt": "2025-11-13T18:31:42.169Z"
-  },
-  {
-    "id": "I2G8I4k3BnTpFuZzaM9P",
-    "latitude": 42.37504853241543,
-    "longitude": -71.11061697715623,
-    "location": {
-      "latitude": 42.37504853241543,
-      "longitude": -71.11061697715623
-    },
-    "timestamp": "2025-11-13T18:31:39.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 14.245954590578338,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:31:39.173Z",
-    "createdAt": "2025-11-13T18:31:39.173Z"
-  },
-  {
-    "id": "g3kVzuTpNv9ljZFp0QwY",
-    "latitude": 42.375035323220324,
-    "longitude": -71.11049194985345,
-    "location": {
-      "latitude": 42.375035323220324,
-      "longitude": -71.11049194985345
-    },
-    "timestamp": "2025-11-13T18:31:37.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 14.245954590576778,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:31:37.186Z",
-    "createdAt": "2025-11-13T18:31:37.186Z"
-  },
-  {
-    "id": "VmOmQi0grFtKhW2Zh7q3",
-    "latitude": 42.37501662755035,
-    "longitude": -71.11036517175909,
-    "location": {
-      "latitude": 42.37501662755035,
-      "longitude": -71.11036517175909
-    },
-    "timestamp": "2025-11-13T18:31:35.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 14.245954590576869,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:31:35.201Z",
-    "createdAt": "2025-11-13T18:31:35.201Z"
-  },
-  {
-    "id": "5PDG4xBYAX6eLVU7NaqS",
-    "latitude": 42.374974124388736,
-    "longitude": -71.11021726277994,
-    "location": {
-      "latitude": 42.374974124388736,
-      "longitude": -71.11021726277994
-    },
-    "timestamp": "2025-11-13T18:31:32.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 14.245954590578878,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:31:32.214Z",
-    "createdAt": "2025-11-13T18:31:32.214Z"
-  },
-  {
-    "id": "MsltkYmnGWRDOZjjy4Zm",
-    "latitude": 42.37495327650579,
-    "longitude": -71.11007354107744,
-    "location": {
-      "latitude": 42.37495327650579,
-      "longitude": -71.11007354107744
-    },
-    "timestamp": "2025-11-13T18:31:29.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 14.245954590575636,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:31:29.182Z",
-    "createdAt": "2025-11-13T18:31:29.182Z"
-  },
-  {
-    "id": "kYEFC5aUmALBTX58YBYN",
-    "latitude": 42.37494552839384,
-    "longitude": -71.10994133989317,
-    "location": {
-      "latitude": 42.37494552839384,
-      "longitude": -71.10994133989317
-    },
-    "timestamp": "2025-11-13T18:31:24.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 14.245954590575435,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:31:24.172Z",
-    "createdAt": "2025-11-13T18:31:24.172Z"
-  },
-  {
-    "id": "Ajt3qdE0oh98WjmLKF3v",
-    "latitude": 42.37491681881883,
-    "longitude": -71.10981509004253,
-    "location": {
-      "latitude": 42.37491681881883,
-      "longitude": -71.10981509004253
-    },
-    "timestamp": "2025-11-13T18:31:17.986Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 4.143678944169094,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:31:18.182Z",
-    "createdAt": "2025-11-13T18:31:18.182Z"
-  },
-  {
-    "id": "rZ4PeG8c3ixlqAO0kfkZ",
-    "latitude": 42.374909323259246,
-    "longitude": -71.10967726940002,
-    "location": {
-      "latitude": 42.374909323259246,
-      "longitude": -71.10967726940002
-    },
-    "timestamp": "2025-11-13T18:31:14.986Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 5.509921576487558,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:31:15.137Z",
-    "createdAt": "2025-11-13T18:31:15.137Z"
-  },
-  {
-    "id": "9fMvCf3SKFKnUGZxFPKU",
-    "latitude": 42.3748836208419,
-    "longitude": -71.10952090018525,
-    "location": {
-      "latitude": 42.3748836208419,
-      "longitude": -71.10952090018525
-    },
-    "timestamp": "2025-11-13T18:31:11.986Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 14,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:31:13.711Z",
-    "createdAt": "2025-11-13T18:31:13.711Z"
-  },
-  {
-    "id": "QsX6ZnVVaKLzko4XsWWX",
-    "latitude": 42.37488743138654,
-    "longitude": -71.1093213888541,
-    "location": {
-      "latitude": 42.37488743138654,
-      "longitude": -71.1093213888541
-    },
-    "timestamp": "2025-11-13T18:31:10.651Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 18.154998280473727,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:31:13.477Z",
-    "createdAt": "2025-11-13T18:31:13.477Z"
-  },
-  {
-    "id": "Z8nWLdRjePnlOdMdnor9",
-    "latitude": 42.37484650633316,
-    "longitude": -71.10917068646614,
-    "location": {
-      "latitude": 42.37484650633316,
-      "longitude": -71.10917068646614
-    },
-    "timestamp": "2025-11-13T18:31:06.709Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 20.874781485048256,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:31:13.152Z",
-    "createdAt": "2025-11-13T18:31:13.152Z"
-  },
-  {
-    "id": "OnJRqDLTILVqUP5c9dMN",
-    "latitude": 42.37430952736841,
-    "longitude": -71.10491143881659,
-    "location": {
-      "latitude": 42.37430952736841,
-      "longitude": -71.10491143881659
-    },
-    "timestamp": "2025-11-13T18:29:53.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 14.20909234882679,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:29:53.206Z",
-    "createdAt": "2025-11-13T18:29:53.206Z"
-  },
-  {
-    "id": "ze5Ms0Y1fYandgPlhmM6",
-    "latitude": 42.3742902206208,
-    "longitude": -71.10473421448086,
-    "location": {
-      "latitude": 42.3742902206208,
-      "longitude": -71.10473421448086
-    },
-    "timestamp": "2025-11-13T18:29:50.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 14.186976992422007,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:29:50.520Z",
-    "createdAt": "2025-11-13T18:29:50.520Z"
-  },
-  {
-    "id": "0Oma8sgeTreNUHvZFuBV",
-    "latitude": 42.37426514555329,
-    "longitude": -71.1045809582942,
-    "location": {
-      "latitude": 42.37426514555329,
-      "longitude": -71.1045809582942
-    },
-    "timestamp": "2025-11-13T18:29:47.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 14.102855685740138,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:29:47.233Z",
-    "createdAt": "2025-11-13T18:29:47.233Z"
-  },
-  {
-    "id": "3dmomKJotWMr6SZZQXyZ",
-    "latitude": 42.37415149723488,
-    "longitude": -71.1037339730138,
-    "location": {
-      "latitude": 42.37415149723488,
-      "longitude": -71.1037339730138
-    },
-    "timestamp": "2025-11-13T18:29:30.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 9.450962160350997,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:29:44.218Z",
-    "createdAt": "2025-11-13T18:29:44.218Z"
-  },
-  {
-    "id": "72PKqRfSPR60oETSaevA",
-    "latitude": 42.37414119264619,
-    "longitude": -71.10361126947232,
-    "location": {
-      "latitude": 42.37414119264619,
-      "longitude": -71.10361126947232
-    },
-    "timestamp": "2025-11-13T18:29:27.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 6.908712838928093,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:29:27.268Z",
-    "createdAt": "2025-11-13T18:29:27.268Z"
-  },
-  {
-    "id": "nyd4zDSDikp6PrQiRJpR",
-    "latitude": 42.37411090844858,
-    "longitude": -71.10342559121649,
-    "location": {
-      "latitude": 42.37411090844858,
-      "longitude": -71.10342559121649
-    },
-    "timestamp": "2025-11-13T18:29:23.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 2.000000030482473,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:29:24.558Z",
-    "createdAt": "2025-11-13T18:29:24.558Z"
-  },
-  {
-    "id": "rhqIo1TE2vk5YGKmffxb",
-    "latitude": 42.37407112558919,
-    "longitude": -71.10308919852909,
-    "location": {
-      "latitude": 42.37407112558919,
-      "longitude": -71.10308919852909
-    },
-    "timestamp": "2025-11-13T18:29:16.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 4.748651530195689,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-13T18:29:20.581Z",
-    "createdAt": "2025-11-13T18:29:20.581Z"
-  },
-  {
-    "id": "Q0rqMigBKdcHPFrwjSOR",
-    "latitude": 42.372816251721005,
-    "longitude": -71.10324646302894,
-    "location": {
-      "latitude": 42.372816251721005,
-      "longitude": -71.10324646302894
-    },
-    "timestamp": "2025-11-12T23:05:17.762Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 8.195014,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T23:05:45.611Z",
-    "createdAt": "2025-11-12T23:05:45.611Z"
-  },
-  {
-    "id": "SlUxtzm96YWKcS26nSCv",
-    "latitude": 42.37281767764192,
-    "longitude": -71.10327053116595,
-    "location": {
-      "latitude": 42.37281767764192,
-      "longitude": -71.10327053116595
-    },
-    "timestamp": "2025-11-12T22:31:27.142Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 7.110536618760523,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:31:27.263Z",
-    "createdAt": "2025-11-12T22:31:27.263Z"
-  },
-  {
-    "id": "JGjT8VFNkDkOMnC4ZEgI",
-    "latitude": 42.372672024828574,
-    "longitude": -71.10338899932896,
-    "location": {
-      "latitude": 42.372672024828574,
-      "longitude": -71.10338899932896
-    },
-    "timestamp": "2025-11-12T22:31:23.707Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 15.32094624533608,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:31:25.011Z",
-    "createdAt": "2025-11-12T22:31:25.011Z"
-  },
-  {
-    "id": "ubqNBHk25dexVZF24Ez7",
-    "latitude": 42.37281626045446,
-    "longitude": -71.10324643821544,
-    "location": {
-      "latitude": 42.37281626045446,
-      "longitude": -71.10324643821544
-    },
-    "timestamp": "2025-11-12T22:31:16.746Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 6.697049560907819,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:31:17.145Z",
-    "createdAt": "2025-11-12T22:31:17.145Z"
-  },
-  {
-    "id": "GqnTd7dVsLNHiuEKo4Uo",
-    "latitude": 42.37281767764192,
-    "longitude": -71.10327053116595,
-    "location": {
-      "latitude": 42.37281767764192,
-      "longitude": -71.10327053116595
-    },
-    "timestamp": "2025-11-12T22:26:48.288Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 7.110536618760523,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:26:48.845Z",
-    "createdAt": "2025-11-12T22:26:48.845Z"
-  },
-  {
-    "id": "V88pscqOzpKbMqb4ZpWq",
-    "latitude": 42.37286282363862,
-    "longitude": -71.10294591922055,
-    "location": {
-      "latitude": 42.37286282363862,
-      "longitude": -71.10294591922055
-    },
-    "timestamp": "2025-11-12T22:26:30.373Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 14.84508542834356,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:26:32.826Z",
-    "createdAt": "2025-11-12T22:26:32.826Z"
-  },
-  {
-    "id": "N0umPOFuvX7oQdThd4jA",
-    "latitude": 42.36597436023875,
-    "longitude": -71.10453750409812,
-    "location": {
-      "latitude": 42.36597436023875,
-      "longitude": -71.10453750409812
-    },
-    "timestamp": "2025-11-12T22:21:37.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 14.245954590576938,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:21:37.197Z",
-    "createdAt": "2025-11-12T22:21:37.197Z"
-  },
-  {
-    "id": "QnzRqLzowN7540oRFz5w",
-    "latitude": 42.36587945134226,
-    "longitude": -71.10441050104524,
-    "location": {
-      "latitude": 42.36587945134226,
-      "longitude": -71.10441050104524
-    },
-    "timestamp": "2025-11-12T22:21:34.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 3.4228109612249122,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:21:34.199Z",
-    "createdAt": "2025-11-12T22:21:34.199Z"
-  },
-  {
-    "id": "eufRJ75xiRP6iCicFPYa",
-    "latitude": 42.36578100165812,
-    "longitude": -71.10427773702487,
-    "location": {
-      "latitude": 42.36578100165812,
-      "longitude": -71.10427773702487
-    },
-    "timestamp": "2025-11-12T22:21:31.000Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 3.4589810856094747,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:21:31.152Z",
-    "createdAt": "2025-11-12T22:21:31.152Z"
-  },
-  {
-    "id": "soZIgLoebI4cm7tDVhiJ",
-    "latitude": 42.365695277988394,
-    "longitude": -71.10413370582101,
-    "location": {
-      "latitude": 42.365695277988394,
-      "longitude": -71.10413370582101
-    },
-    "timestamp": "2025-11-12T22:21:28.059Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 4.3046989011946515,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:21:28.433Z",
-    "createdAt": "2025-11-12T22:21:28.433Z"
-  },
-  {
-    "id": "1dyN1b5lLyOTgS1cTT2M",
-    "latitude": 42.36330857380105,
-    "longitude": -71.10003696893305,
-    "location": {
-      "latitude": 42.36330857380105,
-      "longitude": -71.10003696893305
-    },
-    "timestamp": "2025-11-12T22:19:10.999Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 4.5019317689542335,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:19:11.202Z",
-    "createdAt": "2025-11-12T22:19:11.202Z"
-  },
-  {
-    "id": "LPgi1rOaVRTvcIevSmE1",
-    "latitude": 42.363222358887505,
-    "longitude": -71.09994297234701,
-    "location": {
-      "latitude": 42.363222358887505,
-      "longitude": -71.09994297234701
-    },
-    "timestamp": "2025-11-12T22:19:07.838Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 16.567260733186675,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:19:08.021Z",
-    "createdAt": "2025-11-12T22:19:08.021Z"
-  },
-  {
-    "id": "bs5kqn1ckv0fDH3rLZkx",
-    "latitude": 42.36285878798621,
-    "longitude": -71.09943533034257,
-    "location": {
-      "latitude": 42.36285878798621,
-      "longitude": -71.09943533034257
-    },
-    "timestamp": "2025-11-12T22:19:05.558Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 21.22072337548244,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:19:05.742Z",
-    "createdAt": "2025-11-12T22:19:05.742Z"
-  },
-  {
-    "id": "vhe1uJu7lLEReVPSkxC2",
-    "latitude": 42.36276263669074,
-    "longitude": -71.09931802241064,
-    "location": {
-      "latitude": 42.36276263669074,
-      "longitude": -71.09931802241064
-    },
-    "timestamp": "2025-11-12T22:18:44.486Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 17.705008085359957,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:18:44.598Z",
-    "createdAt": "2025-11-12T22:18:44.598Z"
-  },
-  {
-    "id": "aNEKclsAUwEYzk4I8Ulh",
-    "latitude": 42.36265897793474,
-    "longitude": -71.09909915928249,
-    "location": {
-      "latitude": 42.36265897793474,
-      "longitude": -71.09909915928249
-    },
-    "timestamp": "2025-11-12T22:18:43.098Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 20.80410720952016,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:18:43.751Z",
-    "createdAt": "2025-11-12T22:18:43.751Z"
-  },
-  {
-    "id": "5SVLE4n41lmAQQP0Lrjf",
-    "latitude": 42.362784823509124,
-    "longitude": -71.0993206209633,
-    "location": {
-      "latitude": 42.362784823509124,
-      "longitude": -71.0993206209633
-    },
-    "timestamp": "2025-11-12T22:18:20.649Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 15.085394577539077,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:18:21.256Z",
-    "createdAt": "2025-11-12T22:18:21.256Z"
-  },
-  {
-    "id": "IkVv8ooF1vzWwwlBsCgi",
-    "latitude": 42.36268051310036,
-    "longitude": -71.09919267989197,
-    "location": {
-      "latitude": 42.36268051310036,
-      "longitude": -71.09919267989197
-    },
-    "timestamp": "2025-11-12T22:18:17.699Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 19.957303775483407,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:18:18.143Z",
-    "createdAt": "2025-11-12T22:18:18.143Z"
-  },
-  {
-    "id": "uBZ9s8aAmNtFaHfIHE8o",
-    "latitude": 42.360753852984445,
-    "longitude": -71.09572526718578,
-    "location": {
-      "latitude": 42.360753852984445,
-      "longitude": -71.09572526718578
-    },
-    "timestamp": "2025-11-12T22:16:32.500Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 10.873463886402408,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:16:32.726Z",
-    "createdAt": "2025-11-12T22:16:32.726Z"
-  },
-  {
-    "id": "93rdGmldMk5cIp2RFUsm",
-    "latitude": 42.3608968773254,
-    "longitude": -71.09580058775727,
-    "location": {
-      "latitude": 42.3608968773254,
-      "longitude": -71.09580058775727
-    },
-    "timestamp": "2025-11-12T22:16:28.253Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 64.02783802191902,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:16:28.446Z",
-    "createdAt": "2025-11-12T22:16:28.446Z"
-  },
-  {
-    "id": "gblJQIfZuLWx2zY2a1ed",
-    "latitude": 42.359806151657736,
-    "longitude": -71.09336367147633,
-    "location": {
-      "latitude": 42.359806151657736,
-      "longitude": -71.09336367147633
-    },
-    "timestamp": "2025-11-12T22:08:55.366Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 14.419706557504911,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:09:01.672Z",
-    "createdAt": "2025-11-12T22:09:01.672Z"
-  },
-  {
-    "id": "IR1KVyK3zXNxunejLonM",
-    "latitude": 42.35978039008501,
-    "longitude": -71.09343930927722,
-    "location": {
-      "latitude": 42.35978039008501,
-      "longitude": -71.09343930927722
-    },
-    "timestamp": "2025-11-12T22:06:58.745Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 12.91242399370743,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:07:02.850Z",
-    "createdAt": "2025-11-12T22:07:02.850Z"
-  },
-  {
-    "id": "SagewSJH7UDUvka3qPBV",
-    "latitude": 42.35975020826672,
-    "longitude": -71.09344302584861,
-    "location": {
-      "latitude": 42.35975020826672,
-      "longitude": -71.09344302584861
-    },
-    "timestamp": "2025-11-12T22:05:08.211Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 10.795014,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T22:05:10.751Z",
-    "createdAt": "2025-11-12T22:05:10.751Z"
-  },
-  {
-    "id": "PBs76eTfYipF4GltsdKW",
-    "latitude": 42.359100178605985,
-    "longitude": -71.08923458464798,
-    "location": {
-      "latitude": 42.359100178605985,
-      "longitude": -71.08923458464798
-    },
-    "timestamp": "2025-11-12T18:46:44.210Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 13.106060386591716,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T18:46:44.302Z",
-    "createdAt": "2025-11-12T18:46:44.302Z"
-  },
-  {
-    "id": "ED52ap00X9wETJ9NoB5u",
-    "latitude": 42.35945359571325,
-    "longitude": -71.09000331971286,
-    "location": {
-      "latitude": 42.35945359571325,
-      "longitude": -71.09000331971286
-    },
-    "timestamp": "2025-11-12T18:40:27.767Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 13.05086323293761,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T18:40:28.406Z",
-    "createdAt": "2025-11-12T18:40:28.406Z"
-  },
-  {
-    "id": "OSLwr7qcPuO8NVHvPo8m",
-    "latitude": 42.35930443939103,
-    "longitude": -71.0923538938228,
-    "location": {
-      "latitude": 42.35930443939103,
-      "longitude": -71.0923538938228
-    },
-    "timestamp": "2025-11-12T18:33:37.550Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 24.00729004296516,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T18:33:39.204Z",
-    "createdAt": "2025-11-12T18:33:39.204Z"
-  },
-  {
-    "id": "0ggt0iVO8rXcfc7UqTeE",
-    "latitude": 42.35915904670324,
-    "longitude": -71.09324711165092,
-    "location": {
-      "latitude": 42.35915904670324,
-      "longitude": -71.09324711165092
-    },
-    "timestamp": "2025-11-12T18:30:34.814Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 28.791830825083487,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T18:30:40.804Z",
-    "createdAt": "2025-11-12T18:30:40.804Z"
-  },
-  {
-    "id": "M2MdTrVJrKqZhcnQW9Zq",
-    "latitude": 42.35916006887229,
-    "longitude": -71.09324563726828,
-    "location": {
-      "latitude": 42.35916006887229,
-      "longitude": -71.09324563726828
-    },
-    "timestamp": "2025-11-12T18:30:19.581Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 14.25533660793234,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T18:30:19.807Z",
-    "createdAt": "2025-11-12T18:30:19.807Z"
-  },
-  {
-    "id": "Gyibqb0uaRh708VABgj8",
-    "latitude": 42.35916112870454,
-    "longitude": -71.09324408501048,
-    "location": {
-      "latitude": 42.35916112870454,
-      "longitude": -71.09324408501048
-    },
-    "timestamp": "2025-11-12T18:30:02.275Z",
-    "userId": "qaCPu4bNgYOFsjQaSRjjMb4fJRf2",
-    "source": "device",
-    "backgroundCollected": true,
-    "dataSharingConsent": true,
-    "horizontalAccuracy": 9.947060229612287,
-    "isARSession": false,
-    "serverTimestamp": "2025-11-12T18:30:05.697Z",
-    "createdAt": "2025-11-12T18:30:05.697Z"
   }
 ]
