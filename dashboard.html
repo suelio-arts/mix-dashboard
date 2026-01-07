@@ -1006,6 +1006,74 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Walk Score Section Header -->
+            <div class="analytics-card wide" style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white;">
+                <h3 style="color: white;">Walk Score Analytics <span class="thesis-badge" style="background: rgba(255,255,255,0.2); color: white;">Walkability</span></h3>
+                <p class="card-description" style="color: rgba(255,255,255,0.8);">Contextualizing walking behavior against neighborhood walkability scores</p>
+                <div id="walkscore-status" style="font-size: 12px; margin-top: 8px; color: rgba(255,255,255,0.7);">
+                    Loading Walk Score data...
+                </div>
+            </div>
+
+            <!-- Walking Efficiency Index -->
+            <div class="analytics-card">
+                <h3>Walking Efficiency <span class="thesis-badge">Walkability</span></h3>
+                <p class="card-description">Are you walking as much as your environment enables?</p>
+                <div class="analytics-chart-container">
+                    <div id="walking-efficiency-display" style="height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <div id="efficiency-value" style="font-size: 64px; font-weight: 700; color: #3b82f6;">--</div>
+                        <div style="font-size: 14px; color: #6b7280; margin-top: 8px;">efficiency index</div>
+                        <div id="efficiency-label" style="font-size: 12px; color: #9ca3af; margin-top: 16px; text-align: center;">
+                            1.0 = walking as expected for walkability
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Time by Walkability Zone -->
+            <div class="analytics-card">
+                <h3>Time by Walkability <span class="thesis-badge">Walkability</span></h3>
+                <p class="card-description">Hours spent in areas by Walk Score category</p>
+                <div class="analytics-chart-container">
+                    <canvas id="walkability-zone-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Walking Rate vs Walk Score -->
+            <div class="analytics-card wide">
+                <h3>Walking Rate vs Walkability <span class="thesis-badge">Walkability</span></h3>
+                <p class="card-description">Your walking percentage compared to area Walk Score</p>
+                <div class="analytics-chart-container" style="height: 200px;">
+                    <canvas id="walking-vs-walkscore-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Walk Score Statistics -->
+            <div class="analytics-card">
+                <h3>Walkability Statistics <span class="thesis-badge">Walkability</span></h3>
+                <p class="card-description">Summary of walkability across visited locations</p>
+                <div class="analytics-chart-container">
+                    <div id="walkscore-stats-display" style="height: 250px; display: flex; flex-direction: column; justify-content: center; padding: 20px;">
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                            <span style="color: #6b7280; font-size: 14px;">Avg Walk Score</span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-avg-walkscore">--</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                            <span style="color: #6b7280; font-size: 14px;">Time-Weighted Avg</span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-weighted-walkscore">--</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                            <span style="color: #6b7280; font-size: 14px;">Walking in High Walkability</span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-walking-high">--</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0;">
+                            <span style="color: #6b7280; font-size: 14px;">Walking in Low Walkability</span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-walking-low">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1021,6 +1089,7 @@
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
         import { getFirestore, collection, query, where, orderBy, getDocs, Timestamp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
+        import { getFunctions, httpsCallable } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-functions.js';
 
         // Firebase configuration
         const firebaseConfig = {
@@ -1035,6 +1104,7 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const functions = getFunctions(app);
 
         // User ID to query
         const USER_ID = 'qaCPu4bNgYOFsjQaSRjjMb4fJRf2';
@@ -1047,6 +1117,10 @@
         window.firestoreOrderBy = orderBy;
         window.firestoreGetDocs = getDocs;
         window.firestoreTimestamp = Timestamp;
+
+        // Make Functions available globally
+        window.firebaseFunctions = functions;
+        window.httpsCallable = httpsCallable;
         window.FIRESTORE_USER_ID = USER_ID;
         window.firebaseReady = true;
 
@@ -1946,7 +2020,7 @@
                 analyticsCharts.homeDetectionMap.remove();
             }
 
-            // Destroy Chart.js charts
+            // Destroy Chart.js charts (includes Walk Score charts)
             Object.entries(analyticsCharts).forEach(([key, chart]) => {
                 if (key !== 'homeDetectionMap' && chart && typeof chart.destroy === 'function') {
                     chart.destroy();
@@ -2028,6 +2102,557 @@
                 return minDistance > HOME_THRESHOLD;
             });
         }
+
+        // ============================================================
+        // WALK SCORE ANALYTICS
+        // ============================================================
+
+        // Walk Score cache in localStorage
+        const WALKSCORE_CACHE_KEY = 'walkscore_cache_v1';
+        const WALKSCORE_CACHE_TTL = 30 * 24 * 60 * 60 * 1000; // 30 days
+
+        // Get cached Walk Score data
+        function getWalkScoreCache() {
+            try {
+                const cached = localStorage.getItem(WALKSCORE_CACHE_KEY);
+                if (!cached) return {};
+                return JSON.parse(cached);
+            } catch (e) {
+                return {};
+            }
+        }
+
+        // Save Walk Score to cache
+        function saveWalkScoreCache(cache) {
+            try {
+                localStorage.setItem(WALKSCORE_CACHE_KEY, JSON.stringify(cache));
+            } catch (e) {
+                console.warn('Failed to save Walk Score cache:', e);
+            }
+        }
+
+        // Get grid cell key for a coordinate (~200m resolution)
+        function getWalkScoreGridKey(lat, lon) {
+            // Round to ~200m grid (0.002 degrees ~ 200m)
+            const gridLat = Math.round(lat / 0.002) * 0.002;
+            const gridLon = Math.round(lon / 0.002) * 0.002;
+            return `${gridLat.toFixed(3)},${gridLon.toFixed(3)}`;
+        }
+
+        // Get Walk Score category
+        function getWalkScoreCategory(score) {
+            if (score >= 90) return { label: "Walker's Paradise", bucket: 'high', color: '#22c55e' };
+            if (score >= 70) return { label: 'Very Walkable', bucket: 'high', color: '#84cc16' };
+            if (score >= 50) return { label: 'Somewhat Walkable', bucket: 'medium', color: '#eab308' };
+            if (score >= 25) return { label: 'Car-Dependent', bucket: 'low', color: '#f97316' };
+            return { label: 'Almost All Errands Require a Car', bucket: 'very-low', color: '#ef4444' };
+        }
+
+        // Fetch Walk Score from Firebase function
+        async function fetchWalkScore(lat, lon) {
+            const gridKey = getWalkScoreGridKey(lat, lon);
+            const cache = getWalkScoreCache();
+
+            // Check cache first
+            if (cache[gridKey] && (Date.now() - cache[gridKey].fetchedAt) < WALKSCORE_CACHE_TTL) {
+                return cache[gridKey].score;
+            }
+
+            // Try to call Firebase function
+            try {
+                if (!window.firebaseFunctions || !window.httpsCallable) {
+                    console.warn('Firebase Functions not initialized');
+                    return null;
+                }
+                const getWalkScoreFn = window.httpsCallable(window.firebaseFunctions, 'getWalkScore');
+                const result = await getWalkScoreFn({ lat, lon });
+                const score = result.data.walkscore;
+
+                // Cache the result
+                cache[gridKey] = { score, fetchedAt: Date.now() };
+                saveWalkScoreCache(cache);
+
+                return score;
+            } catch (error) {
+                console.warn('Walk Score fetch failed:', error.message);
+                return null;
+            }
+        }
+
+        // Estimate Walk Score based on location density (fallback when API unavailable)
+        // This uses the locations data to estimate walkability from visit patterns
+        function estimateWalkScoreFromData() {
+            if (locationsData.length === 0) return null;
+
+            // Grid-based estimation: areas with more walking activity likely have higher walkability
+            const gridScores = {};
+
+            // Count walking vs other activities per grid cell
+            locationsData.forEach(loc => {
+                const gridKey = getWalkScoreGridKey(loc.latitude, loc.longitude);
+                if (!gridScores[gridKey]) {
+                    gridScores[gridKey] = { walking: 0, other: 0, total: 0 };
+                }
+
+                const motion = findMatchingMotion(loc);
+                const activity = getActivityType(motion);
+
+                gridScores[gridKey].total++;
+                if (activity === 'walking') {
+                    gridScores[gridKey].walking++;
+                } else {
+                    gridScores[gridKey].other++;
+                }
+            });
+
+            // Estimate scores: higher walking ratio = higher estimated walkability
+            // This is a rough heuristic, not actual Walk Score data
+            const estimatedScores = {};
+            Object.entries(gridScores).forEach(([key, data]) => {
+                const walkingRatio = data.walking / data.total;
+                // Scale to 0-100, with baseline of 30 for any visited area
+                estimatedScores[key] = Math.round(30 + (walkingRatio * 70));
+            });
+
+            return estimatedScores;
+        }
+
+        // Get Walk Scores for all location grid cells (with caching)
+        async function getWalkScoresForLocations() {
+            const cache = getWalkScoreCache();
+            const gridCells = new Map(); // gridKey -> {lat, lon, count}
+
+            // Collect unique grid cells from locations with counts
+            locationsData.forEach(loc => {
+                const gridKey = getWalkScoreGridKey(loc.latitude, loc.longitude);
+                if (!gridCells.has(gridKey)) {
+                    gridCells.set(gridKey, { lat: loc.latitude, lon: loc.longitude, count: 1 });
+                } else {
+                    gridCells.get(gridKey).count++;
+                }
+            });
+
+            const scores = {};
+            const uncachedCells = [];
+
+            // Check cache for each cell
+            gridCells.forEach((data, gridKey) => {
+                if (cache[gridKey] && (Date.now() - cache[gridKey].fetchedAt) < WALKSCORE_CACHE_TTL) {
+                    scores[gridKey] = cache[gridKey].score;
+                } else {
+                    uncachedCells.push({ gridKey, ...data });
+                }
+            });
+
+            // Fetch real Walk Scores for uncached cells (prioritize by time spent)
+            if (uncachedCells.length > 0 && window.firebaseFunctions) {
+                // Sort by count (most visited first) and limit to avoid too many API calls
+                uncachedCells.sort((a, b) => b.count - a.count);
+                const toFetch = uncachedCells.slice(0, 20); // Fetch top 20 most visited
+
+                updateWalkScoreStatus(`Fetching Walk Scores for ${toFetch.length} locations...`);
+
+                for (const cell of toFetch) {
+                    try {
+                        const score = await fetchWalkScore(cell.lat, cell.lon);
+                        if (score !== null) {
+                            scores[cell.gridKey] = score;
+                        }
+                    } catch (e) {
+                        console.warn('Failed to fetch Walk Score for', cell.gridKey);
+                    }
+                }
+
+                // For remaining uncached cells, use estimated scores
+                const stillUncached = uncachedCells.slice(20);
+                if (stillUncached.length > 0) {
+                    const estimated = estimateWalkScoreFromData();
+                    if (estimated) {
+                        stillUncached.forEach(cell => {
+                            if (!scores[cell.gridKey] && estimated[cell.gridKey] !== undefined) {
+                                scores[cell.gridKey] = estimated[cell.gridKey];
+                            }
+                        });
+                    }
+                }
+            } else if (uncachedCells.length > 0) {
+                // No Firebase Functions available, use estimated scores
+                const estimated = estimateWalkScoreFromData();
+                if (estimated) {
+                    uncachedCells.forEach(cell => {
+                        if (estimated[cell.gridKey] !== undefined) {
+                            scores[cell.gridKey] = estimated[cell.gridKey];
+                        }
+                    });
+                }
+            }
+
+            return scores;
+        }
+
+        // Calculate Walk Score analytics
+        function calculateWalkScoreAnalytics(walkScores) {
+            if (!walkScores || Object.keys(walkScores).length === 0) {
+                return null;
+            }
+
+            // Group locations by grid cell and activity
+            const cellData = {};
+            let totalPoints = 0;
+
+            locationsData.forEach(loc => {
+                const gridKey = getWalkScoreGridKey(loc.latitude, loc.longitude);
+                const score = walkScores[gridKey];
+                if (score === undefined) return;
+
+                if (!cellData[gridKey]) {
+                    cellData[gridKey] = {
+                        score,
+                        walking: 0,
+                        other: 0,
+                        total: 0
+                    };
+                }
+
+                const motion = findMatchingMotion(loc);
+                const activity = getActivityType(motion);
+
+                cellData[gridKey].total++;
+                totalPoints++;
+                if (activity === 'walking') {
+                    cellData[gridKey].walking++;
+                } else {
+                    cellData[gridKey].other++;
+                }
+            });
+
+            if (totalPoints === 0) return null;
+
+            // Calculate time-weighted average Walk Score
+            let weightedScoreSum = 0;
+            let totalWeight = 0;
+            Object.values(cellData).forEach(cell => {
+                weightedScoreSum += cell.score * cell.total;
+                totalWeight += cell.total;
+            });
+            const weightedAvgScore = totalWeight > 0 ? weightedScoreSum / totalWeight : 0;
+
+            // Calculate simple average
+            const scores = Object.values(cellData).map(c => c.score);
+            const avgScore = scores.reduce((a, b) => a + b, 0) / scores.length;
+
+            // Calculate walking rate by walkability zone
+            const zones = {
+                high: { points: 0, walking: 0 },      // 70-100
+                medium: { points: 0, walking: 0 },    // 50-69
+                low: { points: 0, walking: 0 },       // 25-49
+                veryLow: { points: 0, walking: 0 }    // 0-24
+            };
+
+            Object.values(cellData).forEach(cell => {
+                let zone;
+                if (cell.score >= 70) zone = 'high';
+                else if (cell.score >= 50) zone = 'medium';
+                else if (cell.score >= 25) zone = 'low';
+                else zone = 'veryLow';
+
+                zones[zone].points += cell.total;
+                zones[zone].walking += cell.walking;
+            });
+
+            // Calculate walking percentages per zone
+            const walkingRateByZone = {};
+            Object.entries(zones).forEach(([zone, data]) => {
+                walkingRateByZone[zone] = data.points > 0 ? (data.walking / data.points) * 100 : 0;
+            });
+
+            // Calculate overall walking rate
+            let totalWalking = 0;
+            Object.values(cellData).forEach(cell => totalWalking += cell.walking);
+            const overallWalkingRate = (totalWalking / totalPoints) * 100;
+
+            // Calculate expected walking rate based on weighted Walk Score
+            // Heuristic: Walk Score 100 → ~70% walking max, linear scale
+            const expectedWalkingRate = (weightedAvgScore / 100) * 70;
+
+            // Walking efficiency index
+            const efficiencyIndex = expectedWalkingRate > 0 ? overallWalkingRate / expectedWalkingRate : 0;
+
+            return {
+                avgScore: Math.round(avgScore),
+                weightedAvgScore: Math.round(weightedAvgScore),
+                walkingRateByZone,
+                timeByZone: {
+                    high: zones.high.points,
+                    medium: zones.medium.points,
+                    low: zones.low.points,
+                    veryLow: zones.veryLow.points
+                },
+                overallWalkingRate,
+                expectedWalkingRate,
+                efficiencyIndex,
+                cellData
+            };
+        }
+
+        // Create Walk Score zone chart (donut/pie)
+        function createWalkabilityZoneChart(analytics) {
+            const ctx = document.getElementById('walkability-zone-chart');
+            if (!ctx) return;
+
+            const darkMode = isDarkMode();
+            const timeByZone = analytics.timeByZone;
+            const totalTime = timeByZone.high + timeByZone.medium + timeByZone.low + timeByZone.veryLow;
+
+            if (totalTime === 0) {
+                ctx.parentElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #6b7280;">No walkability data</div>';
+                return;
+            }
+
+            // Convert to hours (assuming ~5min per point)
+            const AVG_INTERVAL = 5 / 60;
+
+            analyticsCharts.walkabilityZone = new Chart(ctx.getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['High (70-100)', 'Medium (50-69)', 'Low (25-49)', 'Very Low (0-24)'],
+                    datasets: [{
+                        data: [
+                            (timeByZone.high * AVG_INTERVAL).toFixed(1),
+                            (timeByZone.medium * AVG_INTERVAL).toFixed(1),
+                            (timeByZone.low * AVG_INTERVAL).toFixed(1),
+                            (timeByZone.veryLow * AVG_INTERVAL).toFixed(1)
+                        ],
+                        backgroundColor: ['#22c55e', '#eab308', '#f97316', '#ef4444'],
+                        borderColor: darkMode ? '#1f2937' : '#ffffff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: darkMode ? '#d1d5db' : '#4b5563',
+                                padding: 10,
+                                font: { size: 11 }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.raw} hrs`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create Walking vs Walk Score scatter chart
+        function createWalkingVsWalkscoreChart(analytics) {
+            const ctx = document.getElementById('walking-vs-walkscore-chart');
+            if (!ctx) return;
+
+            const darkMode = isDarkMode();
+            const cellData = analytics.cellData;
+
+            // Prepare scatter data
+            const scatterData = Object.values(cellData).map(cell => ({
+                x: cell.score,
+                y: cell.total > 0 ? (cell.walking / cell.total) * 100 : 0,
+                r: Math.min(Math.sqrt(cell.total) * 2, 15) // Bubble size based on time spent
+            }));
+
+            // Expected walking line (Walk Score → expected walking %)
+            const expectedLine = [
+                { x: 0, y: 0 },
+                { x: 100, y: 70 }
+            ];
+
+            analyticsCharts.walkingVsWalkscore = new Chart(ctx.getContext('2d'), {
+                type: 'bubble',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Your Walking Rate',
+                            data: scatterData,
+                            backgroundColor: 'rgba(59, 130, 246, 0.6)',
+                            borderColor: '#3b82f6',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Expected Rate',
+                            data: expectedLine,
+                            type: 'line',
+                            borderColor: '#9ca3af',
+                            borderDash: [5, 5],
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: darkMode ? '#d1d5db' : '#4b5563'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    if (context.dataset.type === 'line') return null;
+                                    return `Walk Score: ${context.raw.x}, Walking: ${context.raw.y.toFixed(1)}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Walk Score',
+                                color: darkMode ? '#d1d5db' : '#6b7280'
+                            },
+                            min: 0,
+                            max: 100,
+                            ticks: { color: darkMode ? '#d1d5db' : '#6b7280' },
+                            grid: { color: darkMode ? '#374151' : '#e5e7eb' }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Walking %',
+                                color: darkMode ? '#d1d5db' : '#6b7280'
+                            },
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                color: darkMode ? '#d1d5db' : '#6b7280',
+                                callback: v => v + '%'
+                            },
+                            grid: { color: darkMode ? '#374151' : '#e5e7eb' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update Walk Score efficiency display
+        function updateWalkingEfficiencyDisplay(analytics) {
+            const valueEl = document.getElementById('efficiency-value');
+            const labelEl = document.getElementById('efficiency-label');
+
+            if (!analytics || analytics.efficiencyIndex === undefined) {
+                valueEl.textContent = '--';
+                labelEl.textContent = 'Insufficient data';
+                return;
+            }
+
+            const efficiency = analytics.efficiencyIndex;
+            valueEl.textContent = efficiency.toFixed(2);
+
+            // Color based on efficiency
+            if (efficiency >= 1.2) {
+                valueEl.style.color = '#22c55e';
+                labelEl.textContent = 'Walking more than expected for your environment';
+            } else if (efficiency >= 0.8) {
+                valueEl.style.color = '#3b82f6';
+                labelEl.textContent = 'Walking as expected for walkability level';
+            } else if (efficiency >= 0.5) {
+                valueEl.style.color = '#eab308';
+                labelEl.textContent = 'Walking less than environment enables';
+            } else {
+                valueEl.style.color = '#ef4444';
+                labelEl.textContent = 'Significantly underutilizing walkable areas';
+            }
+        }
+
+        // Update Walk Score statistics display
+        function updateWalkScoreStatistics(analytics) {
+            if (!analytics) {
+                document.getElementById('stat-avg-walkscore').textContent = '--';
+                document.getElementById('stat-weighted-walkscore').textContent = '--';
+                document.getElementById('stat-walking-high').textContent = '--';
+                document.getElementById('stat-walking-low').textContent = '--';
+                return;
+            }
+
+            document.getElementById('stat-avg-walkscore').textContent = analytics.avgScore;
+            document.getElementById('stat-weighted-walkscore').textContent = analytics.weightedAvgScore;
+            document.getElementById('stat-walking-high').textContent =
+                analytics.walkingRateByZone.high.toFixed(1) + '%';
+            document.getElementById('stat-walking-low').textContent =
+                (analytics.walkingRateByZone.low + analytics.walkingRateByZone.veryLow > 0
+                    ? ((analytics.walkingRateByZone.low * analytics.timeByZone.low +
+                        analytics.walkingRateByZone.veryLow * analytics.timeByZone.veryLow) /
+                        (analytics.timeByZone.low + analytics.timeByZone.veryLow || 1)).toFixed(1)
+                    : '0.0') + '%';
+        }
+
+        // Update Walk Score status message
+        function updateWalkScoreStatus(message) {
+            const statusEl = document.getElementById('walkscore-status');
+            if (statusEl) {
+                statusEl.textContent = message;
+            }
+        }
+
+        // Main function to render Walk Score analytics
+        async function renderWalkScoreAnalytics() {
+            updateWalkScoreStatus('Calculating walkability metrics...');
+
+            try {
+                // Get Walk Scores (from cache or estimation)
+                const walkScores = await getWalkScoresForLocations();
+
+                if (!walkScores || Object.keys(walkScores).length === 0) {
+                    updateWalkScoreStatus('No walkability data available. Configure Walk Score API for real data.');
+                    updateWalkingEfficiencyDisplay(null);
+                    updateWalkScoreStatistics(null);
+                    return;
+                }
+
+                // Calculate analytics
+                const analytics = calculateWalkScoreAnalytics(walkScores);
+
+                if (!analytics) {
+                    updateWalkScoreStatus('Insufficient location data for walkability analysis.');
+                    return;
+                }
+
+                // Update status
+                const cachedCount = Object.keys(walkScores).length;
+                const cache = getWalkScoreCache();
+                const realScoreCount = Object.keys(cache).filter(k => walkScores[k] !== undefined).length;
+                if (realScoreCount > 0) {
+                    updateWalkScoreStatus(`Analyzed ${cachedCount} grid cells (${realScoreCount} with real Walk Score data).`);
+                } else {
+                    updateWalkScoreStatus(`Analyzed ${cachedCount} grid cells. Using estimated scores.`);
+                }
+
+                // Render visualizations
+                createWalkabilityZoneChart(analytics);
+                createWalkingVsWalkscoreChart(analytics);
+                updateWalkingEfficiencyDisplay(analytics);
+                updateWalkScoreStatistics(analytics);
+
+            } catch (error) {
+                console.error('Walk Score analytics error:', error);
+                updateWalkScoreStatus('Error calculating walkability metrics: ' + error.message);
+            }
+        }
+
+        // ============================================================
+        // END WALK SCORE ANALYTICS
+        // ============================================================
 
         // Create home detection map
         function createHomeDetectionMap() {
@@ -2515,6 +3140,9 @@
             createRadiusGyrationChart();
             createDwellDistributionChart();
             updateDwellTimeStatistics();
+
+            // Create Walk Score analytics
+            renderWalkScoreAnalytics();
         }
 
         // Start the app
