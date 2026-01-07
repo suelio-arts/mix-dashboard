@@ -1026,7 +1026,7 @@
                     <div style="margin-top: 8px; line-height: 1.6;">
                         <strong>Walk Score</strong> (0-100) measures how walkable an area is based on proximity to amenities.<br>
                         • 90-100: Walker's Paradise • 70-89: Very Walkable • 50-69: Somewhat Walkable • 0-49: Car-Dependent<br><br>
-                        <strong>Walking Rate</strong> is determined from your device's motion sensors. Each GPS point is matched to the nearest motion activity reading (within 90 seconds). Activities: stationary, walking, running, cycling, automotive.<br><br>
+                        <strong>Walking Rate</strong> calculation: GPS points are grouped into ~200m grid cells. Each point is matched to the nearest motion sensor reading (within 90 seconds). Walking Rate = (walking points / total points) × 100%. Example: 10 points in a cell (3 walking, 5 stationary, 2 unknown) → 30% walking rate. "Unknown" motion states count as non-walking.<br><br>
                         <strong>Efficiency Index</strong> = (Your Walking %) ÷ (Expected Walking %). Expected rate assumes Walk Score 100 → ~70% walking max, scaling linearly.<br><br>
                         All metrics exclude locations within 500m of detected home(s) to show true "out and about" behavior.
                     </div>
