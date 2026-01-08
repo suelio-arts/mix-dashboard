@@ -344,6 +344,50 @@
             background: rgba(10, 10, 10, 0.95);
         }
 
+        /* Card loading states */
+        .analytics-card.card-loading .analytics-chart-container,
+        .analytics-card.card-loading .stat-value {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .analytics-card.card-loading .analytics-chart-container::after,
+        .analytics-card.card-loading .stat-value::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(139, 92, 246, 0.08) 50%,
+                transparent 100%
+            );
+            animation: loading-shimmer 2s infinite;
+        }
+
+        .analytics-card.card-loading .stat-value {
+            color: var(--mix-text-muted) !important;
+            opacity: 0.5;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--mix-text);
+        }
+
+        @keyframes loading-shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
         /* Leaflet popup styling */
         .leaflet-popup-content-wrapper {
             border-radius: 12px;
@@ -1322,30 +1366,30 @@
             </div>
 
             <!-- Dwell Time Statistics -->
-            <div class="analytics-card thesis-metric">
+            <div class="analytics-card thesis-metric" id="dwell-stats-card">
                 <h3>Dwell Time Statistics <span class="thesis-badge">Spatial</span></h3>
                 <p class="card-description">Statistical measures of time spent at non-home locations</p>
                 <div class="analytics-chart-container">
                     <div id="dwell-stats-display" style="height: 250px; display: flex; flex-direction: column; justify-content: center; padding: 20px;">
                         <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);">
                             <span style="color: var(--mix-text-muted); font-size: 14px;">Median Dwell Time</span>
-                            <span style="color: var(--mix-text); font-size: 18px; font-weight: 600;" id="stat-median">--</span>
+                            <span class="stat-value" id="stat-median">--</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);">
                             <span style="color: var(--mix-text-muted); font-size: 14px;">25th Percentile</span>
-                            <span style="color: var(--mix-text); font-size: 18px; font-weight: 600;" id="stat-p25">--</span>
+                            <span class="stat-value" id="stat-p25">--</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);">
                             <span style="color: var(--mix-text-muted); font-size: 14px;">75th Percentile</span>
-                            <span style="color: var(--mix-text); font-size: 18px; font-weight: 600;" id="stat-p75">--</span>
+                            <span class="stat-value" id="stat-p75">--</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);">
                             <span style="color: var(--mix-text-muted); font-size: 14px;">Unique Places Visited</span>
-                            <span style="color: var(--mix-text); font-size: 18px; font-weight: 600;" id="stat-unique-places">--</span>
+                            <span class="stat-value" id="stat-unique-places">--</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 12px 0;">
                             <span style="color: var(--mix-text-muted); font-size: 14px;">Total Away Visits</span>
-                            <span style="color: var(--mix-text); font-size: 18px; font-weight: 600;" id="stat-total-visits">--</span>
+                            <span class="stat-value" id="stat-total-visits">--</span>
                         </div>
                     </div>
                 </div>
@@ -1384,26 +1428,26 @@
             </div>
 
             <!-- Dwell Signature Summary -->
-            <div class="analytics-card thesis-metric">
+            <div class="analytics-card thesis-metric" id="dwell-signature-card">
                 <h3>Dwell Signature <span class="thesis-badge">Temporal</span></h3>
                 <p class="card-description">Your personal dwell time profile across all visits</p>
                 <div class="analytics-chart-container">
                     <div id="dwell-signature-display" style="height: 250px; display: flex; flex-direction: column; justify-content: center; padding: 20px;">
                         <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);">
                             <span style="color: var(--mix-text-muted); font-size: 14px;">Total Dwell Time</span>
-                            <span style="color: var(--mix-text); font-size: 18px; font-weight: 600;" id="sig-total-dwell">--</span>
+                            <span class="stat-value" id="sig-total-dwell">--</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);">
                             <span style="color: var(--mix-text-muted); font-size: 14px;">Average per Visit</span>
-                            <span style="color: var(--mix-text); font-size: 18px; font-weight: 600;" id="sig-avg-dwell">--</span>
+                            <span class="stat-value" id="sig-avg-dwell">--</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);">
                             <span style="color: var(--mix-text-muted); font-size: 14px;">Most Common Category</span>
-                            <span style="color: var(--mix-text); font-size: 18px; font-weight: 600;" id="sig-common-category">--</span>
+                            <span class="stat-value" id="sig-common-category">--</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 12px 0;">
                             <span style="color: var(--mix-text-muted); font-size: 14px;">Dwell Consistency</span>
-                            <span style="color: var(--mix-text); font-size: 18px; font-weight: 600;" id="sig-consistency">--</span>
+                            <span class="stat-value" id="sig-consistency">--</span>
                         </div>
                     </div>
                 </div>
@@ -1449,7 +1493,7 @@
             </div>
 
             <!-- Walking Rate vs Walk Score -->
-            <div class="analytics-card wide">
+            <div class="analytics-card wide" id="walking-vs-walkscore-card">
                 <h3>Walking Rate vs Walkability <span class="thesis-badge">Walkability</span></h3>
                 <p class="card-description" title="Each bubble is a ~200m grid cell you visited. X-axis: Walk Score of that area. Y-axis: % of time you were walking there. Bubble size = time spent. Dashed line shows expected walking rate.">Your walking % at each location vs its Walk Score <span style="color: var(--mix-text-muted); cursor: help;">ⓘ</span></p>
                 <div class="analytics-chart-container" style="height: 200px;">
@@ -1458,33 +1502,33 @@
             </div>
 
             <!-- Walk Score Statistics -->
-            <div class="analytics-card">
+            <div class="analytics-card" id="walkscore-stats-card">
                 <h3>Walkability Statistics <span class="thesis-badge">Walkability</span></h3>
                 <p class="card-description">Summary across away-from-home locations</p>
                 <div class="analytics-chart-container">
                     <div id="walkscore-stats-display" style="height: 250px; display: flex; flex-direction: column; justify-content: center; padding: 20px;">
                         <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);" title="Simple average of Walk Scores across all visited grid cells">
                             <span style="color: var(--mix-text-muted); font-size: 14px;">Avg Walk Score <span style="cursor: help;">ⓘ</span></span>
-                            <span style="color: var(--mix-text); font-size: 18px; font-weight: 600;" id="stat-avg-walkscore">--</span>
+                            <span class="stat-value" id="stat-avg-walkscore">--</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);" title="Walk Score weighted by time spent at each location - reflects where you actually spend time">
                             <span style="color: var(--mix-text-muted); font-size: 14px;">Time-Weighted Avg <span style="cursor: help;">ⓘ</span></span>
-                            <span style="color: var(--mix-text); font-size: 18px; font-weight: 600;" id="stat-weighted-walkscore">--</span>
+                            <span class="stat-value" id="stat-weighted-walkscore">--</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);" title="% of time spent walking in areas with Walk Score ≥70">
                             <span style="color: var(--mix-text-muted); font-size: 14px;">Walking in High (70+) <span style="cursor: help;">ⓘ</span></span>
-                            <span style="color: var(--mix-text); font-size: 18px; font-weight: 600;" id="stat-walking-high">--</span>
+                            <span class="stat-value" id="stat-walking-high">--</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 12px 0;" title="% of time spent walking in areas with Walk Score <50">
                             <span style="color: var(--mix-text-muted); font-size: 14px;">Walking in Low (<50) <span style="cursor: help;">ⓘ</span></span>
-                            <span style="color: var(--mix-text); font-size: 18px; font-weight: 600;" id="stat-walking-low">--</span>
+                            <span class="stat-value" id="stat-walking-low">--</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Place Attachment -->
-            <div class="analytics-card wide">
+            <div class="analytics-card wide" id="place-attachment-card">
                 <h3>Place Attachment <span class="thesis-badge">Spatial</span></h3>
                 <p class="card-description">Personally significant places based on visit frequency, dwell duration, and temporal regularity</p>
                 <div class="analytics-chart-container" style="height: auto; min-height: 300px;">
@@ -1524,26 +1568,26 @@
             </div>
 
             <!-- Activity Inference Section Header -->
-            <div class="analytics-card wide section-header">
+            <div class="analytics-card wide section-header" id="activity-inference-header">
                 <h3>Activity Inference <span class="thesis-badge">Speed Analysis</span></h3>
                 <p class="card-description">Inferring activity types from GPS movement speed when motion sensors report "unknown"</p>
 
                 <!-- Key Metrics Summary -->
                 <div id="inference-summary" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; padding: 16px; background: var(--mix-accent-muted); border-radius: 8px;">
                     <div style="text-align: center;">
-                        <div id="inference-metric-points" style="font-size: 24px; font-weight: 700;">--</div>
+                        <div class="stat-value" id="inference-metric-points" style="font-size: 24px; font-weight: 700;">--</div>
                         <div style="font-size: 11px; opacity: 0.8;">Point Pairs</div>
                     </div>
                     <div style="text-align: center;">
-                        <div id="inference-metric-agreement" style="font-size: 24px; font-weight: 700;">--</div>
+                        <div class="stat-value" id="inference-metric-agreement" style="font-size: 24px; font-weight: 700;">--</div>
                         <div style="font-size: 11px; opacity: 0.8;">Agreement Rate</div>
                     </div>
                     <div style="text-align: center;">
-                        <div id="inference-metric-reclassified" style="font-size: 24px; font-weight: 700;">--</div>
+                        <div class="stat-value" id="inference-metric-reclassified" style="font-size: 24px; font-weight: 700;">--</div>
                         <div style="font-size: 11px; opacity: 0.8;">Unknown → Classified</div>
                     </div>
                     <div style="text-align: center;">
-                        <div id="inference-metric-walking" style="font-size: 24px; font-weight: 700;">--</div>
+                        <div class="stat-value" id="inference-metric-walking" style="font-size: 24px; font-weight: 700;">--</div>
                         <div style="font-size: 11px; opacity: 0.8;">Walking Distance</div>
                     </div>
                 </div>
@@ -1594,26 +1638,26 @@
             </div>
 
             <!-- Walking Route Statistics -->
-            <div class="analytics-card">
+            <div class="analytics-card" id="walking-routes-card">
                 <h3>Likely Walking Routes <span class="thesis-badge">Speed</span></h3>
                 <p class="card-description" title="Consecutive GPS segments where speed indicates walking (0.15-2.0 m/s) for 3+ points">Detected walking-speed segments</p>
                 <div class="analytics-chart-container">
                     <div id="walking-routes-display" style="height: 250px; display: flex; flex-direction: column; justify-content: center; padding: 20px;">
                         <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);" title="Number of continuous segments with walking-speed movement">
                             <span style="color: var(--mix-text-muted); font-size: 14px;">Walking Segments <span style="color: var(--mix-text-muted); cursor: help;">ⓘ</span></span>
-                            <span style="color: var(--mix-text); font-size: 18px; font-weight: 600;" id="stat-walking-segments">--</span>
+                            <span class="stat-value" id="stat-walking-segments">--</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);" title="Total distance of all likely walking routes">
                             <span style="color: var(--mix-text-muted); font-size: 14px;">Total Walking Distance <span style="color: var(--mix-text-muted); cursor: help;">ⓘ</span></span>
-                            <span style="color: var(--mix-text); font-size: 18px; font-weight: 600;" id="stat-walking-distance">--</span>
+                            <span class="stat-value" id="stat-walking-distance">--</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);" title="Average speed during inferred walking segments">
                             <span style="color: var(--mix-text-muted); font-size: 14px;">Avg Walking Speed <span style="color: var(--mix-text-muted); cursor: help;">ⓘ</span></span>
-                            <span style="color: var(--mix-text); font-size: 18px; font-weight: 600;" id="stat-avg-walking-speed">--</span>
+                            <span class="stat-value" id="stat-avg-walking-speed">--</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 12px 0;" title="Percentage of GPS points that were reclassified from 'unknown' to a specific activity">
                             <span style="color: var(--mix-text-muted); font-size: 14px;">Unknown Reclassified <span style="color: var(--mix-text-muted); cursor: help;">ⓘ</span></span>
-                            <span style="color: var(--mix-text); font-size: 18px; font-weight: 600;" id="stat-reclassified">--</span>
+                            <span class="stat-value" id="stat-reclassified">--</span>
                         </div>
                     </div>
                 </div>
@@ -3646,9 +3690,13 @@
         // Create Walking vs Walk Score scatter chart (with reverse geocoding)
         async function createWalkingVsWalkscoreChart(analytics) {
             console.log('createWalkingVsWalkscoreChart called', { analytics });
+            const card = document.getElementById('walking-vs-walkscore-card');
+            if (card) card.classList.add('card-loading');
+
             const ctx = document.getElementById('walking-vs-walkscore-chart');
             if (!ctx) {
                 console.warn('walking-vs-walkscore-chart canvas not found');
+                if (card) card.classList.remove('card-loading');
                 return;
             }
             console.log('Canvas element found:', ctx);
@@ -3867,6 +3915,8 @@
                     }
                 }
             });
+
+            if (card) card.classList.remove('card-loading');
         }
 
         // Update Walk Score efficiency display
@@ -3932,6 +3982,8 @@
         // Main function to render Walk Score analytics
         async function renderWalkScoreAnalytics() {
             updateWalkScoreStatus('Calculating walkability metrics...');
+            const statsCard = document.getElementById('walkscore-stats-card');
+            if (statsCard) statsCard.classList.add('card-loading');
 
             try {
                 // Get Walk Scores (from cache or estimation)
@@ -3966,6 +4018,8 @@
                 createWalkabilityZoneChart(analytics);
                 updateWalkingEfficiencyDisplay(analytics);
                 updateWalkScoreStatistics(analytics);
+                if (statsCard) statsCard.classList.remove('card-loading');
+
                 // Async chart with geocoding - don't block stats update
                 createWalkingVsWalkscoreChart(analytics).catch(err => {
                     console.warn('Error creating walking vs walkscore chart:', err);
@@ -3974,6 +4028,7 @@
             } catch (error) {
                 console.error('Walk Score analytics error:', error);
                 updateWalkScoreStatus('Error calculating walkability metrics: ' + error.message);
+                if (statsCard) statsCard.classList.remove('card-loading');
             }
         }
 
@@ -4439,6 +4494,10 @@
         // Main function to render activity inference analytics
         function renderActivityInferenceAnalytics() {
             updateInferenceStatus('Calculating speed-based activity inference...');
+            const headerCard = document.getElementById('activity-inference-header');
+            const routesCard = document.getElementById('walking-routes-card');
+            if (headerCard) headerCard.classList.add('card-loading');
+            if (routesCard) routesCard.classList.add('card-loading');
 
             try {
                 // Calculate speed and inferred activity for all GPS points
@@ -4481,9 +4540,14 @@
                 createSpeedHistogramChart(analytics);
                 updateWalkingRoutesDisplay(analytics);
 
+                if (headerCard) headerCard.classList.remove('card-loading');
+                if (routesCard) routesCard.classList.remove('card-loading');
+
             } catch (error) {
                 console.error('Activity inference error:', error);
                 updateInferenceStatus('Error calculating activity inference: ' + error.message);
+                if (headerCard) headerCard.classList.remove('card-loading');
+                if (routesCard) routesCard.classList.remove('card-loading');
             }
         }
 
@@ -5399,15 +5463,26 @@
             createExplorationVariance();
             createRadiusGyrationChart();
             createDwellDistributionChart();
+
+            const dwellStatsCard = document.getElementById('dwell-stats-card');
+            if (dwellStatsCard) dwellStatsCard.classList.add('card-loading');
             updateDwellTimeStatistics();
+            if (dwellStatsCard) dwellStatsCard.classList.remove('card-loading');
 
             // Create Dwell Time Patterns analytics
             createDwellCategoryChart();
             createDwellHeatmapChart();
+
+            const dwellSigCard = document.getElementById('dwell-signature-card');
+            if (dwellSigCard) dwellSigCard.classList.add('card-loading');
             updateDwellSignature();
+            if (dwellSigCard) dwellSigCard.classList.remove('card-loading');
 
             // Create Place Attachment analytics
+            const placeCard = document.getElementById('place-attachment-card');
+            if (placeCard) placeCard.classList.add('card-loading');
             renderPlaceAttachment();
+            if (placeCard) placeCard.classList.remove('card-loading');
 
             // Create Walk Score analytics
             renderWalkScoreAnalytics();
