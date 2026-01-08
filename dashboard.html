@@ -49,6 +49,8 @@
             overflow: hidden;
             background: var(--mix-black);
             color: var(--mix-text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         #sidebar {
@@ -1200,23 +1202,23 @@
             <h2>Legend</h2>
             <div class="legend">
                 <div class="legend-item">
-                    <div class="legend-color" style="background: #9333ea;"></div>
+                    <div class="legend-color" style="background: #8b5cf6;"></div>
                     <span>Stationary</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-color" style="background: #ffffff;"></div>
+                    <div class="legend-color" style="background: #22d3ee;"></div>
                     <span>Walking</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-color" style="background: #808080;"></div>
+                    <div class="legend-color" style="background: #f97316;"></div>
                     <span>Running</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-color" style="background: #aaaaaa;"></div>
+                    <div class="legend-color" style="background: #3b82f6;"></div>
                     <span>Cycling</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-color" style="background: #606060;"></div>
+                    <div class="legend-color" style="background: #6b7280;"></div>
                     <span>Automotive</span>
                 </div>
                 <div class="legend-item">
@@ -1224,11 +1226,11 @@
                     <span>Unknown</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-marker" style="background: #ffffff;"></div>
+                    <div class="legend-marker" style="background: #10b981;"></div>
                     <span>Visit Arrival</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-marker" style="background: #606060;"></div>
+                    <div class="legend-marker" style="background: #ef4444;"></div>
                     <span>Visit Departure</span>
                 </div>
             </div>
@@ -1767,14 +1769,14 @@
             return new Date(year, month - 1, day);
         }
 
-        // Activity color mapping
+        // Activity color mapping - clean palette with MIX purple
         const ACTIVITY_COLORS = {
-            stationary: '#888888',
-            walking: '#aaaaaa',
-            running: '#999999',
-            cycling: '#bbbbbb',
-            automotive: '#cccccc',
-            unknown: '#777777'
+            stationary: '#8b5cf6',  // Purple (MIX brand)
+            walking: '#22d3ee',     // Cyan
+            running: '#f97316',     // Orange
+            cycling: '#3b82f6',     // Blue
+            automotive: '#6b7280',  // Gray
+            unknown: '#9ca3af'      // Muted gray
         };
 
         // Maximum time difference between location and motion to consider a match
@@ -1972,7 +1974,8 @@
             L.tileLayer(tileUrl, {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
                 subdomains: 'abcd',
-                maxZoom: 19
+                maxZoom: 19,
+                detectRetina: true
             }).addTo(map);
         }
 
@@ -2067,7 +2070,7 @@
             return `
                 <div class="popup-content">
                     <div class="popup-activity">
-                        <div class="popup-activity-dot" style="background: ${isArrival ? '#ffffff' : '#606060'};"></div>
+                        <div class="popup-activity-dot" style="background: ${isArrival ? '#10b981' : '#ef4444'};"></div>
                         <span>${type}</span>
                     </div>
                     <div class="popup-row">
@@ -2170,7 +2173,7 @@
                     const arrivalMarker = L.marker([visit.latitude, visit.longitude], {
                         icon: L.divIcon({
                             className: 'visit-marker',
-                            html: `<div style="background: #ffffff; width: 12px; height: 12px; border-radius: 2px; border: 2px solid white;"></div>`,
+                            html: `<div style="background: #10b981; width: 12px; height: 12px; border-radius: 2px; border: 2px solid white;"></div>`,
                             iconSize: [12, 12]
                         })
                     });
@@ -2184,7 +2187,7 @@
                     const departureMarker = L.marker([visit.latitude, visit.longitude], {
                         icon: L.divIcon({
                             className: 'visit-marker',
-                            html: `<div style="background: #606060; width: 12px; height: 12px; border-radius: 2px; border: 2px solid white;"></div>`,
+                            html: `<div style="background: #ef4444; width: 12px; height: 12px; border-radius: 2px; border: 2px solid white;"></div>`,
                             iconSize: [12, 12]
                         })
                     });
@@ -4676,7 +4679,8 @@
             L.tileLayer(tileUrl, {
                 attribution: '&copy; OpenStreetMap &copy; CARTO',
                 subdomains: 'abcd',
-                maxZoom: 19
+                maxZoom: 19,
+                detectRetina: true
             }).addTo(homeMap);
 
             // Collect all markers to calculate bounds
@@ -4686,7 +4690,7 @@
             homes.forEach((home, idx) => {
                 const isPrimary = idx === 0;
                 const label = isPrimary ? 'Primary Home' : `Home ${idx + 1}`;
-                const color = isPrimary ? '#ffffff' : '#aaaaaa';
+                const color = isPrimary ? '#8b5cf6' : '#22d3ee';
 
                 const marker = L.circleMarker([home.lat, home.lng], {
                     radius: 8,
@@ -4854,15 +4858,15 @@
                         {
                             label: 'At Home',
                             data: homeHours,
-                            backgroundColor: '#ffffff',
-                            borderColor: '#cccccc',
+                            backgroundColor: '#8b5cf6',
+                            borderColor: '#7c3aed',
                             borderWidth: 1
                         },
                         {
                             label: 'Away',
                             data: awayHours,
-                            backgroundColor: '#606060',
-                            borderColor: '#404040',
+                            backgroundColor: '#22d3ee',
+                            borderColor: '#06b6d4',
                             borderWidth: 1
                         }
                     ]
@@ -5491,21 +5495,22 @@
             L.tileLayer(tileUrl, {
                 attribution: '&copy; OpenStreetMap &copy; CARTO',
                 subdomains: 'abcd',
-                maxZoom: 19
+                maxZoom: 19,
+                detectRetina: true
             }).addTo(attachmentMap);
 
             const markers = [];
 
             // Add markers for top places with color coding by attachment level
             placesWithVenues.forEach((place, idx) => {
-                // Color gradient from white (high) to gray (low)
+                // Color gradient from purple (high) to cyan (low)
                 let color;
                 if (idx < 3) {
-                    color = '#ffffff'; // High attachment - white
+                    color = '#8b5cf6'; // High attachment - purple
                 } else if (idx < 6) {
-                    color = '#aaaaaa'; // Medium attachment - gray
+                    color = '#a78bfa'; // Medium attachment - light purple
                 } else {
-                    color = '#666666'; // Lower attachment - dark gray
+                    color = '#22d3ee'; // Lower attachment - cyan
                 }
 
                 const coords = `${place.lat.toFixed(4)}, ${place.lng.toFixed(4)}`;
