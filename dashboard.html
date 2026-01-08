@@ -21,19 +21,19 @@
             --mix-dark: #0a0a0a;
             --mix-surface: #111111;
             --mix-surface-hover: #1a1a1a;
-            --mix-border: #333333;
-            --mix-border-subtle: #222222;
+            --mix-border: #2a2a2a;
+            --mix-border-subtle: #1a1a1a;
             --mix-accent: #ffffff;
-            --mix-accent-dim: #aaaaaa;
-            --mix-accent-muted: rgba(255, 255, 255, 0.08);
-            --mix-text: #ffffff;
-            --mix-text-dim: #aaaaaa;
-            --mix-text-muted: #666666;
-            --mix-success: #aaaaaa;
-            --mix-warning: #888888;
+            --mix-accent-dim: #b0b0b0;
+            --mix-accent-muted: rgba(255, 255, 255, 0.06);
+            --mix-text: #f0f0f0;
+            --mix-text-dim: #909090;
+            --mix-text-muted: #707070;
+            --mix-success: #b0b0b0;
+            --mix-warning: #909090;
             --mix-purple: #ffffff;
-            --mix-purple-glow: rgba(255, 255, 255, 0.15);
-            --mix-cyan: #aaaaaa;
+            --mix-purple-glow: rgba(255, 255, 255, 0.12);
+            --mix-cyan: #b0b0b0;
         }
 
         * {
@@ -78,12 +78,12 @@
         }
 
         .sidebar-section {
-            padding: 20px;
-            border-bottom: 1px solid var(--mix-border);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--mix-border-subtle);
         }
 
         body.dark-mode .sidebar-section {
-            border-bottom-color: var(--mix-border);
+            border-bottom-color: var(--mix-border-subtle);
         }
 
         body.dark-mode #build-info {
@@ -92,26 +92,26 @@
         }
 
         .sidebar-section h2 {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.1em;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
-            margin-bottom: 16px;
-            color: var(--mix-text-muted);
+            margin-bottom: 14px;
+            color: var(--mix-text-dim);
         }
 
         body.dark-mode .sidebar-section h2 {
-            color: var(--mix-text-muted);
+            color: var(--mix-text-dim);
         }
 
         .stat-item {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            padding: 12px 0;
-            font-size: 13px;
+            padding: 10px 0;
+            font-size: 12px;
             color: var(--mix-text-dim);
-            border-bottom: 1px solid var(--mix-border);
+            border-bottom: 1px solid var(--mix-border-subtle);
         }
 
         .stat-item:last-child {
@@ -123,8 +123,8 @@
         }
 
         .stat-value {
-            font-weight: 700;
-            font-size: 15px;
+            font-weight: 500;
+            font-size: 14px;
             color: var(--mix-text);
             font-variant-numeric: tabular-nums;
         }
@@ -139,9 +139,9 @@
 
         .filter-group label {
             display: block;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-size: 11px;
+            font-weight: 500;
+            margin-bottom: 6px;
             color: var(--mix-text-dim);
         }
 
@@ -152,10 +152,10 @@
         .filter-group input[type="date"],
         #user-selector {
             width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--mix-border);
-            border-radius: 8px;
-            font-size: 13px;
+            padding: 8px 10px;
+            border: 1px solid var(--mix-border-subtle);
+            border-radius: 6px;
+            font-size: 12px;
             font-family: 'Roboto', sans-serif;
             background: var(--mix-surface);
             color: var(--mix-text);
@@ -223,8 +223,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 0;
-            font-size: 13px;
+            padding: 8px 0;
+            font-size: 12px;
             color: var(--mix-text-dim);
         }
 
@@ -234,8 +234,8 @@
 
         .toggle-switch {
             position: relative;
-            width: 44px;
-            height: 24px;
+            width: 36px;
+            height: 20px;
         }
 
         .toggle-switch input {
@@ -253,27 +253,28 @@
             bottom: 0;
             background-color: var(--mix-border);
             transition: 0.2s;
-            border-radius: 24px;
+            border-radius: 20px;
         }
 
         .toggle-slider:before {
             position: absolute;
             content: "";
-            height: 18px;
-            width: 18px;
+            height: 14px;
+            width: 14px;
             left: 3px;
             bottom: 3px;
-            background-color: var(--mix-text);
+            background-color: var(--mix-text-muted);
             transition: 0.2s;
             border-radius: 50%;
         }
 
         input:checked + .toggle-slider {
-            background-color: var(--mix-purple);
+            background-color: var(--mix-text);
         }
 
         input:checked + .toggle-slider:before {
-            transform: translateX(20px);
+            background-color: var(--mix-black);
+            transform: translateX(16px);
         }
 
         .legend {
@@ -490,8 +491,9 @@
         .stat-description {
             font-size: 10px;
             color: var(--mix-text-muted);
-            margin-top: 4px;
-            line-height: 1.4;
+            margin-top: 2px;
+            line-height: 1.3;
+            opacity: 0.8;
         }
 
         body.dark-mode .stat-description {
@@ -643,14 +645,14 @@
         }
 
         .tab-btn.active {
-            color: white;
-            background: var(--mix-purple);
-            box-shadow: 0 2px 12px rgba(168, 85, 247, 0.4);
+            color: #000000;
+            background: #ffffff;
+            box-shadow: none;
         }
 
         body.dark-mode .tab-btn.active {
-            color: white;
-            background: var(--mix-purple);
+            color: #000000;
+            background: #ffffff;
         }
 
         /* Analytics View Styles */
@@ -1202,11 +1204,11 @@
                     <span>Stationary</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-color" style="background: #22c55e;"></div>
+                    <div class="legend-color" style="background: #ffffff;"></div>
                     <span>Walking</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-color" style="background: #f97316;"></div>
+                    <div class="legend-color" style="background: #808080;"></div>
                     <span>Running</span>
                 </div>
                 <div class="legend-item">
@@ -1214,7 +1216,7 @@
                     <span>Cycling</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-color" style="background: #ef4444;"></div>
+                    <div class="legend-color" style="background: #606060;"></div>
                     <span>Automotive</span>
                 </div>
                 <div class="legend-item">
@@ -1222,11 +1224,11 @@
                     <span>Unknown</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-marker" style="background: #22c55e;"></div>
+                    <div class="legend-marker" style="background: #ffffff;"></div>
                     <span>Visit Arrival</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-marker" style="background: #ef4444;"></div>
+                    <div class="legend-marker" style="background: #606060;"></div>
                     <span>Visit Departure</span>
                 </div>
             </div>
@@ -1963,15 +1965,12 @@
 
         // Initialize map
         function initMap() {
-            const darkMode = isDarkMode();
-            const tileUrl = darkMode
-                ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-                : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+            const tileUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
 
             map = L.map('map').setView([0, 0], 2);
 
             L.tileLayer(tileUrl, {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
                 subdomains: 'abcd',
                 maxZoom: 19
             }).addTo(map);
@@ -2068,7 +2067,7 @@
             return `
                 <div class="popup-content">
                     <div class="popup-activity">
-                        <div class="popup-activity-dot" style="background: ${isArrival ? '#22c55e' : '#ef4444'};"></div>
+                        <div class="popup-activity-dot" style="background: ${isArrival ? '#ffffff' : '#606060'};"></div>
                         <span>${type}</span>
                     </div>
                     <div class="popup-row">
@@ -2171,7 +2170,7 @@
                     const arrivalMarker = L.marker([visit.latitude, visit.longitude], {
                         icon: L.divIcon({
                             className: 'visit-marker',
-                            html: `<div style="background: #22c55e; width: 12px; height: 12px; border-radius: 2px; border: 2px solid white;"></div>`,
+                            html: `<div style="background: #ffffff; width: 12px; height: 12px; border-radius: 2px; border: 2px solid white;"></div>`,
                             iconSize: [12, 12]
                         })
                     });
@@ -2185,7 +2184,7 @@
                     const departureMarker = L.marker([visit.latitude, visit.longitude], {
                         icon: L.divIcon({
                             className: 'visit-marker',
-                            html: `<div style="background: #ef4444; width: 12px; height: 12px; border-radius: 2px; border: 2px solid white;"></div>`,
+                            html: `<div style="background: #606060; width: 12px; height: 12px; border-radius: 2px; border: 2px solid white;"></div>`,
                             iconSize: [12, 12]
                         })
                     });
@@ -3264,11 +3263,11 @@
 
         // Get Walk Score category
         function getWalkScoreCategory(score) {
-            if (score >= 90) return { label: "Walker's Paradise", bucket: 'high', color: '#22c55e' };
+            if (score >= 90) return { label: "Walker's Paradise", bucket: 'high', color: '#ffffff' };
             if (score >= 70) return { label: 'Very Walkable', bucket: 'high', color: '#84cc16' };
-            if (score >= 50) return { label: 'Somewhat Walkable', bucket: 'medium', color: '#eab308' };
-            if (score >= 25) return { label: 'Car-Dependent', bucket: 'low', color: '#f97316' };
-            return { label: 'Almost All Errands Require a Car', bucket: 'very-low', color: '#ef4444' };
+            if (score >= 50) return { label: 'Somewhat Walkable', bucket: 'medium', color: '#b0b0b0' };
+            if (score >= 25) return { label: 'Car-Dependent', bucket: 'low', color: '#808080' };
+            return { label: 'Almost All Errands Require a Car', bucket: 'very-low', color: '#606060' };
         }
 
         // ============================================================
@@ -3763,7 +3762,7 @@
                             (timeByZone.low * AVG_INTERVAL).toFixed(1),
                             (timeByZone.veryLow * AVG_INTERVAL).toFixed(1)
                         ],
-                        backgroundColor: ['#22c55e', '#eab308', '#f97316', '#ef4444'],
+                        backgroundColor: ['#ffffff', '#b0b0b0', '#808080', '#606060'],
                         borderColor: darkMode ? '#1f2937' : '#ffffff',
                         borderWidth: 2
                     }]
@@ -4049,7 +4048,7 @@
                 valueEl.style.color = '#888888';
                 labelEl.textContent = 'Walking less than environment enables';
             } else {
-                valueEl.style.color = '#ef4444';
+                valueEl.style.color = '#606060';
                 labelEl.textContent = 'Significantly underutilizing walkable areas';
             }
         }
@@ -4671,10 +4670,7 @@
                 return;
             }
 
-            const darkMode = isDarkMode();
-            const tileUrl = darkMode
-                ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-                : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+            const tileUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
 
             const homeMap = L.map(container).setView([0, 0], 2);
             L.tileLayer(tileUrl, {
@@ -4858,15 +4854,15 @@
                         {
                             label: 'At Home',
                             data: homeHours,
-                            backgroundColor: '#22c55e',
-                            borderColor: '#16a34a',
+                            backgroundColor: '#ffffff',
+                            borderColor: '#cccccc',
                             borderWidth: 1
                         },
                         {
                             label: 'Away',
                             data: awayHours,
-                            backgroundColor: '#ef4444',
-                            borderColor: '#dc2626',
+                            backgroundColor: '#606060',
+                            borderColor: '#404040',
                             borderWidth: 1
                         }
                     ]
@@ -4990,16 +4986,16 @@
             let archetypeBg = '';
             if (meanEntropy < 0.3) {
                 archetype = 'ROUTINE';
-                archetypeColor = darkMode ? '#10b981' : '#059669'; // green
-                archetypeBg = darkMode ? 'rgba(16, 185, 129, 0.2)' : '#d1fae5';
+                archetypeColor = darkMode ? '#ffffff' : '#333333';
+                archetypeBg = darkMode ? 'rgba(255, 255, 255, 0.1)' : '#e5e5e5';
             } else if (meanEntropy <= 0.7) {
                 archetype = 'BALANCED';
-                archetypeColor = darkMode ? '#aaaaaa' : '#888888'; // gray
-                archetypeBg = darkMode ? 'rgba(170, 170, 170, 0.2)' : '#cccccc';
+                archetypeColor = darkMode ? '#aaaaaa' : '#666666';
+                archetypeBg = darkMode ? 'rgba(170, 170, 170, 0.15)' : '#d5d5d5';
             } else {
                 archetype = 'EXPLORER';
-                archetypeColor = darkMode ? '#f87171' : '#dc2626'; // red
-                archetypeBg = darkMode ? 'rgba(248, 113, 113, 0.2)' : '#fee2e2';
+                archetypeColor = darkMode ? '#808080' : '#444444';
+                archetypeBg = darkMode ? 'rgba(128, 128, 128, 0.15)' : '#c5c5c5';
             }
 
             // Detect exploration events (weeks with entropy spike > 1.5 std devs above mean)
@@ -5489,10 +5485,7 @@
                 return;
             }
 
-            const darkMode = isDarkMode();
-            const tileUrl = darkMode
-                ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-                : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+            const tileUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
 
             const attachmentMap = L.map(container).setView([0, 0], 2);
             L.tileLayer(tileUrl, {
