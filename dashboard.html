@@ -17,19 +17,20 @@
 
     <style>
         :root {
-            --mix-black: #0a0a0a;
-            --mix-dark: #141414;
-            --mix-surface: #1a1a1a;
-            --mix-surface-hover: #222222;
-            --mix-border: #2a2a2a;
-            --mix-purple: #a855f7;
-            --mix-purple-dim: #7c3aed;
-            --mix-purple-glow: rgba(168, 85, 247, 0.15);
-            --mix-cyan: #22d3ee;
-            --mix-text: #fafafa;
+            --mix-black: #09090b;
+            --mix-dark: #0f0f11;
+            --mix-surface: #141416;
+            --mix-surface-hover: #1a1a1d;
+            --mix-border: #27272a;
+            --mix-border-subtle: #1f1f23;
+            --mix-accent: #8b5cf6;
+            --mix-accent-dim: #6d28d9;
+            --mix-accent-muted: rgba(139, 92, 246, 0.12);
+            --mix-text: #f4f4f5;
             --mix-text-dim: #a1a1aa;
-            --mix-text-muted: #71717a;
-            --mix-gradient: linear-gradient(135deg, var(--mix-purple) 0%, var(--mix-cyan) 100%);
+            --mix-text-muted: #52525b;
+            --mix-success: #22c55e;
+            --mix-warning: #eab308;
         }
 
         * {
@@ -630,30 +631,14 @@
 
         .analytics-card {
             background: var(--mix-surface);
-            border-radius: 16px;
-            padding: 24px;
-            border: 1px solid var(--mix-border);
+            border-radius: 8px;
+            padding: 20px 24px;
+            border: 1px solid var(--mix-border-subtle);
             position: relative;
-            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .analytics-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Stacked depth effect inspired by MIX logo */
-        .analytics-card::before {
-            content: '';
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            right: -4px;
-            bottom: -4px;
-            background: var(--mix-border);
-            border-radius: 16px;
-            z-index: -1;
-            opacity: 0.5;
+            border-color: var(--mix-border);
         }
 
         body.dark-mode .analytics-card {
@@ -661,22 +646,23 @@
         }
 
         .analytics-card h3 {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: var(--mix-text);
-            letter-spacing: -0.01em;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--mix-text-dim);
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
         }
 
         body.dark-mode .analytics-card h3 {
-            color: var(--mix-text);
+            color: var(--mix-text-dim);
         }
 
         .analytics-card .card-description {
             font-size: 11px;
             color: var(--mix-text-muted);
-            margin-bottom: 20px;
-            line-height: 1.5;
+            margin-bottom: 16px;
+            line-height: 1.4;
         }
 
         body.dark-mode .analytics-card .card-description {
@@ -699,49 +685,34 @@
         /* Metric cards */
         .metrics-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 28px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
             max-width: 100%;
         }
 
         .metric-card {
-            background: var(--mix-surface);
-            border-radius: 14px;
-            padding: 20px;
-            border: 1px solid var(--mix-border);
-            position: relative;
-            overflow: hidden;
+            background: var(--mix-dark);
+            border-radius: 6px;
+            padding: 16px 18px;
+            border: 1px solid var(--mix-border-subtle);
         }
 
-        /* Subtle gradient accent on metric cards */
-        .metric-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--mix-purple) 0%, var(--mix-cyan) 100%);
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        .metric-card:hover::after {
-            opacity: 1;
+        .metric-card:hover {
+            border-color: var(--mix-border);
         }
 
         body.dark-mode .metric-card {
-            background: var(--mix-surface);
+            background: var(--mix-dark);
         }
 
         .metric-label {
             font-size: 10px;
-            font-weight: 700;
+            font-weight: 500;
             color: var(--mix-text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
         }
 
         body.dark-mode .metric-label {
@@ -749,8 +720,8 @@
         }
 
         .metric-value {
-            font-size: 32px;
-            font-weight: 800;
+            font-size: 26px;
+            font-weight: 700;
             color: var(--mix-text);
             font-variant-numeric: tabular-nums;
             letter-spacing: -0.02em;
@@ -912,64 +883,89 @@
             color: var(--mix-text-muted);
         }
 
-        /* Thesis metrics highlight */
+        /* Thesis metrics - subtle indicator */
         .thesis-metric {
-            border-left: 3px solid var(--mix-purple);
+            border-left: 2px solid var(--mix-accent-dim);
         }
 
         .thesis-badge {
             display: inline-block;
-            background: var(--mix-purple-glow);
-            color: var(--mix-purple);
+            color: var(--mix-text-muted);
             font-size: 9px;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 6px;
-            margin-left: 8px;
+            font-weight: 500;
+            margin-left: 6px;
             vertical-align: middle;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            text-transform: lowercase;
+            letter-spacing: 0;
+            opacity: 0.7;
+        }
+
+        .thesis-badge::before {
+            content: '·';
+            margin-right: 4px;
         }
 
         body.dark-mode .thesis-badge {
-            background: var(--mix-purple-glow);
-            color: var(--mix-purple);
+            color: var(--mix-text-muted);
         }
 
-        /* Experimental warning banner */
+        /* Status banner */
         .experimental-warning {
-            background: var(--mix-surface);
-            border: 1px solid var(--mix-border);
-            color: var(--mix-text-dim);
-            padding: 14px 20px 14px 24px;
-            border-radius: 12px;
-            margin-bottom: 28px;
-            font-size: 12px;
+            background: var(--mix-dark);
+            border: 1px solid var(--mix-border-subtle);
+            color: var(--mix-text-muted);
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 24px;
+            font-size: 11px;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             max-width: 1800px;
             margin-left: auto;
             margin-right: auto;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .experimental-warning::before {
-            content: '';
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--mix-purple) 0%, var(--mix-cyan) 100%);
-            border-radius: 2px;
-            position: absolute;
-            left: 0;
-            top: 0;
         }
 
         body.dark-mode .experimental-warning {
-            background: var(--mix-surface);
-            color: var(--mix-text-dim);
+            background: var(--mix-dark);
+            color: var(--mix-text-muted);
+        }
+
+        /* Section headers - clean, minimal */
+        .section-header {
+            background: var(--mix-dark);
+            border-top: 2px solid var(--mix-accent-dim);
+            padding-top: 18px;
+        }
+
+        .section-header h3 {
+            color: var(--mix-text) !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .section-header .card-description {
+            color: var(--mix-text-dim) !important;
+        }
+
+        .section-header details {
+            font-size: 11px;
+            color: var(--mix-text-muted);
+            margin-top: 8px;
+        }
+
+        .section-header summary {
+            cursor: pointer;
+            color: var(--mix-text-muted);
+        }
+
+        .section-header details p {
+            color: var(--mix-text-muted);
+            margin-top: 8px;
+            line-height: 1.5;
         }
 
         /* Dwell statistics dark mode support */
@@ -1356,16 +1352,15 @@
             </div>
 
             <!-- Dwell Time Patterns Section Header -->
-            <div class="analytics-card wide" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%); color: white;">
-                <h3 style="color: white;">Dwell Time Patterns <span class="thesis-badge" style="background: rgba(255,255,255,0.2); color: white;">Temporal</span></h3>
-                <p class="card-description" style="color: rgba(255,255,255,0.8);">Hierarchical analysis of time spent at locations using thesis-defined dwell categories</p>
-                <details style="font-size: 11px; margin-top: 8px; color: rgba(255,255,255,0.7);">
-                    <summary style="cursor: pointer;">ℹ️ How this works</summary>
-                    <p style="margin-top: 8px; line-height: 1.5;">
+            <div class="analytics-card wide section-header">
+                <h3>Dwell Time Patterns <span class="thesis-badge">temporal</span></h3>
+                <p class="card-description">Hierarchical analysis of time spent at locations using thesis-defined dwell categories</p>
+                <details>
+                    <summary>How this works</summary>
+                    <p>
                         Visits are classified into four hierarchical categories: micro-pauses (&lt;3 min), short stops (3-15 min),
                         medium dwells (15-60 min), and extended stays (&gt;60 min). This framework reveals temporal patterns in how
-                        you engage with different locations throughout the day and week, providing insights into routine behaviors
-                        and exploration patterns.
+                        you engage with different locations throughout the day and week.
                     </p>
                 </details>
             </div>
@@ -1415,20 +1410,16 @@
             </div>
 
             <!-- Walk Score Section Header -->
-            <div class="analytics-card wide" style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white;">
-                <h3 style="color: white;">Walk Score Analytics <span class="thesis-badge" style="background: rgba(255,255,255,0.2); color: white;">Walkability</span></h3>
-                <p class="card-description" style="color: rgba(255,255,255,0.8);">Contextualizing walking behavior against neighborhood walkability scores (excludes home locations)</p>
-                <details style="font-size: 11px; margin-top: 8px; color: rgba(255,255,255,0.7);">
-                    <summary style="cursor: pointer;">ℹ️ How this works</summary>
-                    <div style="margin-top: 8px; line-height: 1.6;">
-                        <strong>Walk Score</strong> (0-100) measures how walkable an area is based on proximity to amenities.<br>
-                        • 90-100: Walker's Paradise • 70-89: Very Walkable • 50-69: Somewhat Walkable • 0-49: Car-Dependent<br><br>
-                        <strong>Walking Rate</strong> calculation: GPS points are grouped into ~200m grid cells. Each point is matched to the nearest motion sensor reading (within 90 seconds). Walking Rate = (walking points / total points) × 100%. Example: 10 points in a cell (3 walking, 5 stationary, 2 unknown) → 30% walking rate. "Unknown" motion states count as non-walking.<br><br>
-                        <strong>Efficiency Index</strong> = (Your Walking %) ÷ (Expected Walking %). Expected rate assumes Walk Score 100 → ~70% walking max, scaling linearly.<br><br>
-                        All metrics exclude locations within 500m of detected home(s) to show true "out and about" behavior.
-                    </div>
+            <div class="analytics-card wide section-header">
+                <h3>Walk Score Analytics <span class="thesis-badge">walkability</span></h3>
+                <p class="card-description">Contextualizing walking behavior against neighborhood walkability scores (excludes home locations)</p>
+                <details>
+                    <summary>How this works</summary>
+                    <p>
+                        Walk Score (0-100) measures walkability based on proximity to amenities. Walking Rate is calculated by grouping GPS points into ~200m grid cells and matching to motion sensor readings. Efficiency Index = (Your Walking %) ÷ (Expected Walking %). All metrics exclude locations within 500m of detected home.
+                    </p>
                 </details>
-                <div id="walkscore-status" style="font-size: 12px; margin-top: 8px; color: rgba(255,255,255,0.7);">
+                <div id="walkscore-status" style="font-size: 11px; margin-top: 10px; color: var(--mix-text-muted);">
                     Loading Walk Score data...
                 </div>
             </div>
@@ -1533,12 +1524,12 @@
             </div>
 
             <!-- Activity Inference Section Header -->
-            <div class="analytics-card wide" style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); color: white;">
-                <h3 style="color: white;">Activity Inference <span class="thesis-badge" style="background: rgba(255,255,255,0.2); color: white;">Speed Analysis</span></h3>
-                <p class="card-description" style="color: rgba(255,255,255,0.8);">Inferring activity types from GPS movement speed when motion sensors report "unknown"</p>
+            <div class="analytics-card wide section-header">
+                <h3>Activity Inference <span class="thesis-badge">Speed Analysis</span></h3>
+                <p class="card-description">Inferring activity types from GPS movement speed when motion sensors report "unknown"</p>
 
                 <!-- Key Metrics Summary -->
-                <div id="inference-summary" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; padding: 16px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                <div id="inference-summary" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; padding: 16px; background: var(--mix-accent-muted); border-radius: 8px;">
                     <div style="text-align: center;">
                         <div id="inference-metric-points" style="font-size: 24px; font-weight: 700;">--</div>
                         <div style="font-size: 11px; opacity: 0.8;">Point Pairs</div>
@@ -1557,8 +1548,8 @@
                     </div>
                 </div>
 
-                <details style="font-size: 11px; margin-top: 12px; color: rgba(255,255,255,0.7);">
-                    <summary style="cursor: pointer;">ℹ️ How this works</summary>
+                <details style="font-size: 11px; margin-top: 12px; color: var(--mix-text-dim);">
+                    <summary style="cursor: pointer;">How this works</summary>
                     <div style="margin-top: 8px; line-height: 1.6;">
                         <strong>Speed Calculation:</strong> Distance between consecutive GPS points ÷ time elapsed.<br>
                         Uses Haversine formula for accurate spherical distance.<br><br>
@@ -1570,7 +1561,7 @@
                         <strong>Likely Walking Routes:</strong> Consecutive segments where speed stays in walking range for 3+ points with directional movement (not just stationary).
                     </div>
                 </details>
-                <div id="inference-status" style="font-size: 12px; margin-top: 8px; color: rgba(255,255,255,0.7);">
+                <div id="inference-status" style="font-size: 12px; margin-top: 8px; color: var(--mix-text-muted);">
                     Analyzing GPS trajectories...
                 </div>
             </div>
