@@ -820,17 +820,17 @@
         }
 
         .metric-explainer {
-            display: none;
             position: absolute;
             top: 100%;
             left: 0;
             right: 0;
-            z-index: 1002;
             margin-top: 8px;
+            border: none;
+            padding: 0;
         }
 
-        .metric-explainer.visible {
-            display: block;
+        .metric-explainer::backdrop {
+            background: transparent;
         }
 
         .explainer-content {
@@ -1259,10 +1259,10 @@
         <!-- Key Metrics Row -->
         <div class="metrics-row">
             <div class="metric-card thesis-metric" style="position: relative;">
-                <div class="metric-label">Mobility Entropy <span class="info-icon" onclick="toggleEntropyExplainer(event)">?</span></div>
+                <div class="metric-label">Mobility Entropy <span class="info-icon" id="entropy-info-icon">?</span></div>
                 <div class="metric-value" id="metric-entropy">--</div>
                 <div class="metric-detail">How predictable your movement patterns are</div>
-                <div id="entropy-explainer" class="metric-explainer">
+                <div id="entropy-explainer" class="metric-explainer" popover>
                     <div class="explainer-content">
                         <strong>What is Mobility Entropy?</strong>
                         <p>Measures diversity in your location patterns. Higher = more varied/unpredictable movement. Lower = more routine behavior.</p>
@@ -2450,25 +2450,33 @@
             }
         }
 
-        // Toggle entropy explainer popup
-        function toggleEntropyExplainer(event) {
-            event.stopPropagation();
+        // Setup entropy explainer with hover behavior using Popover API
+        function setupEntropyExplainer() {
+            const infoIcon = document.getElementById('entropy-info-icon');
             const explainer = document.getElementById('entropy-explainer');
-            explainer.classList.toggle('visible');
+            let hideTimeout;
 
-            // Close when clicking elsewhere
-            const closeHandler = (e) => {
-                if (!explainer.contains(e.target) && !e.target.classList.contains('info-icon')) {
-                    explainer.classList.remove('visible');
-                    document.removeEventListener('click', closeHandler);
-                }
-            };
+            infoIcon.addEventListener('mouseenter', () => {
+                clearTimeout(hideTimeout);
+                explainer.showPopover();
+            });
 
-            if (explainer.classList.contains('visible')) {
-                setTimeout(() => document.addEventListener('click', closeHandler), 10);
-            }
+            infoIcon.addEventListener('mouseleave', () => {
+                hideTimeout = setTimeout(() => {
+                    explainer.hidePopover();
+                }, 200);
+            });
+
+            explainer.addEventListener('mouseenter', () => {
+                clearTimeout(hideTimeout);
+            });
+
+            explainer.addEventListener('mouseleave', () => {
+                hideTimeout = setTimeout(() => {
+                    explainer.hidePopover();
+                }, 200);
+            });
         }
-        window.toggleEntropyExplainer = toggleEntropyExplainer;
 
         // Mobile toggle setup
         function setupMobileToggle() {
@@ -2555,6 +2563,9 @@
 
             // Mobile toggle functionality
             setupMobileToggle();
+
+            // Setup entropy explainer popover
+            setupEntropyExplainer();
 
             // Tab switching handlers
             document.querySelectorAll('.tab-btn').forEach(btn => {
