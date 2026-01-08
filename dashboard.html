@@ -31,9 +31,32 @@
             --mix-text-muted: #707070;
             --mix-success: #b0b0b0;
             --mix-warning: #909090;
-            --mix-purple: #ffffff;
-            --mix-purple-glow: rgba(255, 255, 255, 0.12);
-            --mix-cyan: #b0b0b0;
+            --mix-purple: #8b5cf6;
+            --mix-purple-glow: rgba(139, 92, 246, 0.2);
+            --mix-cyan: #22d3ee;
+        }
+
+        /* Light mode overrides */
+        @media (prefers-color-scheme: light) {
+            :root {
+                --mix-black: #ffffff;
+                --mix-dark: #f8f9fa;
+                --mix-surface: #ffffff;
+                --mix-surface-hover: #f1f3f4;
+                --mix-border: #e0e0e0;
+                --mix-border-subtle: #eeeeee;
+                --mix-accent: #1a1a1a;
+                --mix-accent-dim: #666666;
+                --mix-accent-muted: rgba(0, 0, 0, 0.04);
+                --mix-text: #1a1a1a;
+                --mix-text-dim: #555555;
+                --mix-text-muted: #888888;
+                --mix-success: #10b981;
+                --mix-warning: #f59e0b;
+                --mix-purple: #8b5cf6;
+                --mix-purple-glow: rgba(139, 92, 246, 0.15);
+                --mix-cyan: #06b6d4;
+            }
         }
 
         * {
@@ -282,34 +305,58 @@
         .legend {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 6px;
+            gap: 4px;
         }
 
         .legend-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 12px;
-            color: var(--mix-text-muted);
+            font-size: 11px;
+            color: var(--mix-text-dim);
+            padding: 6px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            user-select: none;
+        }
+
+        .legend-item:hover {
+            background: var(--mix-accent-muted);
+            color: var(--mix-text);
+        }
+
+        .legend-item:active {
+            transform: scale(0.98);
+        }
+
+        .legend-item.disabled {
+            opacity: 0.4;
+        }
+
+        .legend-item.disabled .legend-color,
+        .legend-item.disabled .legend-marker {
+            opacity: 0.5;
         }
 
         body.dark-mode .legend-item {
-            color: var(--mix-text-muted);
+            color: var(--mix-text-dim);
         }
 
         .legend-color {
-            width: 10px;
-            height: 10px;
-            border-radius: 3px;
+            width: 12px;
+            height: 12px;
+            border-radius: 4px;
             border: none;
-            box-shadow: 0 0 4px currentColor;
+            flex-shrink: 0;
         }
 
         .legend-marker {
-            width: 10px;
-            height: 10px;
-            border-radius: 2px;
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
             border: none;
+            flex-shrink: 0;
         }
 
         #chart-container {
@@ -1201,37 +1248,37 @@
         <div class="sidebar-section">
             <h2>Legend</h2>
             <div class="legend">
-                <div class="legend-item">
+                <div class="legend-item" data-legend="stationary" title="Click to toggle">
                     <div class="legend-color" style="background: #8b5cf6;"></div>
                     <span>Stationary</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-legend="walking" title="Click to toggle">
                     <div class="legend-color" style="background: #22d3ee;"></div>
                     <span>Walking</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-legend="running" title="Click to toggle">
                     <div class="legend-color" style="background: #f97316;"></div>
                     <span>Running</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-legend="cycling" title="Click to toggle">
                     <div class="legend-color" style="background: #3b82f6;"></div>
                     <span>Cycling</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-legend="automotive" title="Click to toggle">
                     <div class="legend-color" style="background: #6b7280;"></div>
                     <span>Automotive</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-legend="unknown" title="Click to toggle">
                     <div class="legend-color" style="background: #9ca3af;"></div>
                     <span>Unknown</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-legend="visits" title="Click to toggle visits">
                     <div class="legend-marker" style="background: #10b981;"></div>
-                    <span>Visit Arrival</span>
+                    <span>Arrivals</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-legend="visits" title="Click to toggle visits">
                     <div class="legend-marker" style="background: #ef4444;"></div>
-                    <span>Visit Departure</span>
+                    <span>Departures</span>
                 </div>
             </div>
         </div>
@@ -1967,7 +2014,10 @@
 
         // Initialize map
         function initMap() {
-            const tileUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+            const darkMode = isDarkMode();
+            const tileUrl = darkMode
+                ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+                : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
             map = L.map('map').setView([0, 0], 2);
 
@@ -2559,6 +2609,44 @@
 
             document.querySelectorAll('[data-activity]').forEach(checkbox => {
                 checkbox.addEventListener('change', renderLocations);
+            });
+
+            // Legend item click handlers - sync with checkboxes
+            document.querySelectorAll('.legend-item[data-legend]').forEach(legendItem => {
+                const legendType = legendItem.dataset.legend;
+
+                // Find corresponding checkbox or toggle
+                let linkedControl;
+                if (legendType === 'visits') {
+                    linkedControl = document.getElementById('toggle-visits');
+                } else {
+                    linkedControl = document.querySelector(`[data-activity="${legendType}"]`);
+                }
+
+                if (linkedControl) {
+                    // Sync initial state
+                    if (!linkedControl.checked) {
+                        legendItem.classList.add('disabled');
+                    }
+
+                    // Click handler
+                    legendItem.addEventListener('click', () => {
+                        linkedControl.checked = !linkedControl.checked;
+                        legendItem.classList.toggle('disabled', !linkedControl.checked);
+
+                        // Trigger the appropriate render function
+                        if (legendType === 'visits') {
+                            renderVisits();
+                        } else {
+                            renderLocations();
+                        }
+                    });
+
+                    // Keep legend synced when checkbox changes directly
+                    linkedControl.addEventListener('change', () => {
+                        legendItem.classList.toggle('disabled', !linkedControl.checked);
+                    });
+                }
             });
 
             // Mobile toggle functionality
@@ -4673,7 +4761,10 @@
                 return;
             }
 
-            const tileUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+            const darkMode = isDarkMode();
+            const tileUrl = darkMode
+                ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+                : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
             const homeMap = L.map(container).setView([0, 0], 2);
             L.tileLayer(tileUrl, {
@@ -5489,7 +5580,10 @@
                 return;
             }
 
-            const tileUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+            const darkMode = isDarkMode();
+            const tileUrl = darkMode
+                ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+                : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
             const attachmentMap = L.map(container).setView([0, 0], 2);
             L.tileLayer(tileUrl, {
