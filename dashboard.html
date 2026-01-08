@@ -1238,12 +1238,12 @@
             </div>
 
             <!-- Walk Score Section Header -->
-            <div class="analytics-card wide" style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white;">
-                <h3 style="color: white;">Walk Score Analytics <span class="thesis-badge" style="background: rgba(255,255,255,0.2); color: white;">Walkability</span></h3>
-                <p class="card-description" style="color: rgba(255,255,255,0.8);">Contextualizing walking behavior against neighborhood walkability scores (excludes home locations)</p>
-                <details style="font-size: 11px; margin-top: 8px; color: rgba(255,255,255,0.7);">
+            <div class="analytics-card wide" style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; padding: 16px;">
+                <h3 style="color: white; margin-bottom: 4px;">Walk Score Analytics <span class="thesis-badge" style="background: rgba(255,255,255,0.2); color: white;">Walkability</span></h3>
+                <p class="card-description" style="color: rgba(255,255,255,0.8); margin-bottom: 8px;">Contextualizing walking behavior against neighborhood walkability scores (excludes home locations)</p>
+                <details style="font-size: 11px; margin-top: 4px; color: rgba(255,255,255,0.7);">
                     <summary style="cursor: pointer;">ℹ️ How this works</summary>
-                    <div style="margin-top: 8px; line-height: 1.6;">
+                    <div style="margin-top: 8px; line-height: 1.5;">
                         <strong>Walk Score</strong> (0-100) measures how walkable an area is based on proximity to amenities.<br>
                         • 90-100: Walker's Paradise • 70-89: Very Walkable • 50-69: Somewhat Walkable • 0-49: Car-Dependent<br><br>
                         <strong>Walking Rate</strong> calculation: GPS points are grouped into ~200m grid cells. Each point is matched to the nearest motion sensor reading (within 90 seconds). Walking Rate = (walking points / total points) × 100%. Example: 10 points in a cell (3 walking, 5 stationary, 2 unknown) → 30% walking rate. "Unknown" motion states count as non-walking.<br><br>
@@ -1251,7 +1251,7 @@
                         All metrics exclude locations within 500m of detected home(s) to show true "out and about" behavior.
                     </div>
                 </details>
-                <div id="walkscore-status" style="font-size: 12px; margin-top: 8px; color: rgba(255,255,255,0.7);">
+                <div id="walkscore-status" style="font-size: 11px; margin-top: 6px; color: rgba(255,255,255,0.7); line-height: 1.4;">
                     Loading Walk Score data...
                 </div>
             </div>
@@ -2886,7 +2886,7 @@
         // END GEOCODING CACHE
         // ============================================================
 
-        // Lookup nearby venue using Geoapify Places API (free tier: 3000/day)
+        // Lookup nearby venue using Nominatim (OpenStreetMap - free, rate limited 1 req/sec)
         async function lookupVenue(lat, lng) {
             const cacheKey = `${lat.toFixed(4)},${lng.toFixed(4)}`;
             const cache = getVenueCache();
@@ -2895,57 +2895,33 @@
                 return cache[cacheKey].venue;
             }
 
+            // Rate limiting for Nominatim
+            const now = Date.now();
+            if (!window._lastNominatimRequest) window._lastNominatimRequest = 0;
+            const timeSinceLast = now - window._lastNominatimRequest;
+            if (timeSinceLast < 1000) {
+                await new Promise(resolve => setTimeout(resolve, 1000 - timeSinceLast));
+            }
+            window._lastNominatimRequest = Date.now();
+
             try {
-                // Use Geoapify Places API to find nearby POIs
-                const radius = 50; // 50m radius
-                const apiKey = ''; // User needs to add their key
+                const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=18&addressdetails=1`;
+                const response = await fetch(url, {
+                    headers: {
+                        'User-Agent': 'MIX Dashboard (Location Analytics)'
+                    }
+                });
 
-                if (!apiKey) {
-                    // Fallback to reverse geocoding for neighborhood/address
-                    const response = await fetch(
-                        `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=DEMO`
-                    );
-                    if (!response.ok) throw new Error('Geocode failed');
-                    const data = await response.json();
-                    const props = data.features?.[0]?.properties || {};
-                    const venue = {
-                        name: props.name || props.street || 'Unknown Location',
-                        category: props.result_type || 'location',
-                        address: props.formatted || ''
-                    };
-                    cache[cacheKey] = { venue, fetchedAt: Date.now() };
-                    saveVenueCache(cache);
-                    return venue;
-                }
-
-                // With API key, search for actual venues
-                const url = `https://api.geoapify.com/v2/places?categories=commercial,catering,entertainment,leisure,tourism,accommodation,education,office&filter=circle:${lng},${lat},${radius}&limit=1&apiKey=${apiKey}`;
-                const response = await fetch(url);
-                if (!response.ok) throw new Error('Places API failed');
+                if (!response.ok) throw new Error('Nominatim failed');
                 const data = await response.json();
 
-                if (data.features && data.features.length > 0) {
-                    const place = data.features[0].properties;
-                    const venue = {
-                        name: place.name || 'Unnamed Venue',
-                        category: place.categories?.[0]?.split('.').pop() || 'venue',
-                        address: place.formatted || ''
-                    };
-                    cache[cacheKey] = { venue, fetchedAt: Date.now() };
-                    saveVenueCache(cache);
-                    return venue;
-                }
-
-                // No POI found, use address
-                const geoUrl = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${apiKey}`;
-                const geoResp = await fetch(geoUrl);
-                const geoData = await geoResp.json();
-                const props = geoData.features?.[0]?.properties || {};
+                const addr = data.address || {};
                 const venue = {
-                    name: props.street || props.suburb || props.city || 'Unknown',
-                    category: 'area',
-                    address: props.formatted || ''
+                    name: data.name || addr.amenity || addr.shop || addr.building || addr.road || addr.neighbourhood || 'Unknown Location',
+                    category: addr.amenity || addr.shop || addr.building || addr.leisure || addr.tourism || data.type || 'location',
+                    address: data.display_name || ''
                 };
+
                 cache[cacheKey] = { venue, fetchedAt: Date.now() };
                 saveVenueCache(cache);
                 return venue;
@@ -3457,11 +3433,15 @@
                 if (score === undefined) return;
 
                 if (!cellData[gridKey]) {
+                    // Parse lat/lon from gridKey
+                    const [lat, lon] = gridKey.split(',').map(parseFloat);
                     cellData[gridKey] = {
                         score,
                         walking: 0,
                         other: 0,
-                        total: 0
+                        total: 0,
+                        lat,
+                        lon
                     };
                 }
 
@@ -3622,6 +3602,7 @@
             // Geocode all cells and aggregate by city
             const cityData = {}; // city -> { points: [...], totalDataPoints: N, totalWalkScore: N }
             const cellsArray = Object.entries(cellData);
+            console.log('Processing cells for chart:', cellsArray.length, 'total cells');
 
             // First, try to use cached geocoding data
             const geocodingCache = getGeocodingCache();
@@ -3646,6 +3627,8 @@
 
                 cellsWithCities.push({ gridKey, cell, city, cacheKey });
             }
+
+            console.log('Cells with valid lat/lon:', cellsWithCities.length);
 
             // Identify cells to geocode (prioritize by data points)
             // Only geocode top 5 cells to avoid long delays (rate limited to 1/sec)
@@ -3755,6 +3738,9 @@
                 pointStyle: 'line',
                 fill: false
             });
+
+            console.log('Chart datasets:', datasets.length, 'datasets with',
+                datasets.reduce((sum, d) => sum + (d.data?.length || 0), 0), 'total points');
 
             analyticsCharts.walkingVsWalkscore = new Chart(ctx.getContext('2d'), {
                 type: 'bubble',
