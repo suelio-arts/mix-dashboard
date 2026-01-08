@@ -10,27 +10,30 @@
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossorigin=""/>
 
-    <!-- Montserrat Font -->
+    <!-- Roboto Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --mix-black: #09090b;
-            --mix-dark: #0f0f11;
-            --mix-surface: #141416;
-            --mix-surface-hover: #1a1a1d;
-            --mix-border: #27272a;
-            --mix-border-subtle: #1f1f23;
-            --mix-accent: #8b5cf6;
-            --mix-accent-dim: #6d28d9;
-            --mix-accent-muted: rgba(139, 92, 246, 0.12);
-            --mix-text: #f4f4f5;
-            --mix-text-dim: #a1a1aa;
-            --mix-text-muted: #52525b;
-            --mix-success: #22c55e;
-            --mix-warning: #eab308;
+            --mix-black: #000000;
+            --mix-dark: #0a0a0a;
+            --mix-surface: #111111;
+            --mix-surface-hover: #1a1a1a;
+            --mix-border: #333333;
+            --mix-border-subtle: #222222;
+            --mix-accent: #ffffff;
+            --mix-accent-dim: #aaaaaa;
+            --mix-accent-muted: rgba(255, 255, 255, 0.08);
+            --mix-text: #ffffff;
+            --mix-text-dim: #aaaaaa;
+            --mix-text-muted: #666666;
+            --mix-success: #aaaaaa;
+            --mix-warning: #888888;
+            --mix-purple: #ffffff;
+            --mix-purple-glow: rgba(255, 255, 255, 0.15);
+            --mix-cyan: #aaaaaa;
         }
 
         * {
@@ -40,7 +43,7 @@
         }
 
         body {
-            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
             display: flex;
             height: 100vh;
             overflow: hidden;
@@ -153,7 +156,7 @@
             border: 1px solid var(--mix-border);
             border-radius: 8px;
             font-size: 13px;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Roboto', sans-serif;
             background: var(--mix-surface);
             color: var(--mix-text);
             transition: border-color 0.2s, box-shadow 0.2s;
@@ -412,7 +415,7 @@
         .popup-content {
             font-size: 12px;
             line-height: 1.6;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Roboto', sans-serif;
         }
 
         .popup-activity {
@@ -624,7 +627,7 @@
             background: transparent;
             font-size: 13px;
             font-weight: 600;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Roboto', sans-serif;
             color: var(--mix-text-muted);
             cursor: pointer;
             transition: all 0.2s;
@@ -677,12 +680,8 @@
             background: var(--mix-surface);
             border-radius: 8px;
             padding: 20px 24px;
-            border: 1px solid var(--mix-border-subtle);
+            border: 1px solid #000000;
             position: relative;
-        }
-
-        .analytics-card:hover {
-            border-color: var(--mix-border);
         }
 
         body.dark-mode .analytics-card {
@@ -690,12 +689,11 @@
         }
 
         .analytics-card h3 {
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 500;
             margin-bottom: 4px;
             color: var(--mix-text-dim);
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
+            letter-spacing: 0.01em;
         }
 
         body.dark-mode .analytics-card h3 {
@@ -1212,7 +1210,7 @@
                     <span>Running</span>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-color" style="background: #3b82f6;"></div>
+                    <div class="legend-color" style="background: #aaaaaa;"></div>
                     <span>Cycling</span>
                 </div>
                 <div class="legend-item">
@@ -1331,7 +1329,7 @@
                         <div style="flex: 0 0 180px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 16px;">
                             <div id="archetype-badge" style="font-size: 18px; font-weight: 700; padding: 12px 24px; border-radius: 8px; text-align: center;">--</div>
                             <div style="text-align: center;">
-                                <div style="font-size: 48px; font-weight: 700; color: #3b82f6;" id="stability-value">--</div>
+                                <div style="font-size: 48px; font-weight: 700; color: #aaaaaa;" id="stability-value">--</div>
                                 <div style="font-size: 14px; color: var(--mix-text-muted); margin-top: 4px;">Stability Score</div>
                             </div>
                             <div style="text-align: center; font-size: 12px; color: var(--mix-text-muted);">
@@ -1474,7 +1472,7 @@
                 <p class="card-description" title="Formula: (Actual Walking %) / (Expected Walking %). Expected = Walk Score × 0.7. Example: Walk Score 80 → expect ~56% walking.">Are you walking as much as your environment enables? <span style="color: var(--mix-text-muted); cursor: help;">ⓘ</span></p>
                 <div class="analytics-chart-container">
                     <div id="walking-efficiency-display" style="height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <div id="efficiency-value" style="font-size: 64px; font-weight: 700; color: #3b82f6;">--</div>
+                        <div id="efficiency-value" style="font-size: 64px; font-weight: 700; color: #aaaaaa;">--</div>
                         <div style="font-size: 14px; color: var(--mix-text-muted); margin-top: 8px;">efficiency index</div>
                         <div id="efficiency-label" style="font-size: 12px; color: var(--mix-text-muted); margin-top: 16px; text-align: center;">
                             1.0 = walking as expected for walkability
@@ -1769,12 +1767,12 @@
 
         // Activity color mapping
         const ACTIVITY_COLORS = {
-            stationary: '#9333ea',
-            walking: '#22c55e',
-            running: '#f97316',
-            cycling: '#3b82f6',
-            automotive: '#ef4444',
-            unknown: '#9ca3af'
+            stationary: '#888888',
+            walking: '#aaaaaa',
+            running: '#999999',
+            cycling: '#bbbbbb',
+            automotive: '#cccccc',
+            unknown: '#777777'
         };
 
         // Maximum time difference between location and motion to consider a match
@@ -2258,8 +2256,8 @@
                     datasets: [{
                         label: 'Uploads',
                         data: counts,
-                        backgroundColor: '#3b82f6',
-                        borderColor: '#2563eb',
+                        backgroundColor: '#aaaaaa',
+                        borderColor: '#888888',
                         borderWidth: 1
                     }]
                 },
@@ -3358,6 +3356,102 @@
         // END REVERSE GEOCODING
         // ============================================================
 
+        // ============================================================
+        // VENUE LOOKUP
+        // ============================================================
+
+        // Venue lookup cache
+        const VENUE_CACHE_KEY = 'mix-venue-cache';
+        const VENUE_CACHE_TTL = 30 * 24 * 60 * 60 * 1000; // 30 days
+
+        function getVenueCache() {
+            try {
+                const cached = localStorage.getItem(VENUE_CACHE_KEY);
+                return cached ? JSON.parse(cached) : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveVenueCache(cache) {
+            try {
+                localStorage.setItem(VENUE_CACHE_KEY, JSON.stringify(cache));
+            } catch (e) {}
+        }
+
+        // Lookup nearby venue using Geoapify Places API (free tier: 3000/day)
+        async function lookupVenue(lat, lng) {
+            const cacheKey = `${lat.toFixed(4)},${lng.toFixed(4)}`;
+            const cache = getVenueCache();
+
+            if (cache[cacheKey] && (Date.now() - cache[cacheKey].fetchedAt) < VENUE_CACHE_TTL) {
+                return cache[cacheKey].venue;
+            }
+
+            try {
+                // Use Geoapify Places API to find nearby POIs
+                const radius = 50; // 50m radius
+                const apiKey = ''; // User needs to add their key
+
+                if (!apiKey) {
+                    // Fallback to reverse geocoding for neighborhood/address
+                    const response = await fetch(
+                        `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=DEMO`
+                    );
+                    if (!response.ok) throw new Error('Geocode failed');
+                    const data = await response.json();
+                    const props = data.features?.[0]?.properties || {};
+                    const venue = {
+                        name: props.name || props.street || 'Unknown Location',
+                        category: props.result_type || 'location',
+                        address: props.formatted || ''
+                    };
+                    cache[cacheKey] = { venue, fetchedAt: Date.now() };
+                    saveVenueCache(cache);
+                    return venue;
+                }
+
+                // With API key, search for actual venues
+                const url = `https://api.geoapify.com/v2/places?categories=commercial,catering,entertainment,leisure,tourism,accommodation,education,office&filter=circle:${lng},${lat},${radius}&limit=1&apiKey=${apiKey}`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Places API failed');
+                const data = await response.json();
+
+                if (data.features && data.features.length > 0) {
+                    const place = data.features[0].properties;
+                    const venue = {
+                        name: place.name || 'Unnamed Venue',
+                        category: place.categories?.[0]?.split('.').pop() || 'venue',
+                        address: place.formatted || ''
+                    };
+                    cache[cacheKey] = { venue, fetchedAt: Date.now() };
+                    saveVenueCache(cache);
+                    return venue;
+                }
+
+                // No POI found, use address
+                const geoUrl = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${apiKey}`;
+                const geoResp = await fetch(geoUrl);
+                const geoData = await geoResp.json();
+                const props = geoData.features?.[0]?.properties || {};
+                const venue = {
+                    name: props.street || props.suburb || props.city || 'Unknown',
+                    category: 'area',
+                    address: props.formatted || ''
+                };
+                cache[cacheKey] = { venue, fetchedAt: Date.now() };
+                saveVenueCache(cache);
+                return venue;
+            } catch (error) {
+                console.warn('Venue lookup failed:', error);
+                return { name: `${lat.toFixed(4)}, ${lng.toFixed(4)}`, category: 'coordinates', address: '' };
+            }
+        }
+
+        // ============================================================
+        // END VENUE LOOKUP
+        // ============================================================
+
         // Fetch Walk Score from Firebase function
         async function fetchWalkScore(lat, lon) {
             const gridKey = getWalkScoreGridKey(lat, lon);
@@ -3802,14 +3896,14 @@
 
             const topCities = new Set(citiesByVisits.map(([city]) => city));
 
-            // Color palette for top 4 cities
+            // Color palette for top 4 cities - grayscale
             const cityColors = {
-                0: { bg: 'rgba(239, 68, 68, 0.6)', border: '#ef4444' },   // Red
-                1: { bg: 'rgba(59, 130, 246, 0.6)', border: '#3b82f6' },  // Blue
-                2: { bg: 'rgba(34, 197, 94, 0.6)', border: '#22c55e' },   // Green
-                3: { bg: 'rgba(168, 85, 247, 0.6)', border: '#a855f7' }   // Purple
+                0: { bg: 'rgba(255, 255, 255, 0.6)', border: '#ffffff' },   // White
+                1: { bg: 'rgba(204, 204, 204, 0.6)', border: '#cccccc' },  // Light gray
+                2: { bg: 'rgba(170, 170, 170, 0.6)', border: '#aaaaaa' },   // Medium gray
+                3: { bg: 'rgba(136, 136, 136, 0.6)', border: '#888888' }   // Dark gray
             };
-            const otherColor = { bg: 'rgba(156, 163, 175, 0.4)', border: '#9ca3af' }; // Gray
+            const otherColor = { bg: 'rgba(102, 102, 102, 0.4)', border: '#666666' }; // Darker gray
 
             // Build datasets: one for each top city + one for "Other"
             const datasets = [];
@@ -3946,13 +4040,13 @@
 
             // Color based on efficiency
             if (efficiency >= 1.2) {
-                valueEl.style.color = '#22c55e';
+                valueEl.style.color = '#ffffff';
                 labelEl.textContent = 'Walking more than expected for your environment';
             } else if (efficiency >= 0.8) {
-                valueEl.style.color = '#3b82f6';
+                valueEl.style.color = '#aaaaaa';
                 labelEl.textContent = 'Walking as expected for walkability level';
             } else if (efficiency >= 0.5) {
-                valueEl.style.color = '#eab308';
+                valueEl.style.color = '#888888';
                 labelEl.textContent = 'Walking less than environment enables';
             } else {
                 valueEl.style.color = '#ef4444';
@@ -4596,7 +4690,7 @@
             homes.forEach((home, idx) => {
                 const isPrimary = idx === 0;
                 const label = isPrimary ? 'Primary Home' : `Home ${idx + 1}`;
-                const color = isPrimary ? '#3b82f6' : '#f97316';
+                const color = isPrimary ? '#ffffff' : '#aaaaaa';
 
                 const marker = L.circleMarker([home.lat, home.lng], {
                     radius: 8,
@@ -4671,8 +4765,8 @@
                     datasets: [{
                         label: 'Max Distance (km)',
                         data: maxDistances,
-                        backgroundColor: maxDistances.map(d => d > 50 ? '#ef4444' : '#3b82f6'),
-                        borderColor: maxDistances.map(d => d > 50 ? '#dc2626' : '#2563eb'),
+                        backgroundColor: maxDistances.map(d => d > 50 ? '#ffffff' : '#aaaaaa'),
+                        borderColor: maxDistances.map(d => d > 50 ? '#cccccc' : '#888888'),
                         borderWidth: 1
                     }]
                 },
@@ -4900,8 +4994,8 @@
                 archetypeBg = darkMode ? 'rgba(16, 185, 129, 0.2)' : '#d1fae5';
             } else if (meanEntropy <= 0.7) {
                 archetype = 'BALANCED';
-                archetypeColor = darkMode ? '#60a5fa' : '#3b82f6'; // blue
-                archetypeBg = darkMode ? 'rgba(96, 165, 250, 0.2)' : '#dbeafe';
+                archetypeColor = darkMode ? '#aaaaaa' : '#888888'; // gray
+                archetypeBg = darkMode ? 'rgba(170, 170, 170, 0.2)' : '#cccccc';
             } else {
                 archetype = 'EXPLORER';
                 archetypeColor = darkMode ? '#f87171' : '#dc2626'; // red
@@ -4939,8 +5033,8 @@
                     datasets: [{
                         label: 'Weekly Entropy',
                         data: entropyValues,
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderColor: '#aaaaaa',
+                        backgroundColor: 'rgba(170, 170, 170, 0.1)',
                         borderWidth: 2,
                         fill: true,
                         tension: 0.3,
@@ -5115,8 +5209,8 @@
                     datasets: [{
                         label: 'Number of Visits',
                         data: data,
-                        backgroundColor: '#3b82f6',
-                        borderColor: '#2563eb',
+                        backgroundColor: '#aaaaaa',
+                        borderColor: '#888888',
                         borderWidth: 1
                     }]
                 },
@@ -5341,7 +5435,7 @@
         }
 
         // Render Place Attachment analytics
-        function renderPlaceAttachment() {
+        async function renderPlaceAttachment() {
             const places = getHighAttachmentPlaces();
             const topPlaces = places.slice(0, 10);
 
@@ -5357,17 +5451,28 @@
                 document.getElementById('stat-avg-visits-top').textContent = '0';
             }
 
+            // Lookup venues for all places
+            const placesWithVenues = await Promise.all(
+                topPlaces.map(async (place) => ({
+                    ...place,
+                    venue: await lookupVenue(place.lat, place.lng)
+                }))
+            );
+
             // Populate table
             const tbody = document.getElementById('attachment-table-body');
-            if (topPlaces.length === 0) {
+            if (placesWithVenues.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px; color: var(--mix-text-muted);">No places found</td></tr>';
             } else {
-                tbody.innerHTML = topPlaces.map((place, idx) => {
+                tbody.innerHTML = placesWithVenues.map((place, idx) => {
                     const coords = `${place.lat.toFixed(4)}, ${place.lng.toFixed(4)}`;
                     return `
                         <tr style="border-bottom: 1px solid var(--mix-border);">
                             <td style="padding: 8px 4px; color: var(--mix-text-muted);">${idx + 1}</td>
-                            <td style="padding: 8px 4px; color: var(--mix-text); font-family: monospace; font-size: 10px;">${coords}</td>
+                            <td style="padding: 8px 4px; color: var(--mix-text);" title="${coords}">
+                                <div style="font-size: 12px;">${place.venue.name}</div>
+                                <div style="font-size: 10px; color: var(--mix-text-muted); text-transform: capitalize;">${place.venue.category}</div>
+                            </td>
                             <td style="padding: 8px 4px; text-align: right; color: var(--mix-text); font-weight: 600;">${place.score.toFixed(1)}</td>
                             <td style="padding: 8px 4px; text-align: right; color: var(--mix-text);">${place.visitCount}</td>
                         </tr>
@@ -5379,7 +5484,7 @@
             const container = document.getElementById('attachment-map');
             container.innerHTML = '';
 
-            if (topPlaces.length === 0) {
+            if (placesWithVenues.length === 0) {
                 container.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--mix-text-muted);">No data available</div>';
                 return;
             }
@@ -5399,17 +5504,18 @@
             const markers = [];
 
             // Add markers for top places with color coding by attachment level
-            topPlaces.forEach((place, idx) => {
-                // Color gradient from purple (high) to cyan (low)
+            placesWithVenues.forEach((place, idx) => {
+                // Color gradient from white (high) to gray (low)
                 let color;
                 if (idx < 3) {
-                    color = '#a855f7'; // High attachment - purple
+                    color = '#ffffff'; // High attachment - white
                 } else if (idx < 6) {
-                    color = '#3b82f6'; // Medium attachment - blue
+                    color = '#aaaaaa'; // Medium attachment - gray
                 } else {
-                    color = '#22d3ee'; // Lower attachment - cyan
+                    color = '#666666'; // Lower attachment - dark gray
                 }
 
+                const coords = `${place.lat.toFixed(4)}, ${place.lng.toFixed(4)}`;
                 const marker = L.circleMarker([place.lat, place.lng], {
                     radius: 8,
                     fillColor: color,
@@ -5419,7 +5525,10 @@
                     fillOpacity: 0.8
                 }).addTo(attachmentMap).bindPopup(`
                     <div class="popup-content">
-                        <div style="font-weight: 700; margin-bottom: 8px; color: var(--mix-text);">Rank ${idx + 1}</div>
+                        <div style="font-weight: 700; margin-bottom: 8px; color: var(--mix-text);">${place.venue.name}</div>
+                        <div style="font-size: 10px; color: var(--mix-text-muted); margin-bottom: 8px; text-transform: capitalize;">
+                            ${place.venue.category} • Rank ${idx + 1}
+                        </div>
                         <div style="font-size: 11px;">
                             <div style="display: flex; justify-content: space-between; padding: 4px 0;">
                                 <span style="color: var(--mix-text-muted);">Attachment Score:</span>
@@ -5432,6 +5541,9 @@
                             <div style="display: flex; justify-content: space-between; padding: 4px 0;">
                                 <span style="color: var(--mix-text-muted);">Total Time:</span>
                                 <span style="color: var(--mix-text);">${formatDuration(place.totalDwellMinutes)}</span>
+                            </div>
+                            <div style="font-size: 9px; color: var(--mix-text-muted); margin-top: 8px; font-family: monospace;">
+                                ${coords}
                             </div>
                         </div>
                     </div>
@@ -5450,7 +5562,7 @@
         }
 
         // Main render analytics function
-        function renderAnalytics() {
+        async function renderAnalytics() {
             // Destroy old charts
             destroyAnalyticsCharts();
 
@@ -5492,7 +5604,7 @@
             // Create Place Attachment analytics
             const placeCard = document.getElementById('place-attachment-card');
             if (placeCard) placeCard.classList.add('card-loading');
-            renderPlaceAttachment();
+            await renderPlaceAttachment();
             if (placeCard) placeCard.classList.remove('card-loading');
 
             // Create Walk Score analytics
