@@ -1192,7 +1192,7 @@
             <!-- Radius of Gyration -->
             <div class="analytics-card wide thesis-metric">
                 <h3>Radius of Gyration Over Time <span class="thesis-badge">Spatial</span></h3>
-                <p class="card-description">Weekly characteristic travel distance - measure of mobility range</p>
+                <p class="card-description">Daily spatial spread from your activity centroid. Only includes days where you started and ended at the same home location (excludes travel days).</p>
                 <div class="analytics-chart-container" style="height: 200px;">
                     <canvas id="radius-gyration-chart"></canvas>
                 </div>
@@ -1238,7 +1238,7 @@
             </div>
 
             <!-- Walk Score Section Header -->
-            <div class="analytics-card wide" style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; padding: 16px;">
+            <div class="analytics-card wide" id="walkscore-header" style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; padding: 16px;">
                 <h3 style="color: white; margin-bottom: 4px;">Walk Score Analytics <span class="thesis-badge" style="background: rgba(255,255,255,0.2); color: white;">Walkability</span></h3>
                 <p class="card-description" style="color: rgba(255,255,255,0.8); margin-bottom: 8px;">Contextualizing walking behavior against neighborhood walkability scores (excludes home locations)</p>
                 <details style="font-size: 11px; margin-top: 4px; color: rgba(255,255,255,0.7);">
@@ -1257,7 +1257,7 @@
             </div>
 
             <!-- Walking Efficiency Index -->
-            <div class="analytics-card">
+            <div class="analytics-card" id="walking-efficiency-card">
                 <h3>Walking Efficiency <span class="thesis-badge">Walkability</span></h3>
                 <p class="card-description" title="Formula: (Actual Walking %) / (Expected Walking %). Expected = Walk Score × 0.7. Example: Walk Score 80 → expect ~56% walking.">Are you walking as much as your environment enables? <span style="color: #9ca3af; cursor: help;">ⓘ</span></p>
                 <div class="analytics-chart-container">
@@ -1272,7 +1272,7 @@
             </div>
 
             <!-- Time by Walkability Zone -->
-            <div class="analytics-card">
+            <div class="analytics-card" id="walkability-zone-card">
                 <h3>Time by Walkability <span class="thesis-badge">Walkability</span></h3>
                 <p class="card-description" title="Time spent at away-from-home locations grouped by Walk Score zone. High=70-100, Medium=50-69, Low=25-49, Very Low=0-24.">Hours spent in areas by Walk Score category (away from home) <span style="color: #9ca3af; cursor: help;">ⓘ</span></p>
                 <div class="analytics-chart-container">
@@ -1290,7 +1290,7 @@
             </div>
 
             <!-- Walk Score Statistics -->
-            <div class="analytics-card">
+            <div class="analytics-card" id="walkscore-stats-card">
                 <h3>Walkability Statistics <span class="thesis-badge">Walkability</span></h3>
                 <p class="card-description">Summary across away-from-home locations</p>
                 <div class="analytics-chart-container">
@@ -3528,8 +3528,12 @@
 
         // Create Walk Score zone chart (donut/pie)
         function createWalkabilityZoneChart(analytics) {
+            const card = document.getElementById('walkability-zone-card');
             const ctx = document.getElementById('walkability-zone-chart');
-            if (!ctx) return;
+            if (!ctx) {
+                if (card) card.classList.remove('card-loading');
+                return;
+            }
 
             const darkMode = isDarkMode();
             const timeByZone = analytics.timeByZone;
@@ -3537,6 +3541,7 @@
 
             if (totalTime === 0) {
                 ctx.parentElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #6b7280;">No walkability data</div>';
+                if (card) card.classList.remove('card-loading');
                 return;
             }
 
@@ -3581,13 +3586,14 @@
                     }
                 }
             });
+
+            if (card) card.classList.remove('card-loading');
         }
 
         // Create Walking vs Walk Score scatter chart (with reverse geocoding for city grouping)
         async function createWalkingVsWalkscoreChart(analytics) {
             console.log('createWalkingVsWalkscoreChart called', { analytics });
             const card = document.getElementById('walking-vs-walkscore-card');
-            if (card) card.classList.add('card-loading');
 
             const ctx = document.getElementById('walking-vs-walkscore-chart');
             if (!ctx) {
@@ -3800,12 +3806,14 @@
 
         // Update Walk Score efficiency display
         function updateWalkingEfficiencyDisplay(analytics) {
+            const card = document.getElementById('walking-efficiency-card');
             const valueEl = document.getElementById('efficiency-value');
             const labelEl = document.getElementById('efficiency-label');
 
             if (!analytics || analytics.efficiencyIndex === undefined) {
                 valueEl.textContent = '--';
                 labelEl.textContent = 'Insufficient data';
+                if (card) card.classList.remove('card-loading');
                 return;
             }
 
@@ -3826,15 +3834,20 @@
                 valueEl.style.color = '#ef4444';
                 labelEl.textContent = 'Significantly underutilizing walkable areas';
             }
+
+            if (card) card.classList.remove('card-loading');
         }
 
         // Update Walk Score statistics display
         function updateWalkScoreStatistics(analytics) {
+            const card = document.getElementById('walkscore-stats-card');
+
             if (!analytics) {
                 document.getElementById('stat-avg-walkscore').textContent = '--';
                 document.getElementById('stat-weighted-walkscore').textContent = '--';
                 document.getElementById('stat-walking-high').textContent = '--';
                 document.getElementById('stat-walking-low').textContent = '--';
+                if (card) card.classList.remove('card-loading');
                 return;
             }
 
@@ -3848,6 +3861,8 @@
                         analytics.walkingRateByZone.veryLow * analytics.timeByZone.veryLow) /
                         (analytics.timeByZone.low + analytics.timeByZone.veryLow || 1)).toFixed(1)
                     : '0.0') + '%';
+
+            if (card) card.classList.remove('card-loading');
         }
 
         // Update Walk Score status message
@@ -3862,6 +3877,19 @@
         async function renderWalkScoreAnalytics() {
             updateWalkScoreStatus('Calculating walkability metrics...');
 
+            // Add loading states to all Walk Score cards
+            const headerCard = document.getElementById('walkscore-header');
+            const efficiencyCard = document.getElementById('walking-efficiency-card');
+            const zoneCard = document.getElementById('walkability-zone-card');
+            const vsCard = document.getElementById('walking-vs-walkscore-card');
+            const statsCard = document.getElementById('walkscore-stats-card');
+
+            if (headerCard) headerCard.classList.add('card-loading');
+            if (efficiencyCard) efficiencyCard.classList.add('card-loading');
+            if (zoneCard) zoneCard.classList.add('card-loading');
+            if (vsCard) vsCard.classList.add('card-loading');
+            if (statsCard) statsCard.classList.add('card-loading');
+
             try {
                 // Get Walk Scores (from cache or estimation)
                 const walkScores = await getWalkScoresForLocations();
@@ -3870,6 +3898,12 @@
                     updateWalkScoreStatus('No walkability data available. Configure Walk Score API for real data.');
                     updateWalkingEfficiencyDisplay(null);
                     updateWalkScoreStatistics(null);
+                    // Remove loading states
+                    if (headerCard) headerCard.classList.remove('card-loading');
+                    if (efficiencyCard) efficiencyCard.classList.remove('card-loading');
+                    if (zoneCard) zoneCard.classList.remove('card-loading');
+                    if (vsCard) vsCard.classList.remove('card-loading');
+                    if (statsCard) statsCard.classList.remove('card-loading');
                     return;
                 }
 
@@ -3878,6 +3912,12 @@
 
                 if (!analytics) {
                     updateWalkScoreStatus('Insufficient location data for walkability analysis.');
+                    // Remove loading states
+                    if (headerCard) headerCard.classList.remove('card-loading');
+                    if (efficiencyCard) efficiencyCard.classList.remove('card-loading');
+                    if (zoneCard) zoneCard.classList.remove('card-loading');
+                    if (vsCard) vsCard.classList.remove('card-loading');
+                    if (statsCard) statsCard.classList.remove('card-loading');
                     return;
                 }
 
@@ -3891,7 +3931,10 @@
                     updateWalkScoreStatus(`Analyzed ${cachedCount} grid cells. Using estimated scores.`);
                 }
 
-                // Render visualizations
+                // Remove header loading state once data is ready
+                if (headerCard) headerCard.classList.remove('card-loading');
+
+                // Render visualizations (each function removes its card's loading state)
                 createWalkabilityZoneChart(analytics);
                 await createWalkingVsWalkscoreChart(analytics);
                 updateWalkingEfficiencyDisplay(analytics);
@@ -3900,6 +3943,12 @@
             } catch (error) {
                 console.error('Walk Score analytics error:', error);
                 updateWalkScoreStatus('Error calculating walkability metrics: ' + error.message);
+                // Remove loading states on error
+                if (headerCard) headerCard.classList.remove('card-loading');
+                if (efficiencyCard) efficiencyCard.classList.remove('card-loading');
+                if (zoneCard) zoneCard.classList.remove('card-loading');
+                if (vsCard) vsCard.classList.remove('card-loading');
+                if (statsCard) statsCard.classList.remove('card-loading');
             }
         }
 
@@ -4720,6 +4769,18 @@
         function createRadiusGyrationChart() {
             if (locationsData.length === 0) return;
 
+            const homes = detectHomeClusters();
+            const HOME_THRESHOLD = 500; // meters
+
+            // Helper to find which home a point is near (returns home index or -1)
+            function getNearestHomeIndex(lat, lng) {
+                for (let i = 0; i < homes.length; i++) {
+                    const dist = haversineDistance(homes[i].lat, homes[i].lng, lat, lng);
+                    if (dist <= HOME_THRESHOLD) return i;
+                }
+                return -1;
+            }
+
             // Group locations by day
             const dailyLocations = {};
             locationsData.forEach(loc => {
@@ -4731,10 +4792,38 @@
                 dailyLocations[date].push(loc);
             });
 
-            // Calculate radius of gyration for each day
-            const sortedDates = Object.keys(dailyLocations).sort();
+            // Filter to only days where start and end are at SAME home
+            const validDays = {};
+            let skippedTravelDays = 0;
+
+            Object.entries(dailyLocations).forEach(([date, locs]) => {
+                if (locs.length < 2) return; // Need at least 2 points
+
+                // Sort by timestamp to get first and last
+                const sorted = [...locs].sort((a, b) =>
+                    new Date(a.timestamp) - new Date(b.timestamp)
+                );
+
+                const firstLoc = sorted[0];
+                const lastLoc = sorted[sorted.length - 1];
+
+                const startHomeIdx = getNearestHomeIndex(firstLoc.latitude, firstLoc.longitude);
+                const endHomeIdx = getNearestHomeIndex(lastLoc.latitude, lastLoc.longitude);
+
+                // Only include if started and ended at SAME home
+                if (startHomeIdx >= 0 && startHomeIdx === endHomeIdx) {
+                    validDays[date] = locs;
+                } else {
+                    skippedTravelDays++;
+                }
+            });
+
+            console.log(`RoG: Including ${Object.keys(validDays).length} days, skipped ${skippedTravelDays} travel days`);
+
+            // Calculate radius of gyration for each valid day
+            const sortedDates = Object.keys(validDays).sort();
             const rogValues = sortedDates.map(date => {
-                const points = dailyLocations[date];
+                const points = validDays[date];
 
                 // Calculate centroid
                 const centroidLat = points.reduce((sum, p) => sum + p.latitude, 0) / points.length;
