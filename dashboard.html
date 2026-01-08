@@ -727,6 +727,8 @@
             font-size: 13px;
             line-height: 1.6;
             max-width: 400px;
+            position: fixed;
+            z-index: 1000;
         }
 
         body.dark-mode .metric-explainer {
@@ -1309,6 +1311,44 @@
                             <span style="color: #6b7280; font-size: 14px;">Walking in Low (<50) <span style="color: #9ca3af; cursor: help;">ⓘ</span></span>
                             <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-walking-low">--</span>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Place Attachment -->
+            <div class="analytics-card wide" id="place-attachment-card">
+                <h3>Place Attachment <span class="thesis-badge">Spatial</span></h3>
+                <p class="card-description">Personally significant places based on visit frequency, dwell duration, and temporal regularity</p>
+                <div class="analytics-chart-container" style="height: auto; min-height: 300px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; height: 100%;">
+                        <!-- Left: Stats and Top Places List -->
+                        <div style="display: flex; flex-direction: column;">
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--mix-border);">
+                                <span style="color: var(--mix-text-muted); font-size: 12px;">High-Attachment Places</span>
+                                <span style="color: var(--mix-text); font-size: 14px; font-weight: 600;" id="stat-high-attachment-count">--</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--mix-border);">
+                                <span style="color: var(--mix-text-muted); font-size: 12px;">Avg Visits (Top Places)</span>
+                                <span style="color: var(--mix-text); font-size: 14px; font-weight: 600;" id="stat-avg-visits-top">--</span>
+                            </div>
+                            <div style="margin-top: 16px; overflow-y: auto; flex: 1;">
+                                <table id="attachment-table" style="width: 100%; font-size: 11px; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="border-bottom: 1px solid var(--mix-border); color: var(--mix-text-muted);">
+                                            <th style="text-align: left; padding: 6px 4px; font-weight: 600;">Rank</th>
+                                            <th style="text-align: left; padding: 6px 4px; font-weight: 600;">Location</th>
+                                            <th style="text-align: right; padding: 6px 4px; font-weight: 600;">Score</th>
+                                            <th style="text-align: right; padding: 6px 4px; font-weight: 600;">Visits</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="attachment-table-body">
+                                        <tr><td colspan="4" style="text-align: center; padding: 20px; color: var(--mix-text-muted);">Calculating...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Right: Mini Map -->
+                        <div id="attachment-map" style="height: 280px; border-radius: 8px; background: var(--mix-card-bg);"></div>
                     </div>
                 </div>
             </div>
@@ -2200,9 +2240,37 @@
 
             let hideTimeout;
 
+            function positionPopover() {
+                const iconRect = infoIcon.getBoundingClientRect();
+                const explainerRect = explainer.getBoundingClientRect();
+
+                // Position below and slightly to the left of the icon
+                let top = iconRect.bottom + 8;
+                let left = iconRect.left - 10;
+
+                // Check if popover would go off the right edge
+                if (left + explainerRect.width > window.innerWidth - 10) {
+                    left = window.innerWidth - explainerRect.width - 10;
+                }
+
+                // Check if popover would go off the left edge
+                if (left < 10) {
+                    left = 10;
+                }
+
+                // Check if popover would go off the bottom
+                if (top + explainerRect.height > window.innerHeight - 10) {
+                    top = iconRect.top - explainerRect.height - 8;
+                }
+
+                explainer.style.top = `${top}px`;
+                explainer.style.left = `${left}px`;
+            }
+
             infoIcon.addEventListener('mouseenter', () => {
                 clearTimeout(hideTimeout);
                 explainer.showPopover();
+                requestAnimationFrame(positionPopover);
             });
 
             infoIcon.addEventListener('mouseleave', () => {
@@ -2648,14 +2716,17 @@
 
         // Destroy all analytics charts
         function destroyAnalyticsCharts() {
-            // Destroy home detection map FIRST (before resetting object)
+            // Destroy Leaflet maps FIRST (before resetting object)
             if (analyticsCharts.homeDetectionMap) {
                 analyticsCharts.homeDetectionMap.remove();
+            }
+            if (analyticsCharts.attachmentMap) {
+                analyticsCharts.attachmentMap.remove();
             }
 
             // Destroy Chart.js charts (includes Walk Score charts)
             Object.entries(analyticsCharts).forEach(([key, chart]) => {
-                if (key !== 'homeDetectionMap' && chart && typeof chart.destroy === 'function') {
+                if (key !== 'homeDetectionMap' && key !== 'attachmentMap' && chart && typeof chart.destroy === 'function') {
                     chart.destroy();
                 }
             });
@@ -2735,6 +2806,421 @@
                 return minDistance > HOME_THRESHOLD;
             });
         }
+
+        // ============================================================
+        // VENUE LOOKUP
+        // ============================================================
+
+        const VENUE_CACHE_KEY = 'mix-venue-cache';
+        const VENUE_CACHE_TTL = 30 * 24 * 60 * 60 * 1000; // 30 days
+
+        function getVenueCache() {
+            try {
+                const cached = localStorage.getItem(VENUE_CACHE_KEY);
+                return cached ? JSON.parse(cached) : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveVenueCache(cache) {
+            try {
+                localStorage.setItem(VENUE_CACHE_KEY, JSON.stringify(cache));
+            } catch (e) {}
+        }
+
+        // ============================================================
+        // GEOCODING CACHE (for city lookup)
+        // ============================================================
+
+        const GEOCODING_CACHE_KEY = 'mix-geocoding-cache';
+        const GEOCODING_CACHE_TTL = 90 * 24 * 60 * 60 * 1000; // 90 days
+
+        function getGeocodingCache() {
+            try {
+                const cached = localStorage.getItem(GEOCODING_CACHE_KEY);
+                return cached ? JSON.parse(cached) : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveGeocodingCache(cache) {
+            try {
+                localStorage.setItem(GEOCODING_CACHE_KEY, JSON.stringify(cache));
+            } catch (e) {}
+        }
+
+        // Reverse geocode to get city name using Geoapify (rate limited: 1 req/sec on DEMO key)
+        async function reverseGeocode(lat, lon) {
+            const cacheKey = `${lat.toFixed(3)},${lon.toFixed(3)}`;
+            const cache = getGeocodingCache();
+
+            // Check cache first
+            if (cache[cacheKey] && (Date.now() - cache[cacheKey].fetchedAt) < GEOCODING_CACHE_TTL) {
+                return cache[cacheKey].city;
+            }
+
+            try {
+                // Use DEMO key with rate limiting (1 req/sec)
+                await new Promise(resolve => setTimeout(resolve, 1000)); // Rate limit delay
+                const response = await fetch(
+                    `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&apiKey=DEMO`
+                );
+                if (!response.ok) throw new Error('Geocode failed');
+                const data = await response.json();
+                const props = data.features?.[0]?.properties || {};
+                const city = props.city || props.county || props.state || 'Unknown';
+
+                // Cache the result
+                cache[cacheKey] = { city, fetchedAt: Date.now() };
+                saveGeocodingCache(cache);
+                return city;
+            } catch (error) {
+                console.warn('Reverse geocoding failed:', error);
+                return 'Unknown';
+            }
+        }
+
+        // ============================================================
+        // END GEOCODING CACHE
+        // ============================================================
+
+        // Lookup nearby venue using Geoapify Places API (free tier: 3000/day)
+        async function lookupVenue(lat, lng) {
+            const cacheKey = `${lat.toFixed(4)},${lng.toFixed(4)}`;
+            const cache = getVenueCache();
+
+            if (cache[cacheKey] && (Date.now() - cache[cacheKey].fetchedAt) < VENUE_CACHE_TTL) {
+                return cache[cacheKey].venue;
+            }
+
+            try {
+                // Use Geoapify Places API to find nearby POIs
+                const radius = 50; // 50m radius
+                const apiKey = ''; // User needs to add their key
+
+                if (!apiKey) {
+                    // Fallback to reverse geocoding for neighborhood/address
+                    const response = await fetch(
+                        `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=DEMO`
+                    );
+                    if (!response.ok) throw new Error('Geocode failed');
+                    const data = await response.json();
+                    const props = data.features?.[0]?.properties || {};
+                    const venue = {
+                        name: props.name || props.street || 'Unknown Location',
+                        category: props.result_type || 'location',
+                        address: props.formatted || ''
+                    };
+                    cache[cacheKey] = { venue, fetchedAt: Date.now() };
+                    saveVenueCache(cache);
+                    return venue;
+                }
+
+                // With API key, search for actual venues
+                const url = `https://api.geoapify.com/v2/places?categories=commercial,catering,entertainment,leisure,tourism,accommodation,education,office&filter=circle:${lng},${lat},${radius}&limit=1&apiKey=${apiKey}`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Places API failed');
+                const data = await response.json();
+
+                if (data.features && data.features.length > 0) {
+                    const place = data.features[0].properties;
+                    const venue = {
+                        name: place.name || 'Unnamed Venue',
+                        category: place.categories?.[0]?.split('.').pop() || 'venue',
+                        address: place.formatted || ''
+                    };
+                    cache[cacheKey] = { venue, fetchedAt: Date.now() };
+                    saveVenueCache(cache);
+                    return venue;
+                }
+
+                // No POI found, use address
+                const geoUrl = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${apiKey}`;
+                const geoResp = await fetch(geoUrl);
+                const geoData = await geoResp.json();
+                const props = geoData.features?.[0]?.properties || {};
+                const venue = {
+                    name: props.street || props.suburb || props.city || 'Unknown',
+                    category: 'area',
+                    address: props.formatted || ''
+                };
+                cache[cacheKey] = { venue, fetchedAt: Date.now() };
+                saveVenueCache(cache);
+                return venue;
+            } catch (error) {
+                console.warn('Venue lookup failed:', error);
+                return { name: `${lat.toFixed(4)}, ${lng.toFixed(4)}`, category: 'coordinates', address: '' };
+            }
+        }
+
+        // ============================================================
+        // END VENUE LOOKUP
+        // ============================================================
+
+        // ============================================================
+        // PLACE ATTACHMENT ANALYTICS
+        // ============================================================
+
+        // Cluster visits by location using DBSCAN-like algorithm
+        function clusterVisitsByLocation() {
+            const awayVisits = getAwayVisits();
+            if (awayVisits.length === 0) return [];
+
+            const CLUSTER_RADIUS = 50; // 50m radius for place clustering
+            const clusters = [];
+            const visited = new Set();
+
+            awayVisits.forEach((visit, idx) => {
+                if (visited.has(idx)) return;
+
+                const cluster = {
+                    visits: [visit],
+                    visitIndices: [idx]
+                };
+                visited.add(idx);
+                const queue = [idx];
+
+                // DBSCAN-like clustering
+                while (queue.length > 0) {
+                    const currentIdx = queue.shift();
+                    const currentVisit = awayVisits[currentIdx];
+
+                    awayVisits.forEach((otherVisit, otherIdx) => {
+                        if (visited.has(otherIdx)) return;
+
+                        const distance = haversineDistance(
+                            currentVisit.latitude, currentVisit.longitude,
+                            otherVisit.latitude, otherVisit.longitude
+                        );
+
+                        if (distance <= CLUSTER_RADIUS) {
+                            cluster.visits.push(otherVisit);
+                            cluster.visitIndices.push(otherIdx);
+                            visited.add(otherIdx);
+                            queue.push(otherIdx);
+                        }
+                    });
+                }
+
+                clusters.push(cluster);
+            });
+
+            return clusters;
+        }
+
+        // Calculate attachment score for a place cluster
+        function calculateAttachmentScore(cluster) {
+            if (cluster.visits.length === 0) return { score: 0 };
+
+            // Get observation period in days
+            const startInput = document.getElementById('date-start').value;
+            const endInput = document.getElementById('date-end').value;
+            const startDate = parseLocalDate(startInput);
+            const endDate = parseLocalDate(endInput);
+            const observationDays = Math.max(1, (endDate - startDate) / (1000 * 60 * 60 * 24));
+
+            // 1. Frequency: visits per day
+            const frequency = cluster.visits.length / observationDays;
+
+            // 2. Temporal Regularity: inverse of std dev of time between visits
+            let regularity = 0;
+            if (cluster.visits.length > 1) {
+                const timestamps = cluster.visits
+                    .filter(v => v.arrivalDate)
+                    .map(v => new Date(v.arrivalDate).getTime())
+                    .sort((a, b) => a - b);
+
+                if (timestamps.length > 1) {
+                    const intervals = [];
+                    for (let i = 1; i < timestamps.length; i++) {
+                        intervals.push((timestamps[i] - timestamps[i-1]) / (1000 * 60 * 60 * 24)); // days
+                    }
+
+                    if (intervals.length > 0) {
+                        const meanInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+                        const variance = intervals.reduce((sum, val) => sum + Math.pow(val - meanInterval, 2), 0) / intervals.length;
+                        const stdDev = Math.sqrt(variance);
+
+                        // Regularity is inverse of std dev, normalized
+                        regularity = stdDev > 0 ? 1 / (1 + stdDev) : 1;
+                    }
+                }
+            }
+
+            // 3. Duration Investment: total time spent
+            let totalDwellMinutes = 0;
+            cluster.visits.forEach(visit => {
+                if (visit.arrivalDate && visit.departureDate) {
+                    const arrival = new Date(visit.arrivalDate).getTime();
+                    const departure = new Date(visit.departureDate).getTime();
+                    const duration = (departure - arrival) / 1000 / 60; // minutes
+                    if (duration > 0) {
+                        totalDwellMinutes += duration;
+                    }
+                }
+            });
+
+            // Normalize duration to hours per day
+            const hoursPerDay = (totalDwellMinutes / 60) / observationDays;
+
+            // Calculate centroid
+            const lat = cluster.visits.reduce((sum, v) => sum + v.latitude, 0) / cluster.visits.length;
+            const lng = cluster.visits.reduce((sum, v) => sum + v.longitude, 0) / cluster.visits.length;
+
+            // Composite score
+            const score = (frequency * 10) + (regularity * 5) + (hoursPerDay * 2);
+
+            return {
+                lat,
+                lng,
+                score,
+                visitCount: cluster.visits.length,
+                totalDwellMinutes,
+                frequency,
+                regularity
+            };
+        }
+
+        // Get places with high attachment scores
+        function getHighAttachmentPlaces() {
+            const clusters = clusterVisitsByLocation();
+            const placesWithScores = clusters.map(cluster => calculateAttachmentScore(cluster));
+            placesWithScores.sort((a, b) => b.score - a.score);
+            return placesWithScores;
+        }
+
+        // Render Place Attachment analytics
+        async function renderPlaceAttachment() {
+            const places = getHighAttachmentPlaces();
+            const topPlaces = places.slice(0, 10);
+
+            // Update summary stats
+            const highAttachmentThreshold = places.length > 0 ? places[0].score * 0.5 : 0;
+            const highAttachmentCount = places.filter(p => p.score >= highAttachmentThreshold).length;
+            document.getElementById('stat-high-attachment-count').textContent = highAttachmentCount;
+
+            if (topPlaces.length > 0) {
+                const avgVisits = topPlaces.reduce((sum, p) => sum + p.visitCount, 0) / topPlaces.length;
+                document.getElementById('stat-avg-visits-top').textContent = avgVisits.toFixed(1);
+            } else {
+                document.getElementById('stat-avg-visits-top').textContent = '0';
+            }
+
+            // Lookup venues for all places
+            const placesWithVenues = await Promise.all(
+                topPlaces.map(async (place) => ({
+                    ...place,
+                    venue: await lookupVenue(place.lat, place.lng)
+                }))
+            );
+
+            // Populate table
+            const tbody = document.getElementById('attachment-table-body');
+            if (placesWithVenues.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px; color: var(--mix-text-muted);">No places found</td></tr>';
+            } else {
+                tbody.innerHTML = placesWithVenues.map((place, idx) => {
+                    const coords = `${place.lat.toFixed(4)}, ${place.lng.toFixed(4)}`;
+                    return `
+                        <tr style="border-bottom: 1px solid var(--mix-border);">
+                            <td style="padding: 8px 4px; color: var(--mix-text-muted);">${idx + 1}</td>
+                            <td style="padding: 8px 4px; color: var(--mix-text);" title="${coords}">
+                                <div style="font-size: 12px;">${place.venue.name}</div>
+                                <div style="font-size: 10px; color: var(--mix-text-muted); text-transform: capitalize;">${place.venue.category}</div>
+                            </td>
+                            <td style="padding: 8px 4px; text-align: right; color: var(--mix-text); font-weight: 600;">${place.score.toFixed(1)}</td>
+                            <td style="padding: 8px 4px; text-align: right; color: var(--mix-text);">${place.visitCount}</td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            // Create mini map
+            const container = document.getElementById('attachment-map');
+            container.innerHTML = '';
+
+            if (placesWithVenues.length === 0) {
+                container.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--mix-text-muted);">No data available</div>';
+                return;
+            }
+
+            const darkMode = isDarkMode();
+            const tileUrl = darkMode
+                ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+                : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+
+            const attachmentMap = L.map(container).setView([0, 0], 2);
+            L.tileLayer(tileUrl, {
+                attribution: '&copy; OpenStreetMap &copy; CARTO',
+                subdomains: 'abcd',
+                maxZoom: 19,
+                detectRetina: true
+            }).addTo(attachmentMap);
+
+            const markers = [];
+
+            // Add markers for top places with color coding by attachment level
+            placesWithVenues.forEach((place, idx) => {
+                let color;
+                if (idx < 3) {
+                    color = '#8b5cf6'; // High attachment - purple
+                } else if (idx < 6) {
+                    color = '#a78bfa'; // Medium attachment - light purple
+                } else {
+                    color = '#22d3ee'; // Lower attachment - cyan
+                }
+
+                const coords = `${place.lat.toFixed(4)}, ${place.lng.toFixed(4)}`;
+                const marker = L.circleMarker([place.lat, place.lng], {
+                    radius: 8,
+                    fillColor: color,
+                    color: '#ffffff',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(attachmentMap).bindPopup(`
+                    <div class="popup-content">
+                        <div style="font-weight: 700; margin-bottom: 8px; color: var(--mix-text);">${place.venue.name}</div>
+                        <div style="font-size: 10px; color: var(--mix-text-muted); margin-bottom: 8px; text-transform: capitalize;">
+                            ${place.venue.category} • Rank ${idx + 1}
+                        </div>
+                        <div style="font-size: 11px;">
+                            <div style="display: flex; justify-content: space-between; padding: 4px 0;">
+                                <span style="color: var(--mix-text-muted);">Attachment Score:</span>
+                                <span style="color: var(--mix-text); font-weight: 600;">${place.score.toFixed(1)}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 4px 0;">
+                                <span style="color: var(--mix-text-muted);">Visits:</span>
+                                <span style="color: var(--mix-text);">${place.visitCount}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 4px 0;">
+                                <span style="color: var(--mix-text-muted);">Total Time:</span>
+                                <span style="color: var(--mix-text);">${formatDuration(place.totalDwellMinutes)}</span>
+                            </div>
+                            <div style="font-size: 9px; color: var(--mix-text-muted); margin-top: 8px; font-family: monospace;">
+                                ${coords}
+                            </div>
+                        </div>
+                    </div>
+                `);
+
+                markers.push(marker);
+            });
+
+            // Fit bounds to show all markers
+            if (markers.length > 0) {
+                const group = L.featureGroup(markers);
+                attachmentMap.fitBounds(group.getBounds(), { padding: [30, 30] });
+            }
+
+            analyticsCharts.attachmentMap = attachmentMap;
+        }
+
+        // ============================================================
+        // END PLACE ATTACHMENT ANALYTICS
+        // ============================================================
 
         // ============================================================
         // WALK SCORE ANALYTICS
@@ -3117,51 +3603,162 @@
             });
         }
 
-        // Create Walking vs Walk Score scatter chart
-        function createWalkingVsWalkscoreChart(analytics) {
+        // Create Walking vs Walk Score scatter chart (with reverse geocoding for city grouping)
+        async function createWalkingVsWalkscoreChart(analytics) {
+            console.log('createWalkingVsWalkscoreChart called', { analytics });
+            const card = document.getElementById('walking-vs-walkscore-card');
+            if (card) card.classList.add('card-loading');
+
             const ctx = document.getElementById('walking-vs-walkscore-chart');
-            if (!ctx) return;
+            if (!ctx) {
+                console.warn('walking-vs-walkscore-chart canvas not found');
+                if (card) card.classList.remove('card-loading');
+                return;
+            }
 
             const darkMode = isDarkMode();
             const cellData = analytics.cellData;
 
-            // Prepare scatter data
-            const scatterData = Object.values(cellData).map(cell => ({
-                x: cell.score,
-                y: cell.total > 0 ? (cell.walking / cell.total) * 100 : 0,
-                r: Math.min(Math.sqrt(cell.total) * 2, 15) // Bubble size based on time spent
-            }));
+            // Geocode all cells and aggregate by city
+            const cityData = {}; // city -> { points: [...], totalDataPoints: N, totalWalkScore: N }
+            const cellsArray = Object.entries(cellData);
+
+            // First, try to use cached geocoding data
+            const geocodingCache = getGeocodingCache();
+            const cellsWithCities = [];
+
+            for (const [gridKey, cell] of cellsArray) {
+                // Defensive check for lat/lon
+                if (cell.lat === undefined || cell.lon === undefined) {
+                    console.warn('Cell missing lat/lon:', { gridKey, cell });
+                    continue;
+                }
+
+                const cacheKey = `${cell.lat.toFixed(3)},${cell.lon.toFixed(3)}`;
+                let city = 'Unknown';
+
+                if (geocodingCache[cacheKey] && (Date.now() - geocodingCache[cacheKey].fetchedAt) < GEOCODING_CACHE_TTL) {
+                    city = geocodingCache[cacheKey].city;
+                } else {
+                    // Will geocode later for top cells only
+                    city = null;
+                }
+
+                cellsWithCities.push({ gridKey, cell, city, cacheKey });
+            }
+
+            // Identify cells to geocode (prioritize by data points)
+            // Only geocode top 5 cells to avoid long delays (rate limited to 1/sec)
+            const cellsToGeocode = cellsWithCities
+                .filter(item => item.city === null)
+                .sort((a, b) => b.cell.total - a.cell.total)
+                .slice(0, 5);
+
+            // Geocode with timeout per cell
+            const geocodeWithTimeout = (lat, lon, timeout = 5000) => {
+                return Promise.race([
+                    reverseGeocode(lat, lon),
+                    new Promise((_, reject) =>
+                        setTimeout(() => reject(new Error('Geocoding timeout')), timeout)
+                    )
+                ]);
+            };
+
+            for (const item of cellsToGeocode) {
+                try {
+                    item.city = await geocodeWithTimeout(item.cell.lat, item.cell.lon);
+                } catch (error) {
+                    console.warn('Failed to geocode', item.cell.lat, item.cell.lon, error.message);
+                    item.city = 'Unknown';
+                }
+            }
+
+            // Aggregate by city
+            cellsWithCities.forEach(({ cell, city }) => {
+                if (!city) city = 'Unknown';
+
+                if (!cityData[city]) {
+                    cityData[city] = {
+                        points: [],
+                        totalDataPoints: 0,
+                        totalWalkScore: 0
+                    };
+                }
+
+                const walkingPct = cell.total > 0 ? (cell.walking / cell.total) * 100 : 0;
+
+                cityData[city].points.push({
+                    x: cell.score,
+                    y: walkingPct,
+                    r: Math.min(Math.sqrt(cell.total) * 2, 15),
+                    lat: cell.lat,
+                    lon: cell.lon,
+                    city: city
+                });
+                cityData[city].totalDataPoints += cell.total;
+                cityData[city].totalWalkScore += cell.score;
+            });
+
+            // Identify top 4 cities by total data points (most visited)
+            const citiesByVisits = Object.entries(cityData)
+                .sort((a, b) => b[1].totalDataPoints - a[1].totalDataPoints)
+                .slice(0, 4);
+
+            const topCities = new Set(citiesByVisits.map(([city]) => city));
+
+            // Color palette for top 4 cities - grayscale
+            const cityColors = {
+                0: { bg: 'rgba(255, 255, 255, 0.6)', border: '#ffffff' },   // White
+                1: { bg: 'rgba(204, 204, 204, 0.6)', border: '#cccccc' },  // Light gray
+                2: { bg: 'rgba(170, 170, 170, 0.6)', border: '#aaaaaa' },   // Medium gray
+                3: { bg: 'rgba(136, 136, 136, 0.6)', border: '#888888' }   // Dark gray
+            };
+            const otherColor = { bg: 'rgba(102, 102, 102, 0.4)', border: '#666666' }; // Darker gray
+
+            // Build datasets: one for each top city + one for "Other"
+            const datasets = [];
+
+            citiesByVisits.forEach(([city, data], idx) => {
+                const color = cityColors[idx];
+                datasets.push({
+                    label: city,
+                    data: data.points,
+                    backgroundColor: color.bg,
+                    borderColor: color.border,
+                    borderWidth: 1
+                });
+            });
+
+            // Add "Other" cities dataset
+            Object.entries(cityData).forEach(([city, data]) => {
+                if (!topCities.has(city)) {
+                    datasets.push({
+                        label: 'Other',
+                        data: data.points,
+                        backgroundColor: otherColor.bg,
+                        borderColor: otherColor.border,
+                        borderWidth: 1,
+                        hidden: true // Hide by default
+                    });
+                }
+            });
 
             // Expected walking line (Walk Score → expected walking %)
-            const expectedLine = [
-                { x: 0, y: 0 },
-                { x: 100, y: 70 }
-            ];
+            datasets.push({
+                label: 'Expected Rate',
+                data: [{ x: 0, y: 0 }, { x: 100, y: 70 }],
+                type: 'line',
+                borderColor: '#9ca3af',
+                borderDash: [5, 5],
+                borderWidth: 2,
+                pointRadius: 0,
+                pointStyle: 'line',
+                fill: false
+            });
 
             analyticsCharts.walkingVsWalkscore = new Chart(ctx.getContext('2d'), {
                 type: 'bubble',
-                data: {
-                    datasets: [
-                        {
-                            label: 'Your Walking Rate',
-                            data: scatterData,
-                            backgroundColor: 'rgba(59, 130, 246, 0.6)',
-                            borderColor: '#3b82f6',
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'Expected Rate',
-                            data: expectedLine,
-                            type: 'line',
-                            borderColor: '#9ca3af',
-                            borderDash: [5, 5],
-                            borderWidth: 2,
-                            pointRadius: 0,
-                            pointStyle: 'line',
-                            fill: false
-                        }
-                    ]
-                },
+                data: { datasets },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
@@ -3176,7 +3773,8 @@
                             callbacks: {
                                 label: function(context) {
                                     if (context.dataset.type === 'line') return null;
-                                    return `Walk Score: ${context.raw.x}, Walking: ${context.raw.y.toFixed(1)}%`;
+                                    const cityLabel = context.raw.city ? ` (${context.raw.city})` : '';
+                                    return `Walk Score: ${context.raw.x}, Walking: ${context.raw.y.toFixed(1)}%${cityLabel}`;
                                 }
                             }
                         }
@@ -3210,6 +3808,8 @@
                     }
                 }
             });
+
+            if (card) card.classList.remove('card-loading');
         }
 
         // Update Walk Score efficiency display
@@ -3307,7 +3907,7 @@
 
                 // Render visualizations
                 createWalkabilityZoneChart(analytics);
-                createWalkingVsWalkscoreChart(analytics);
+                await createWalkingVsWalkscoreChart(analytics);
                 updateWalkingEfficiencyDisplay(analytics);
                 updateWalkScoreStatistics(analytics);
 
@@ -4134,24 +4734,21 @@
         function createRadiusGyrationChart() {
             if (locationsData.length === 0) return;
 
-            // Group locations by week
-            const weeklyLocations = {};
+            // Group locations by day
+            const dailyLocations = {};
             locationsData.forEach(loc => {
-                const date = new Date(loc.timestamp);
-                const weekStart = new Date(date);
-                weekStart.setDate(date.getDate() - date.getDay()); // Sunday
-                const weekKey = weekStart.toISOString().split('T')[0];
+                const date = new Date(loc.timestamp).toISOString().split('T')[0];
 
-                if (!weeklyLocations[weekKey]) {
-                    weeklyLocations[weekKey] = [];
+                if (!dailyLocations[date]) {
+                    dailyLocations[date] = [];
                 }
-                weeklyLocations[weekKey].push(loc);
+                dailyLocations[date].push(loc);
             });
 
-            // Calculate radius of gyration for each week
-            const sortedWeeks = Object.keys(weeklyLocations).sort();
-            const rogValues = sortedWeeks.map(week => {
-                const points = weeklyLocations[week];
+            // Calculate radius of gyration for each day
+            const sortedDates = Object.keys(dailyLocations).sort();
+            const rogValues = sortedDates.map(date => {
+                const points = dailyLocations[date];
 
                 // Calculate centroid
                 const centroidLat = points.reduce((sum, p) => sum + p.latitude, 0) / points.length;
@@ -4166,8 +4763,8 @@
                 return Math.sqrt(sumSquaredDistances / points.length) / 1000; // km
             });
 
-            const labels = sortedWeeks.map(week => {
-                const [year, month, day] = week.split('-').map(Number);
+            const labels = sortedDates.map(date => {
+                const [year, month, day] = date.split('-').map(Number);
                 const d = new Date(year, month - 1, day);
                 return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
             });
@@ -4293,7 +4890,7 @@
         }
 
         // Main render analytics function
-        function renderAnalytics() {
+        async function renderAnalytics() {
             // Destroy old charts
             destroyAnalyticsCharts();
 
@@ -4318,6 +4915,12 @@
             createRadiusGyrationChart();
             createDwellDistributionChart();
             updateDwellTimeStatistics();
+
+            // Create Place Attachment analytics
+            const placeCard = document.getElementById('place-attachment-card');
+            if (placeCard) placeCard.classList.add('card-loading');
+            await renderPlaceAttachment();
+            if (placeCard) placeCard.classList.remove('card-loading');
 
             // Create Walk Score analytics
             renderWalkScoreAnalytics();
