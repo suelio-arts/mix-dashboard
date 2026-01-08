@@ -10,29 +10,7 @@
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossorigin=""/>
 
-    <!-- Montserrat Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
     <style>
-        :root {
-            --mix-black: #09090b;
-            --mix-dark: #0f0f11;
-            --mix-surface: #141416;
-            --mix-surface-hover: #1a1a1d;
-            --mix-border: #27272a;
-            --mix-border-subtle: #1f1f23;
-            --mix-accent: #8b5cf6;
-            --mix-accent-dim: #6d28d9;
-            --mix-accent-muted: rgba(139, 92, 246, 0.12);
-            --mix-text: #f4f4f5;
-            --mix-text-dim: #a1a1aa;
-            --mix-text-muted: #52525b;
-            --mix-success: #22c55e;
-            --mix-warning: #eab308;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -40,18 +18,18 @@
         }
 
         body {
-            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             display: flex;
             height: 100vh;
             overflow: hidden;
-            background: var(--mix-black);
-            color: var(--mix-text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         #sidebar {
-            width: 300px;
-            background: var(--mix-dark);
-            border-right: 1px solid var(--mix-border);
+            width: 320px;
+            background: #ffffff;
+            border-right: 1px solid #e5e7eb;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -59,75 +37,59 @@
         }
 
         body.dark-mode #sidebar {
-            background: var(--mix-dark);
-            border-right-color: var(--mix-border);
-        }
-
-        #main-content {
-            flex: 1;
-            position: relative;
-            height: 100vh;
+            background: #1f2937;
+            border-right-color: #374151;
         }
 
         #map {
-            width: 100%;
+            flex: 1;
             height: 100vh;
         }
 
         .sidebar-section {
             padding: 20px;
-            border-bottom: 1px solid var(--mix-border);
+            border-bottom: 1px solid #e5e7eb;
         }
 
         body.dark-mode .sidebar-section {
-            border-bottom-color: var(--mix-border);
+            border-bottom-color: #374151;
         }
 
         body.dark-mode #build-info {
-            border-top-color: var(--mix-border);
-            color: var(--mix-text-muted);
+            border-top-color: #374151;
+            color: #6b7280;
         }
 
         .sidebar-section h2 {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 16px;
-            color: var(--mix-text-muted);
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #111827;
         }
 
         body.dark-mode .sidebar-section h2 {
-            color: var(--mix-text-muted);
+            color: #f9fafb;
         }
 
         .stat-item {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            padding: 12px 0;
-            font-size: 13px;
-            color: var(--mix-text-dim);
-            border-bottom: 1px solid var(--mix-border);
-        }
-
-        .stat-item:last-child {
-            border-bottom: none;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #4b5563;
         }
 
         body.dark-mode .stat-item {
-            color: var(--mix-text-dim);
+            color: #d1d5db;
         }
 
         .stat-value {
-            font-weight: 700;
-            font-size: 15px;
-            color: var(--mix-text);
-            font-variant-numeric: tabular-nums;
+            font-weight: 600;
+            color: #111827;
         }
 
         body.dark-mode .stat-value {
-            color: var(--mix-text);
+            color: #f9fafb;
         }
 
         .filter-group {
@@ -136,97 +98,77 @@
 
         .filter-group label {
             display: block;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--mix-text-dim);
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #374151;
         }
 
         body.dark-mode .filter-group label {
-            color: var(--mix-text-dim);
+            color: #d1d5db;
         }
 
-        .filter-group input[type="date"],
-        #user-selector {
+        .filter-group input[type="date"] {
             width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--mix-border);
-            border-radius: 8px;
-            font-size: 13px;
-            font-family: 'Montserrat', sans-serif;
-            background: var(--mix-surface);
-            color: var(--mix-text);
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .filter-group input[type="date"]:focus,
-        #user-selector:focus {
-            outline: none;
-            border-color: var(--mix-purple);
-            box-shadow: 0 0 0 3px var(--mix-purple-glow);
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #ffffff;
+            color: #111827;
         }
 
         body.dark-mode .filter-group input[type="date"] {
-            background: var(--mix-surface);
-            border-color: var(--mix-border);
-            color: var(--mix-text);
+            background: #374151;
+            border-color: #4b5563;
+            color: #f9fafb;
         }
 
         body.dark-mode #user-selector {
-            background: var(--mix-surface);
-            border-color: var(--mix-border);
-            color: var(--mix-text);
+            background: #374151;
+            border-color: #4b5563;
+            color: #f9fafb;
         }
 
         body.dark-mode #user-stats {
-            color: var(--mix-text-muted);
+            color: #9ca3af;
         }
 
         .checkbox-group {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 8px;
         }
 
         .checkbox-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            color: var(--mix-text-dim);
-            padding: 8px 10px;
-            margin: 0 -10px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.15s;
-        }
-
-        .checkbox-item:hover {
-            background: var(--mix-surface);
+            gap: 8px;
+            font-size: 14px;
+            color: #374151;
         }
 
         body.dark-mode .checkbox-item {
-            color: var(--mix-text-dim);
+            color: #d1d5db;
         }
 
         .checkbox-item input[type="checkbox"] {
             width: 16px;
             height: 16px;
             cursor: pointer;
-            accent-color: var(--mix-purple);
         }
 
         .toggle-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 0;
-            font-size: 13px;
-            color: var(--mix-text-dim);
+            padding: 10px 0;
+            font-size: 14px;
+            color: #374151;
         }
 
         body.dark-mode .toggle-item {
-            color: var(--mix-text-dim);
+            color: #d1d5db;
         }
 
         .toggle-switch {
@@ -248,8 +190,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: var(--mix-border);
-            transition: 0.2s;
+            background-color: #d1d5db;
+            transition: 0.3s;
             border-radius: 24px;
         }
 
@@ -260,13 +202,13 @@
             width: 18px;
             left: 3px;
             bottom: 3px;
-            background-color: var(--mix-text);
-            transition: 0.2s;
+            background-color: white;
+            transition: 0.3s;
             border-radius: 50%;
         }
 
         input:checked + .toggle-slider {
-            background-color: var(--mix-purple);
+            background-color: #3b82f6;
         }
 
         input:checked + .toggle-slider:before {
@@ -274,40 +216,60 @@
         }
 
         .legend {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .legend-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 12px;
-            color: var(--mix-text-muted);
+            font-size: 13px;
+            color: #4b5563;
         }
 
         body.dark-mode .legend-item {
-            color: var(--mix-text-muted);
+            color: #d1d5db;
+        }
+
+        .legend-item[data-legend] {
+            cursor: pointer;
+            padding: 4px;
+            margin: -4px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .legend-item[data-legend]:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .legend-item[data-legend].disabled {
+            opacity: 0.4;
+            text-decoration: line-through;
+        }
+
+        .legend-item[data-legend].disabled:hover {
+            background: rgba(239, 68, 68, 0.1);
         }
 
         .legend-color {
-            width: 10px;
-            height: 10px;
-            border-radius: 3px;
-            border: none;
-            box-shadow: 0 0 4px currentColor;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.2);
         }
 
         .legend-marker {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: 2px;
-            border: none;
+            border: 1px solid rgba(0, 0, 0, 0.2);
         }
 
         #chart-container {
-            height: 180px;
+            height: 200px;
             margin-top: 12px;
         }
 
@@ -317,11 +279,8 @@
             justify-content: center;
             width: 100%;
             height: 100vh;
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            color: var(--mix-text-muted);
-            background: var(--mix-black);
+            font-size: 18px;
+            color: #6b7280;
         }
 
         .loading.loading-overlay {
@@ -330,29 +289,30 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.9);
             z-index: 1000;
         }
 
         body.dark-mode .loading {
-            background: var(--mix-black);
-            color: var(--mix-text-muted);
+            background: #111827;
+            color: #9ca3af;
         }
 
         body.dark-mode .loading.loading-overlay {
-            background: rgba(10, 10, 10, 0.95);
+            background: rgba(17, 24, 39, 0.9);
         }
 
         /* Card loading states */
         .analytics-card.card-loading .analytics-chart-container,
-        .analytics-card.card-loading .stat-value {
+        .analytics-card.card-loading .stat-value,
+        .metric-card.card-loading .metric-value {
             position: relative;
             overflow: hidden;
         }
 
         .analytics-card.card-loading .analytics-chart-container::after,
-        .analytics-card.card-loading .stat-value::after {
+        .analytics-card.card-loading .stat-value::after,
+        .metric-card.card-loading .metric-value::after {
             content: '';
             position: absolute;
             top: 0;
@@ -362,21 +322,16 @@
             background: linear-gradient(
                 90deg,
                 transparent 0%,
-                rgba(139, 92, 246, 0.08) 50%,
+                rgba(59, 130, 246, 0.08) 50%,
                 transparent 100%
             );
             animation: loading-shimmer 2s infinite;
         }
 
-        .analytics-card.card-loading .stat-value {
-            color: var(--mix-text-muted) !important;
+        .analytics-card.card-loading .stat-value,
+        .metric-card.card-loading .metric-value {
+            color: #9ca3af !important;
             opacity: 0.5;
-        }
-
-        .stat-value {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--mix-text);
         }
 
         @keyframes loading-shimmer {
@@ -390,90 +345,75 @@
 
         /* Leaflet popup styling */
         .leaflet-popup-content-wrapper {
-            border-radius: 12px;
-            background: var(--mix-surface);
-            color: var(--mix-text);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
         }
 
         body.dark-mode .leaflet-popup-content-wrapper {
-            background: var(--mix-surface);
-            color: var(--mix-text);
-        }
-
-        .leaflet-popup-tip {
-            background: var(--mix-surface);
+            background: #1f2937;
+            color: #f9fafb;
         }
 
         body.dark-mode .leaflet-popup-tip {
-            background: var(--mix-surface);
+            background: #1f2937;
         }
 
         .popup-content {
-            font-size: 12px;
+            font-size: 13px;
             line-height: 1.6;
-            font-family: 'Montserrat', sans-serif;
         }
 
         .popup-activity {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            font-size: 13px;
+            gap: 6px;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
 
         .popup-activity-dot {
             width: 10px;
             height: 10px;
-            border-radius: 3px;
+            border-radius: 50%;
         }
 
         .popup-row {
             display: flex;
             justify-content: space-between;
-            padding: 4px 0;
-            border-bottom: 1px solid var(--mix-border);
-        }
-
-        .popup-row:last-child {
-            border-bottom: none;
+            padding: 3px 0;
         }
 
         .popup-label {
-            color: var(--mix-text-muted);
+            color: #6b7280;
             font-weight: 500;
         }
 
         body.dark-mode .popup-label {
-            color: var(--mix-text-muted);
+            color: #9ca3af;
         }
 
         /* Mobile toggle button */
         .mobile-toggle {
             display: none;
             position: fixed;
-            bottom: 24px;
-            right: 24px;
+            bottom: 20px;
+            right: 20px;
             z-index: 1000;
-            width: 52px;
-            height: 52px;
-            border-radius: 14px;
-            background: var(--mix-purple);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #3b82f6;
             color: white;
             border: none;
-            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             cursor: pointer;
-            font-size: 20px;
+            font-size: 24px;
             align-items: center;
             justify-content: center;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s, background-color 0.2s;
         }
 
         .mobile-toggle:hover {
             transform: scale(1.05);
-            box-shadow: 0 6px 24px rgba(168, 85, 247, 0.5);
         }
 
         .mobile-toggle:active {
@@ -481,18 +421,18 @@
         }
 
         body.dark-mode .mobile-toggle {
-            background: var(--mix-purple);
+            background: #2563eb;
         }
 
         .stat-description {
-            font-size: 10px;
-            color: var(--mix-text-muted);
-            margin-top: 4px;
-            line-height: 1.4;
+            font-size: 11px;
+            color: #6b7280;
+            margin-top: 2px;
+            line-height: 1.3;
         }
 
         body.dark-mode .stat-description {
-            color: var(--mix-text-muted);
+            color: #9ca3af;
         }
 
         /* Mobile responsive styles */
@@ -512,11 +452,11 @@
                 transform: translateY(100%);
                 transition: transform 0.3s ease-out;
                 border-right: none;
-                border-top: 1px solid var(--mix-border);
+                border-top: 1px solid #e5e7eb;
             }
 
             body.dark-mode #sidebar {
-                border-top-color: var(--mix-border);
+                border-top-color: #374151;
             }
 
             #sidebar.mobile-open {
@@ -537,7 +477,7 @@
             }
 
             .sidebar-section h2 {
-                font-size: 10px;
+                font-size: 16px;
             }
 
             /* Mobile close button at top of sidebar */
@@ -545,109 +485,107 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                padding: 16px;
-                background: var(--mix-surface);
-                border-bottom: 1px solid var(--mix-border);
+                padding: 12px 16px;
+                background: #f3f4f6;
+                border-bottom: 1px solid #e5e7eb;
             }
 
             body.dark-mode .mobile-close {
-                background: var(--mix-surface);
-                border-bottom-color: var(--mix-border);
+                background: #374151;
+                border-bottom-color: #4b5563;
             }
 
             .mobile-close-title {
-                font-weight: 700;
-                font-size: 14px;
-                color: var(--mix-text);
+                font-weight: 600;
+                font-size: 16px;
+                color: #111827;
             }
 
             body.dark-mode .mobile-close-title {
-                color: var(--mix-text);
+                color: #f9fafb;
             }
 
             .mobile-close-btn {
-                width: 36px;
-                height: 36px;
-                border-radius: 10px;
-                background: var(--mix-border);
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                background: #e5e7eb;
                 border: none;
                 cursor: pointer;
-                font-size: 16px;
-                color: var(--mix-text-dim);
+                font-size: 18px;
+                color: #374151;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                transition: background 0.2s;
-            }
-
-            .mobile-close-btn:hover {
-                background: var(--mix-purple);
-                color: white;
             }
 
             body.dark-mode .mobile-close-btn {
-                background: var(--mix-border);
-                color: var(--mix-text-dim);
+                background: #4b5563;
+                color: #d1d5db;
             }
 
             #chart-container {
                 height: 150px;
             }
+
+            .tab-nav {
+                top: 12px;
+            }
         }
 
         /* Floating Tab Navigation Styles */
-        .floating-tabs {
+        .tab-nav {
             position: fixed;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 1001;
+            z-index: 1000;
             display: flex;
-            gap: 2px;
-            background: rgba(20, 20, 20, 0.9);
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-radius: 12px;
+            border-radius: 8px;
             padding: 4px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--mix-border);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
         }
 
-        body.dark-mode .floating-tabs {
-            background: rgba(20, 20, 20, 0.9);
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+        body.dark-mode .tab-nav {
+            background: rgba(31, 41, 55, 0.95);
+            border-color: #374151;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .tab-btn {
             padding: 10px 24px;
             border: none;
             background: transparent;
-            font-size: 13px;
-            font-weight: 600;
-            font-family: 'Montserrat', sans-serif;
-            color: var(--mix-text-muted);
             cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
             transition: all 0.2s;
-            border-radius: 8px;
+            position: relative;
+            border-radius: 6px;
         }
 
         body.dark-mode .tab-btn {
-            color: var(--mix-text-muted);
+            color: #9ca3af;
         }
 
         .tab-btn:hover {
-            color: var(--mix-text);
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
         }
 
         .tab-btn.active {
-            color: white;
-            background: var(--mix-purple);
-            box-shadow: 0 2px 12px rgba(168, 85, 247, 0.4);
+            color: #ffffff;
+            background: #3b82f6;
         }
 
-        body.dark-mode .tab-btn.active {
-            color: white;
-            background: var(--mix-purple);
+        .tab-btn.active::after {
+            display: none;
         }
 
         /* Analytics View Styles */
@@ -655,66 +593,58 @@
             flex: 1;
             height: 100vh;
             overflow-y: auto;
-            overflow-x: hidden;
-            background: var(--mix-black);
-            padding: 80px 24px 32px;
+            background: #f3f4f6;
+            padding: 24px;
             display: none;
         }
 
         body.dark-mode #analytics-view {
-            background: var(--mix-black);
+            background: #111827;
         }
 
         .analytics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 20px;
-            max-width: 100%;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 24px;
+            max-width: 1800px;
             margin: 0 auto;
         }
 
         .analytics-card {
-            background: var(--mix-surface);
-            border-radius: 8px;
-            padding: 20px 24px;
-            border: 1px solid var(--mix-border-subtle);
-            position: relative;
-        }
-
-        .analytics-card:hover {
-            border-color: var(--mix-border);
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         body.dark-mode .analytics-card {
-            background: var(--mix-surface);
+            background: #1f2937;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
 
         .analytics-card h3 {
-            font-size: 12px;
+            font-size: 16px;
             font-weight: 600;
             margin-bottom: 4px;
-            color: var(--mix-text-dim);
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
+            color: #111827;
         }
 
         body.dark-mode .analytics-card h3 {
-            color: var(--mix-text-dim);
+            color: #f9fafb;
         }
 
         .analytics-card .card-description {
-            font-size: 11px;
-            color: var(--mix-text-muted);
+            font-size: 12px;
+            color: #6b7280;
             margin-bottom: 16px;
-            line-height: 1.4;
         }
 
         body.dark-mode .analytics-card .card-description {
-            color: var(--mix-text-muted);
+            color: #9ca3af;
         }
 
         .analytics-chart-container {
-            height: 240px;
+            height: 250px;
             position: relative;
         }
 
@@ -729,163 +659,159 @@
         /* Metric cards */
         .metrics-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
             margin-bottom: 24px;
-            max-width: 100%;
         }
 
         .metric-card {
-            background: var(--mix-dark);
-            border-radius: 6px;
-            padding: 16px 18px;
-            border: 1px solid var(--mix-border-subtle);
-        }
-
-        .metric-card:hover {
-            border-color: var(--mix-border);
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         body.dark-mode .metric-card {
-            background: var(--mix-dark);
+            background: #1f2937;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
 
         .metric-label {
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 500;
-            color: var(--mix-text-muted);
+            color: #6b7280;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         body.dark-mode .metric-label {
-            color: var(--mix-text-muted);
+            color: #9ca3af;
         }
 
-        .metric-value {
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--mix-text);
-            font-variant-numeric: tabular-nums;
-            letter-spacing: -0.02em;
-        }
-
-        body.dark-mode .metric-value {
-            color: var(--mix-text);
-        }
-
-        .metric-detail {
-            font-size: 11px;
-            color: var(--mix-text-muted);
-            margin-top: 8px;
-            line-height: 1.4;
-        }
-
-        body.dark-mode .metric-detail {
-            color: var(--mix-text-muted);
-        }
-
-        /* Info icon and explainer popup */
         .info-icon {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 14px;
-            height: 14px;
-            background: var(--mix-border);
-            border-radius: 4px;
-            font-size: 9px;
-            font-weight: 700;
-            color: var(--mix-text-muted);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            color: #6b7280;
+            font-size: 11px;
+            font-weight: 600;
             cursor: pointer;
-            margin-left: 6px;
-            vertical-align: middle;
             transition: all 0.2s;
         }
 
-        .info-icon:hover {
-            background: var(--mix-purple);
-            color: white;
-        }
-
         body.dark-mode .info-icon {
-            background: var(--mix-border);
-            color: var(--mix-text-muted);
+            background: #374151;
+            color: #9ca3af;
         }
 
-        body.dark-mode .info-icon:hover {
-            background: var(--mix-purple);
-            color: white;
+        .info-icon:hover {
+            background: #3b82f6;
+            color: #ffffff;
         }
 
         .metric-explainer {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            margin-top: 8px;
-            border: none;
-            padding: 0;
+            margin: 0;
+            padding: 16px;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-size: 13px;
+            line-height: 1.6;
+            max-width: 400px;
+        }
+
+        body.dark-mode .metric-explainer {
+            background: #1f2937;
+            border-color: #374151;
+            color: #f9fafb;
         }
 
         .metric-explainer::backdrop {
-            background: transparent;
-        }
-
-        .explainer-content {
-            background: var(--mix-surface);
-            color: var(--mix-text);
-            border-radius: 14px;
-            padding: 18px;
-            font-size: 12px;
-            line-height: 1.6;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--mix-border);
-        }
-
-        body.dark-mode .explainer-content {
-            background: var(--mix-surface);
+            background: rgba(0, 0, 0, 0.3);
         }
 
         .explainer-content strong {
             display: block;
-            margin-bottom: 10px;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--mix-purple);
+            margin-bottom: 8px;
+            color: #111827;
+        }
+
+        body.dark-mode .explainer-content strong {
+            color: #f9fafb;
         }
 
         .explainer-content p {
-            margin: 8px 0;
-            color: var(--mix-text-dim);
+            margin-bottom: 12px;
+            color: #4b5563;
+        }
+
+        body.dark-mode .explainer-content p {
+            color: #d1d5db;
         }
 
         .explainer-scale {
-            margin: 14px 0;
-            padding: 14px;
-            background: var(--mix-black);
-            border-radius: 10px;
-            border: 1px solid var(--mix-border);
+            background: #f3f4f6;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 12px;
         }
 
-        .explainer-scale div {
-            padding: 5px 0;
-            font-size: 11px;
-            color: var(--mix-text-dim);
+        body.dark-mode .explainer-scale {
+            background: #111827;
+        }
+
+        .explainer-scale > div {
+            padding: 4px 0;
+            color: #4b5563;
+        }
+
+        body.dark-mode .explainer-scale > div {
+            color: #d1d5db;
         }
 
         .scale-value {
-            display: inline-block;
-            min-width: 40px;
-            font-weight: 700;
-            color: var(--mix-cyan);
+            font-weight: 600;
+            color: #3b82f6;
+            margin-right: 8px;
         }
 
         .explainer-example {
-            font-size: 11px;
-            font-style: italic;
-            color: var(--mix-text-muted) !important;
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 0;
+        }
+
+        body.dark-mode .explainer-example {
+            color: #9ca3af;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        body.dark-mode .metric-value {
+            color: #f9fafb;
+        }
+
+        .metric-detail {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        body.dark-mode .metric-detail {
+            color: #9ca3af;
         }
 
         /* Heatmap styles */
@@ -897,7 +823,7 @@
         .heatmap-cell {
             width: 100%;
             aspect-ratio: 1;
-            border-radius: 3px;
+            border-radius: 2px;
             min-width: 8px;
             min-height: 8px;
         }
@@ -905,136 +831,86 @@
         .heatmap-labels {
             display: flex;
             justify-content: space-between;
-            font-size: 9px;
-            font-weight: 600;
-            color: var(--mix-text-muted);
+            font-size: 10px;
+            color: #6b7280;
             margin-top: 8px;
         }
 
         body.dark-mode .heatmap-labels {
-            color: var(--mix-text-muted);
+            color: #9ca3af;
         }
 
         .heatmap-row-label {
-            font-size: 9px;
-            font-weight: 600;
-            color: var(--mix-text-muted);
+            font-size: 10px;
+            color: #6b7280;
             text-align: right;
             padding-right: 4px;
         }
 
         body.dark-mode .heatmap-row-label {
-            color: var(--mix-text-muted);
+            color: #9ca3af;
         }
 
-        /* Thesis metrics - subtle indicator */
+        /* Thesis metrics highlight */
         .thesis-metric {
-            border-left: 2px solid var(--mix-accent-dim);
+            border-left: 4px solid #3b82f6;
         }
 
         .thesis-badge {
             display: inline-block;
-            color: var(--mix-text-muted);
-            font-size: 9px;
-            font-weight: 500;
-            margin-left: 6px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
             vertical-align: middle;
-            text-transform: lowercase;
-            letter-spacing: 0;
-            opacity: 0.7;
-        }
-
-        .thesis-badge::before {
-            content: '·';
-            margin-right: 4px;
         }
 
         body.dark-mode .thesis-badge {
-            color: var(--mix-text-muted);
+            background: #1e3a5f;
+            color: #60a5fa;
         }
 
-        /* Status banner */
+        /* Experimental warning banner */
         .experimental-warning {
-            background: var(--mix-dark);
-            border: 1px solid var(--mix-border-subtle);
-            color: var(--mix-text-muted);
-            padding: 12px 16px;
-            border-radius: 6px;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #78350f;
+            padding: 12px 20px;
+            border-radius: 8px;
             margin-bottom: 24px;
-            font-size: 11px;
+            font-size: 14px;
             font-weight: 500;
             display: flex;
             align-items: center;
             gap: 10px;
-            max-width: 1800px;
-            margin-left: auto;
-            margin-right: auto;
+            box-shadow: 0 2px 4px rgba(251, 191, 36, 0.3);
         }
 
         body.dark-mode .experimental-warning {
-            background: var(--mix-dark);
-            color: var(--mix-text-muted);
-        }
-
-        /* Section headers - clean, minimal */
-        .section-header {
-            background: var(--mix-dark);
-            border-top: 2px solid var(--mix-accent-dim);
-            padding-top: 18px;
-        }
-
-        .section-header h3 {
-            color: var(--mix-text) !important;
-            font-size: 13px !important;
-            font-weight: 600 !important;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-        }
-
-        .section-header .card-description {
-            color: var(--mix-text-dim) !important;
-        }
-
-        .section-header details {
-            font-size: 11px;
-            color: var(--mix-text-muted);
-            margin-top: 8px;
-        }
-
-        .section-header summary {
-            cursor: pointer;
-            color: var(--mix-text-muted);
-        }
-
-        .section-header details p {
-            color: var(--mix-text-muted);
-            margin-top: 8px;
-            line-height: 1.5;
+            background: linear-gradient(135deg, #92400e 0%, #78350f 100%);
+            color: #fbbf24;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
         }
 
         /* Dwell statistics dark mode support */
         body.dark-mode #dwell-stats-display > div {
-            border-bottom-color: var(--mix-border);
+            border-bottom-color: #374151;
         }
 
         body.dark-mode #dwell-stats-display span:first-child {
-            color: var(--mix-text-muted);
+            color: #9ca3af;
         }
 
         body.dark-mode #dwell-stats-display span:last-child {
-            color: var(--mix-text);
+            color: #f9fafb;
         }
 
         /* Responsive analytics */
-        @media (max-width: 1400px) {
-            .analytics-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            }
-        }
-
         @media (max-width: 1200px) {
             .analytics-grid {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                grid-template-columns: 1fr;
             }
             .analytics-card.wide {
                 grid-column: span 1;
@@ -1046,7 +922,7 @@
 
         @media (max-width: 768px) {
             #analytics-view {
-                padding: 70px 16px 16px;
+                padding: 16px;
             }
             .metrics-row {
                 grid-template-columns: 1fr;
@@ -1054,31 +930,9 @@
             .analytics-chart-container {
                 height: 200px;
             }
-            .floating-tabs {
+            .tab-nav {
                 top: 12px;
             }
-            .analytics-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--mix-black);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--mix-border);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--mix-text-muted);
         }
     </style>
 </head>
@@ -1090,6 +944,12 @@
         ☰
     </button>
 
+    <!-- Floating Tab Navigation -->
+    <nav class="tab-nav">
+        <button class="tab-btn active" data-tab="map">Map View</button>
+        <button class="tab-btn" data-tab="analytics">Analytics</button>
+    </nav>
+
     <div id="sidebar" style="display: none;">
         <div id="mobile-close" class="mobile-close" style="display: none;">
             <span class="mobile-close-title">Filters & Stats</span>
@@ -1100,10 +960,10 @@
         <div class="sidebar-section" style="padding-bottom: 12px;">
             <h2>User</h2>
             <div class="filter-group" style="margin-bottom: 0;">
-                <select id="user-selector">
+                <select id="user-selector" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; background: #ffffff; color: #111827; cursor: pointer;">
                     <option value="qaCPu4bNgYOFsjQaSRjjMb4fJRf2">Loading users...</option>
                 </select>
-                <div id="user-stats" style="font-size: 10px; margin-top: 8px;"></div>
+                <div id="user-stats" style="font-size: 11px; color: #6b7280; margin-top: 6px;"></div>
             </div>
         </div>
 
@@ -1199,35 +1059,35 @@
         <div class="sidebar-section">
             <h2>Legend</h2>
             <div class="legend">
-                <div class="legend-item">
+                <div class="legend-item" data-legend="stationary" title="Click to toggle">
                     <div class="legend-color" style="background: #9333ea;"></div>
                     <span>Stationary</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-legend="walking" title="Click to toggle">
                     <div class="legend-color" style="background: #22c55e;"></div>
                     <span>Walking</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-legend="running" title="Click to toggle">
                     <div class="legend-color" style="background: #f97316;"></div>
                     <span>Running</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-legend="cycling" title="Click to toggle">
                     <div class="legend-color" style="background: #3b82f6;"></div>
                     <span>Cycling</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-legend="automotive" title="Click to toggle">
                     <div class="legend-color" style="background: #ef4444;"></div>
                     <span>Automotive</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-legend="unknown" title="Click to toggle">
                     <div class="legend-color" style="background: #9ca3af;"></div>
                     <span>Unknown</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-legend="visits" title="Click to toggle visits">
                     <div class="legend-marker" style="background: #22c55e;"></div>
                     <span>Visit Arrival</span>
                 </div>
-                <div class="legend-item">
+                <div class="legend-item" data-legend="visits" title="Click to toggle visits">
                     <div class="legend-marker" style="background: #ef4444;"></div>
                     <span>Visit Departure</span>
                 </div>
@@ -1235,22 +1095,15 @@
         </div>
 
         <!-- Build Info -->
-        <div id="build-info" style="padding: 12px 20px; font-size: 10px; color: var(--mix-text-muted); border-top: 1px solid var(--mix-border); margin-top: auto;">
+        <div id="build-info" style="padding: 12px 20px; font-size: 10px; color: #9ca3af; border-top: 1px solid #e5e7eb; margin-top: auto;">
             <span id="build-commit">Loading...</span>
         </div>
     </div>
 
-    <div id="main-content">
-        <!-- Floating Tab Navigation -->
-        <nav class="floating-tabs">
-            <button class="tab-btn active" data-tab="map">Map</button>
-            <button class="tab-btn" data-tab="analytics">Analytics</button>
-        </nav>
+    <div id="map" style="display: none;"></div>
 
-        <div id="map" style="display: none;"></div>
-
-        <!-- Analytics View -->
-        <div id="analytics-view">
+    <!-- Analytics View -->
+    <div id="analytics-view">
         <!-- Experimental Warning Banner -->
         <div class="experimental-warning">
             <span style="font-size: 18px;">⚠️</span>
@@ -1261,7 +1114,7 @@
             <div class="metric-card thesis-metric" style="position: relative;">
                 <div class="metric-label">Mobility Entropy <span class="info-icon" id="entropy-info-icon">?</span></div>
                 <div class="metric-value" id="metric-entropy">--</div>
-                <div class="metric-detail">How predictable your movement patterns are</div>
+                <div class="metric-detail">Shannon entropy of location visits</div>
                 <div id="entropy-explainer" class="metric-explainer" popover>
                     <div class="explainer-content">
                         <strong>What is Mobility Entropy?</strong>
@@ -1321,28 +1174,15 @@
                 </div>
             </div>
 
-            <!-- Routine Stability Index -->
-            <div class="analytics-card wide thesis-metric">
-                <h3>Routine Stability Index <span class="thesis-badge">Spatial</span></h3>
-                <p class="card-description">Per-user entropy-based spatial unpredictability and routine stability over time</p>
+            <!-- Exploration Consistency -->
+            <div class="analytics-card">
+                <h3>Exploration Consistency <span class="thesis-badge">Spatial</span></h3>
+                <p class="card-description">Standard deviation of daily radius - high variance = exploratory, low = routine</p>
                 <div class="analytics-chart-container">
-                    <div style="display: flex; gap: 24px; height: 250px;">
-                        <!-- Left: Archetype and Stability -->
-                        <div style="flex: 0 0 180px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 16px;">
-                            <div id="archetype-badge" style="font-size: 18px; font-weight: 700; padding: 12px 24px; border-radius: 8px; text-align: center;">--</div>
-                            <div style="text-align: center;">
-                                <div style="font-size: 48px; font-weight: 700; color: #3b82f6;" id="stability-value">--</div>
-                                <div style="font-size: 14px; color: var(--mix-text-muted); margin-top: 4px;">Stability Score</div>
-                            </div>
-                            <div style="text-align: center; font-size: 12px; color: var(--mix-text-muted);">
-                                <div id="exploration-events">--</div>
-                                <div>exploration events</div>
-                            </div>
-                        </div>
-                        <!-- Right: Weekly Entropy Chart -->
-                        <div style="flex: 1; min-width: 0;">
-                            <canvas id="weekly-entropy-chart"></canvas>
-                        </div>
+                    <div id="exploration-variance-display" style="height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <div style="font-size: 64px; font-weight: 700; color: #3b82f6;" id="variance-value">--</div>
+                        <div style="font-size: 14px; color: #6b7280; margin-top: 8px;">km std deviation</div>
+                        <div style="font-size: 12px; color: #9ca3af; margin-top: 16px; text-align: center;" id="variance-label">--</div>
                     </div>
                 </div>
             </div>
@@ -1371,99 +1211,45 @@
                 <p class="card-description">Statistical measures of time spent at non-home locations</p>
                 <div class="analytics-chart-container">
                     <div id="dwell-stats-display" style="height: 250px; display: flex; flex-direction: column; justify-content: center; padding: 20px;">
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);">
-                            <span style="color: var(--mix-text-muted); font-size: 14px;">Median Dwell Time</span>
-                            <span class="stat-value" id="stat-median">--</span>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                            <span style="color: #6b7280; font-size: 14px;">Median Dwell Time</span>
+                            <span class="stat-value" style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-median">--</span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);">
-                            <span style="color: var(--mix-text-muted); font-size: 14px;">25th Percentile</span>
-                            <span class="stat-value" id="stat-p25">--</span>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                            <span style="color: #6b7280; font-size: 14px;">25th Percentile</span>
+                            <span class="stat-value" style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-p25">--</span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);">
-                            <span style="color: var(--mix-text-muted); font-size: 14px;">75th Percentile</span>
-                            <span class="stat-value" id="stat-p75">--</span>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                            <span style="color: #6b7280; font-size: 14px;">75th Percentile</span>
+                            <span class="stat-value" style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-p75">--</span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);">
-                            <span style="color: var(--mix-text-muted); font-size: 14px;">Unique Places Visited</span>
-                            <span class="stat-value" id="stat-unique-places">--</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0;">
-                            <span style="color: var(--mix-text-muted); font-size: 14px;">Total Away Visits</span>
-                            <span class="stat-value" id="stat-total-visits">--</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Dwell Time Patterns Section Header -->
-            <div class="analytics-card wide section-header">
-                <h3>Dwell Time Patterns <span class="thesis-badge">temporal</span></h3>
-                <p class="card-description">Hierarchical analysis of time spent at locations using thesis-defined dwell categories</p>
-                <details>
-                    <summary>How this works</summary>
-                    <p>
-                        Visits are classified into four hierarchical categories: micro-pauses (&lt;3 min), short stops (3-15 min),
-                        medium dwells (15-60 min), and extended stays (&gt;60 min). This framework reveals temporal patterns in how
-                        you engage with different locations throughout the day and week.
-                    </p>
-                </details>
-            </div>
-
-            <!-- Dwell Category Distribution -->
-            <div class="analytics-card thesis-metric">
-                <h3>Dwell Category Distribution <span class="thesis-badge">Temporal</span></h3>
-                <p class="card-description">Breakdown of visits by hierarchical dwell time categories</p>
-                <div class="analytics-chart-container">
-                    <canvas id="dwell-category-chart"></canvas>
-                </div>
-            </div>
-
-            <!-- Dwell Time Heatmap -->
-            <div class="analytics-card wide thesis-metric">
-                <h3>Dwell Patterns by Time <span class="thesis-badge">Temporal</span></h3>
-                <p class="card-description">Heatmap showing when different dwell categories occur (hour × day of week)</p>
-                <div class="analytics-chart-container" style="height: 300px;">
-                    <canvas id="dwell-heatmap-chart"></canvas>
-                </div>
-            </div>
-
-            <!-- Dwell Signature Summary -->
-            <div class="analytics-card thesis-metric" id="dwell-signature-card">
-                <h3>Dwell Signature <span class="thesis-badge">Temporal</span></h3>
-                <p class="card-description">Your personal dwell time profile across all visits</p>
-                <div class="analytics-chart-container">
-                    <div id="dwell-signature-display" style="height: 250px; display: flex; flex-direction: column; justify-content: center; padding: 20px;">
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);">
-                            <span style="color: var(--mix-text-muted); font-size: 14px;">Total Dwell Time</span>
-                            <span class="stat-value" id="sig-total-dwell">--</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);">
-                            <span style="color: var(--mix-text-muted); font-size: 14px;">Average per Visit</span>
-                            <span class="stat-value" id="sig-avg-dwell">--</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);">
-                            <span style="color: var(--mix-text-muted); font-size: 14px;">Most Common Category</span>
-                            <span class="stat-value" id="sig-common-category">--</span>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                            <span style="color: #6b7280; font-size: 14px;">Unique Places Visited</span>
+                            <span class="stat-value" style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-unique-places">--</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 12px 0;">
-                            <span style="color: var(--mix-text-muted); font-size: 14px;">Dwell Consistency</span>
-                            <span class="stat-value" id="sig-consistency">--</span>
+                            <span style="color: #6b7280; font-size: 14px;">Total Away Visits</span>
+                            <span class="stat-value" style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-total-visits">--</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Walk Score Section Header -->
-            <div class="analytics-card wide section-header">
-                <h3>Walk Score Analytics <span class="thesis-badge">walkability</span></h3>
-                <p class="card-description">Contextualizing walking behavior against neighborhood walkability scores (excludes home locations)</p>
-                <details>
-                    <summary>How this works</summary>
-                    <p>
-                        Walk Score (0-100) measures walkability based on proximity to amenities. Walking Rate is calculated by grouping GPS points into ~200m grid cells and matching to motion sensor readings. Efficiency Index = (Your Walking %) ÷ (Expected Walking %). All metrics exclude locations within 500m of detected home.
-                    </p>
+            <div class="analytics-card wide" style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white;">
+                <h3 style="color: white;">Walk Score Analytics <span class="thesis-badge" style="background: rgba(255,255,255,0.2); color: white;">Walkability</span></h3>
+                <p class="card-description" style="color: rgba(255,255,255,0.8);">Contextualizing walking behavior against neighborhood walkability scores (excludes home locations)</p>
+                <details style="font-size: 11px; margin-top: 8px; color: rgba(255,255,255,0.7);">
+                    <summary style="cursor: pointer;">ℹ️ How this works</summary>
+                    <div style="margin-top: 8px; line-height: 1.6;">
+                        <strong>Walk Score</strong> (0-100) measures how walkable an area is based on proximity to amenities.<br>
+                        • 90-100: Walker's Paradise • 70-89: Very Walkable • 50-69: Somewhat Walkable • 0-49: Car-Dependent<br><br>
+                        <strong>Walking Rate</strong> calculation: GPS points are grouped into ~200m grid cells. Each point is matched to the nearest motion sensor reading (within 90 seconds). Walking Rate = (walking points / total points) × 100%. Example: 10 points in a cell (3 walking, 5 stationary, 2 unknown) → 30% walking rate. "Unknown" motion states count as non-walking.<br><br>
+                        <strong>Efficiency Index</strong> = (Your Walking %) ÷ (Expected Walking %). Expected rate assumes Walk Score 100 → ~70% walking max, scaling linearly.<br><br>
+                        All metrics exclude locations within 500m of detected home(s) to show true "out and about" behavior.
+                    </div>
                 </details>
-                <div id="walkscore-status" style="font-size: 11px; margin-top: 10px; color: var(--mix-text-muted);">
+                <div id="walkscore-status" style="font-size: 12px; margin-top: 8px; color: rgba(255,255,255,0.7);">
                     Loading Walk Score data...
                 </div>
             </div>
@@ -1471,12 +1257,12 @@
             <!-- Walking Efficiency Index -->
             <div class="analytics-card">
                 <h3>Walking Efficiency <span class="thesis-badge">Walkability</span></h3>
-                <p class="card-description" title="Formula: (Actual Walking %) / (Expected Walking %). Expected = Walk Score × 0.7. Example: Walk Score 80 → expect ~56% walking.">Are you walking as much as your environment enables? <span style="color: var(--mix-text-muted); cursor: help;">ⓘ</span></p>
+                <p class="card-description" title="Formula: (Actual Walking %) / (Expected Walking %). Expected = Walk Score × 0.7. Example: Walk Score 80 → expect ~56% walking.">Are you walking as much as your environment enables? <span style="color: #9ca3af; cursor: help;">ⓘ</span></p>
                 <div class="analytics-chart-container">
                     <div id="walking-efficiency-display" style="height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                         <div id="efficiency-value" style="font-size: 64px; font-weight: 700; color: #3b82f6;">--</div>
-                        <div style="font-size: 14px; color: var(--mix-text-muted); margin-top: 8px;">efficiency index</div>
-                        <div id="efficiency-label" style="font-size: 12px; color: var(--mix-text-muted); margin-top: 16px; text-align: center;">
+                        <div style="font-size: 14px; color: #6b7280; margin-top: 8px;">efficiency index</div>
+                        <div id="efficiency-label" style="font-size: 12px; color: #9ca3af; margin-top: 16px; text-align: center;">
                             1.0 = walking as expected for walkability
                         </div>
                     </div>
@@ -1486,114 +1272,74 @@
             <!-- Time by Walkability Zone -->
             <div class="analytics-card">
                 <h3>Time by Walkability <span class="thesis-badge">Walkability</span></h3>
-                <p class="card-description" title="Time spent at away-from-home locations grouped by Walk Score zone. High=70-100, Medium=50-69, Low=25-49, Very Low=0-24.">Hours spent in areas by Walk Score category (away from home) <span style="color: var(--mix-text-muted); cursor: help;">ⓘ</span></p>
+                <p class="card-description" title="Time spent at away-from-home locations grouped by Walk Score zone. High=70-100, Medium=50-69, Low=25-49, Very Low=0-24.">Hours spent in areas by Walk Score category (away from home) <span style="color: #9ca3af; cursor: help;">ⓘ</span></p>
                 <div class="analytics-chart-container">
                     <canvas id="walkability-zone-chart"></canvas>
                 </div>
             </div>
 
             <!-- Walking Rate vs Walk Score -->
-            <div class="analytics-card wide" id="walking-vs-walkscore-card">
+            <div class="analytics-card wide">
                 <h3>Walking Rate vs Walkability <span class="thesis-badge">Walkability</span></h3>
-                <p class="card-description" title="Each bubble is a ~200m grid cell you visited. X-axis: Walk Score of that area. Y-axis: % of time you were walking there. Bubble size = time spent. Dashed line shows expected walking rate.">Your walking % at each location vs its Walk Score <span style="color: var(--mix-text-muted); cursor: help;">ⓘ</span></p>
+                <p class="card-description" title="Each bubble is a ~200m grid cell you visited. X-axis: Walk Score of that area. Y-axis: % of time you were walking there. Bubble size = time spent. Dashed line shows expected walking rate.">Your walking % at each location vs its Walk Score <span style="color: #9ca3af; cursor: help;">ⓘ</span></p>
                 <div class="analytics-chart-container" style="height: 200px;">
                     <canvas id="walking-vs-walkscore-chart"></canvas>
                 </div>
             </div>
 
             <!-- Walk Score Statistics -->
-            <div class="analytics-card" id="walkscore-stats-card">
+            <div class="analytics-card">
                 <h3>Walkability Statistics <span class="thesis-badge">Walkability</span></h3>
                 <p class="card-description">Summary across away-from-home locations</p>
                 <div class="analytics-chart-container">
                     <div id="walkscore-stats-display" style="height: 250px; display: flex; flex-direction: column; justify-content: center; padding: 20px;">
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);" title="Simple average of Walk Scores across all visited grid cells">
-                            <span style="color: var(--mix-text-muted); font-size: 14px;">Avg Walk Score <span style="cursor: help;">ⓘ</span></span>
-                            <span class="stat-value" id="stat-avg-walkscore">--</span>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;" title="Simple average of Walk Scores across all visited grid cells">
+                            <span style="color: #6b7280; font-size: 14px;">Avg Walk Score <span style="color: #9ca3af; cursor: help;">ⓘ</span></span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-avg-walkscore">--</span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);" title="Walk Score weighted by time spent at each location - reflects where you actually spend time">
-                            <span style="color: var(--mix-text-muted); font-size: 14px;">Time-Weighted Avg <span style="cursor: help;">ⓘ</span></span>
-                            <span class="stat-value" id="stat-weighted-walkscore">--</span>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;" title="Walk Score weighted by time spent at each location - reflects where you actually spend time">
+                            <span style="color: #6b7280; font-size: 14px;">Time-Weighted Avg <span style="color: #9ca3af; cursor: help;">ⓘ</span></span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-weighted-walkscore">--</span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);" title="% of time spent walking in areas with Walk Score ≥70">
-                            <span style="color: var(--mix-text-muted); font-size: 14px;">Walking in High (70+) <span style="cursor: help;">ⓘ</span></span>
-                            <span class="stat-value" id="stat-walking-high">--</span>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;" title="% of time spent walking in areas with Walk Score ≥70">
+                            <span style="color: #6b7280; font-size: 14px;">Walking in High (70+) <span style="color: #9ca3af; cursor: help;">ⓘ</span></span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-walking-high">--</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 12px 0;" title="% of time spent walking in areas with Walk Score <50">
-                            <span style="color: var(--mix-text-muted); font-size: 14px;">Walking in Low (<50) <span style="cursor: help;">ⓘ</span></span>
-                            <span class="stat-value" id="stat-walking-low">--</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Place Attachment -->
-            <div class="analytics-card wide" id="place-attachment-card">
-                <h3>Place Attachment <span class="thesis-badge">Spatial</span></h3>
-                <p class="card-description">Personally significant places based on visit frequency, dwell duration, and temporal regularity</p>
-                <div class="analytics-chart-container" style="height: auto; min-height: 300px;">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; height: 100%;">
-                        <!-- Left: Stats and Top Places List -->
-                        <div style="display: flex; flex-direction: column;">
-                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--mix-border);">
-                                <span style="color: var(--mix-text-muted); font-size: 12px;">High-Attachment Places</span>
-                                <span style="color: var(--mix-text); font-size: 14px; font-weight: 600;" id="stat-high-attachment-count">--</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--mix-border);">
-                                <span style="color: var(--mix-text-muted); font-size: 12px;">Avg Visits (Top Places)</span>
-                                <span style="color: var(--mix-text); font-size: 14px; font-weight: 600;" id="stat-avg-visits-top">--</span>
-                            </div>
-                            <div style="margin-top: 16px; overflow-y: auto; flex: 1;">
-                                <table id="attachment-table" style="width: 100%; font-size: 11px; border-collapse: collapse;">
-                                    <thead>
-                                        <tr style="border-bottom: 1px solid var(--mix-border); color: var(--mix-text-muted);">
-                                            <th style="text-align: left; padding: 6px 4px; font-weight: 600;">Rank</th>
-                                            <th style="text-align: left; padding: 6px 4px; font-weight: 600;">Location</th>
-                                            <th style="text-align: right; padding: 6px 4px; font-weight: 600;">Score</th>
-                                            <th style="text-align: right; padding: 6px 4px; font-weight: 600;">Visits</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="attachment-table-body">
-                                        <tr><td colspan="4" style="text-align: center; padding: 20px; color: var(--mix-text-muted);">Calculating...</td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <!-- Right: Mini Map -->
-                        <div style="position: relative;">
-                            <div id="attachment-map" style="height: 300px; border-radius: 8px; overflow: hidden;"></div>
+                            <span style="color: #6b7280; font-size: 14px;">Walking in Low (<50) <span style="color: #9ca3af; cursor: help;">ⓘ</span></span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-walking-low">--</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Activity Inference Section Header -->
-            <div class="analytics-card wide section-header" id="activity-inference-header">
-                <h3>Activity Inference <span class="thesis-badge">Speed Analysis</span></h3>
-                <p class="card-description">Inferring activity types from GPS movement speed when motion sensors report "unknown"</p>
+            <div class="analytics-card wide" style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); color: white;">
+                <h3 style="color: white;">Activity Inference <span class="thesis-badge" style="background: rgba(255,255,255,0.2); color: white;">Speed Analysis</span></h3>
+                <p class="card-description" style="color: rgba(255,255,255,0.8);">Inferring activity types from GPS movement speed when motion sensors report "unknown"</p>
 
                 <!-- Key Metrics Summary -->
-                <div id="inference-summary" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; padding: 16px; background: var(--mix-accent-muted); border-radius: 8px;">
+                <div id="inference-summary" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; padding: 16px; background: rgba(255,255,255,0.1); border-radius: 8px;">
                     <div style="text-align: center;">
-                        <div class="stat-value" id="inference-metric-points" style="font-size: 24px; font-weight: 700;">--</div>
+                        <div id="inference-metric-points" style="font-size: 24px; font-weight: 700;">--</div>
                         <div style="font-size: 11px; opacity: 0.8;">Point Pairs</div>
                     </div>
                     <div style="text-align: center;">
-                        <div class="stat-value" id="inference-metric-agreement" style="font-size: 24px; font-weight: 700;">--</div>
+                        <div id="inference-metric-agreement" style="font-size: 24px; font-weight: 700;">--</div>
                         <div style="font-size: 11px; opacity: 0.8;">Agreement Rate</div>
                     </div>
                     <div style="text-align: center;">
-                        <div class="stat-value" id="inference-metric-reclassified" style="font-size: 24px; font-weight: 700;">--</div>
+                        <div id="inference-metric-reclassified" style="font-size: 24px; font-weight: 700;">--</div>
                         <div style="font-size: 11px; opacity: 0.8;">Unknown → Classified</div>
                     </div>
                     <div style="text-align: center;">
-                        <div class="stat-value" id="inference-metric-walking" style="font-size: 24px; font-weight: 700;">--</div>
+                        <div id="inference-metric-walking" style="font-size: 24px; font-weight: 700;">--</div>
                         <div style="font-size: 11px; opacity: 0.8;">Walking Distance</div>
                     </div>
                 </div>
 
-                <details style="font-size: 11px; margin-top: 12px; color: var(--mix-text-dim);">
-                    <summary style="cursor: pointer;">How this works</summary>
+                <details style="font-size: 11px; margin-top: 12px; color: rgba(255,255,255,0.7);">
+                    <summary style="cursor: pointer;">ℹ️ How this works</summary>
                     <div style="margin-top: 8px; line-height: 1.6;">
                         <strong>Speed Calculation:</strong> Distance between consecutive GPS points ÷ time elapsed.<br>
                         Uses Haversine formula for accurate spherical distance.<br><br>
@@ -1605,7 +1351,7 @@
                         <strong>Likely Walking Routes:</strong> Consecutive segments where speed stays in walking range for 3+ points with directional movement (not just stationary).
                     </div>
                 </details>
-                <div id="inference-status" style="font-size: 12px; margin-top: 8px; color: var(--mix-text-muted);">
+                <div id="inference-status" style="font-size: 12px; margin-top: 8px; color: rgba(255,255,255,0.7);">
                     Analyzing GPS trajectories...
                 </div>
             </div>
@@ -1613,7 +1359,7 @@
             <!-- Inferred Activity Distribution -->
             <div class="analytics-card">
                 <h3>Inferred Activity <span class="thesis-badge">Speed</span></h3>
-                <p class="card-description" title="Activity type inferred from speed between consecutive GPS points. Based on academic research thresholds.">Speed-based activity classification <span style="color: var(--mix-text-muted); cursor: help;">ⓘ</span></p>
+                <p class="card-description" title="Activity type inferred from speed between consecutive GPS points. Based on academic research thresholds.">Speed-based activity classification <span style="color: #9ca3af; cursor: help;">ⓘ</span></p>
                 <div class="analytics-chart-container">
                     <canvas id="inferred-activity-chart"></canvas>
                 </div>
@@ -1622,7 +1368,7 @@
             <!-- Sensor vs Inferred Comparison -->
             <div class="analytics-card">
                 <h3>Sensor vs Inferred <span class="thesis-badge">Speed</span></h3>
-                <p class="card-description" title="Comparing motion sensor data with speed-based inference. Shows agreement/disagreement rates.">How well does speed match sensor data? <span style="color: var(--mix-text-muted); cursor: help;">ⓘ</span></p>
+                <p class="card-description" title="Comparing motion sensor data with speed-based inference. Shows agreement/disagreement rates.">How well does speed match sensor data? <span style="color: #9ca3af; cursor: help;">ⓘ</span></p>
                 <div class="analytics-chart-container">
                     <canvas id="sensor-vs-inferred-chart"></canvas>
                 </div>
@@ -1631,39 +1377,38 @@
             <!-- Speed Distribution Histogram -->
             <div class="analytics-card wide">
                 <h3>Speed Distribution <span class="thesis-badge">Speed</span></h3>
-                <p class="card-description" title="Histogram of calculated speeds between GPS points. Shows natural clusters that may indicate different activity types.">Distribution of movement speeds <span style="color: var(--mix-text-muted); cursor: help;">ⓘ</span></p>
+                <p class="card-description" title="Histogram of calculated speeds between GPS points. Shows natural clusters that may indicate different activity types.">Distribution of movement speeds <span style="color: #9ca3af; cursor: help;">ⓘ</span></p>
                 <div class="analytics-chart-container" style="height: 200px;">
                     <canvas id="speed-histogram-chart"></canvas>
                 </div>
             </div>
 
             <!-- Walking Route Statistics -->
-            <div class="analytics-card" id="walking-routes-card">
+            <div class="analytics-card">
                 <h3>Likely Walking Routes <span class="thesis-badge">Speed</span></h3>
                 <p class="card-description" title="Consecutive GPS segments where speed indicates walking (0.15-2.0 m/s) for 3+ points">Detected walking-speed segments</p>
                 <div class="analytics-chart-container">
                     <div id="walking-routes-display" style="height: 250px; display: flex; flex-direction: column; justify-content: center; padding: 20px;">
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);" title="Number of continuous segments with walking-speed movement">
-                            <span style="color: var(--mix-text-muted); font-size: 14px;">Walking Segments <span style="color: var(--mix-text-muted); cursor: help;">ⓘ</span></span>
-                            <span class="stat-value" id="stat-walking-segments">--</span>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;" title="Number of continuous segments with walking-speed movement">
+                            <span style="color: #6b7280; font-size: 14px;">Walking Segments <span style="color: #9ca3af; cursor: help;">ⓘ</span></span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-walking-segments">--</span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);" title="Total distance of all likely walking routes">
-                            <span style="color: var(--mix-text-muted); font-size: 14px;">Total Walking Distance <span style="color: var(--mix-text-muted); cursor: help;">ⓘ</span></span>
-                            <span class="stat-value" id="stat-walking-distance">--</span>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;" title="Total distance of all likely walking routes">
+                            <span style="color: #6b7280; font-size: 14px;">Total Walking Distance <span style="color: #9ca3af; cursor: help;">ⓘ</span></span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-walking-distance">--</span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--mix-border);" title="Average speed during inferred walking segments">
-                            <span style="color: var(--mix-text-muted); font-size: 14px;">Avg Walking Speed <span style="color: var(--mix-text-muted); cursor: help;">ⓘ</span></span>
-                            <span class="stat-value" id="stat-avg-walking-speed">--</span>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e5e7eb;" title="Average speed during inferred walking segments">
+                            <span style="color: #6b7280; font-size: 14px;">Avg Walking Speed <span style="color: #9ca3af; cursor: help;">ⓘ</span></span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-avg-walking-speed">--</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 12px 0;" title="Percentage of GPS points that were reclassified from 'unknown' to a specific activity">
-                            <span style="color: var(--mix-text-muted); font-size: 14px;">Unknown Reclassified <span style="color: var(--mix-text-muted); cursor: help;">ⓘ</span></span>
-                            <span class="stat-value" id="stat-reclassified">--</span>
+                            <span style="color: #6b7280; font-size: 14px;">Unknown Reclassified <span style="color: #9ca3af; cursor: help;">ⓘ</span></span>
+                            <span style="color: #111827; font-size: 18px; font-weight: 600;" id="stat-reclassified">--</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
     <!-- Leaflet JS -->
@@ -1949,11 +1694,6 @@
             return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         }
 
-        // Get CSS variable value
-        function getCSSVariable(variableName) {
-            return getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
-        }
-
         // Apply dark mode
         function applyDarkMode() {
             if (isDarkMode()) {
@@ -1975,7 +1715,8 @@
             L.tileLayer(tileUrl, {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
                 subdomains: 'abcd',
-                maxZoom: 19
+                maxZoom: 19,
+                detectRetina: true
             }).addTo(map);
         }
 
@@ -2450,10 +2191,13 @@
             }
         }
 
-        // Setup entropy explainer with hover behavior using Popover API
+        // Setup entropy explainer popover
         function setupEntropyExplainer() {
             const infoIcon = document.getElementById('entropy-info-icon');
             const explainer = document.getElementById('entropy-explainer');
+
+            if (!infoIcon || !explainer) return;
+
             let hideTimeout;
 
             infoIcon.addEventListener('mouseenter', () => {
@@ -2561,6 +2305,48 @@
                 checkbox.addEventListener('change', renderLocations);
             });
 
+            // Legend item click handlers - sync with checkboxes
+            document.querySelectorAll('.legend-item[data-legend]').forEach(legendItem => {
+                const legendType = legendItem.dataset.legend;
+
+                // Find corresponding checkbox or toggle
+                let linkedControl;
+                if (legendType === 'visits') {
+                    linkedControl = document.getElementById('toggle-visits');
+                } else {
+                    linkedControl = document.querySelector(`[data-activity="${legendType}"]`);
+                }
+
+                if (!linkedControl) return;
+
+                // Sync initial state
+                if (!linkedControl.checked) {
+                    legendItem.classList.add('disabled');
+                }
+
+                // Handle legend click
+                legendItem.addEventListener('click', () => {
+                    linkedControl.checked = !linkedControl.checked;
+                    linkedControl.dispatchEvent(new Event('change'));
+
+                    // Update legend visual state
+                    if (linkedControl.checked) {
+                        legendItem.classList.remove('disabled');
+                    } else {
+                        legendItem.classList.add('disabled');
+                    }
+                });
+
+                // Update legend when checkbox changes
+                linkedControl.addEventListener('change', () => {
+                    if (linkedControl.checked) {
+                        legendItem.classList.remove('disabled');
+                    } else {
+                        legendItem.classList.add('disabled');
+                    }
+                });
+            });
+
             // Mobile toggle functionality
             setupMobileToggle();
 
@@ -2623,9 +2409,8 @@
             }
         }
 
-        // Analytics charts tracking (exposed to window for debugging)
+        // Analytics charts tracking
         let analyticsCharts = {};
-        window.analyticsCharts = analyticsCharts;
 
         // Tab switching logic
         function switchTab(tabName) {
@@ -2811,144 +2596,6 @@
             return buckets;
         }
 
-        // Classify dwell time into hierarchical categories
-        function classifyDwellTime(minutes) {
-            if (minutes < 3) return 'micro-pause';
-            if (minutes < 15) return 'short-stop';
-            if (minutes < 60) return 'medium-dwell';
-            return 'extended-stay';
-        }
-
-        // Get dwell category distribution for thesis framework
-        function getDwellCategoryDistribution() {
-            const awayVisits = getAwayVisits();
-
-            const categories = {
-                'Micro-pause (<3m)': 0,
-                'Short stop (3-15m)': 0,
-                'Medium dwell (15-60m)': 0,
-                'Extended stay (>60m)': 0
-            };
-
-            awayVisits.forEach(visit => {
-                if (visit.arrivalDate && visit.departureDate) {
-                    const arrival = new Date(visit.arrivalDate).getTime();
-                    const departure = new Date(visit.departureDate).getTime();
-                    const minutes = (departure - arrival) / 1000 / 60;
-
-                    if (minutes > 0) {
-                        const category = classifyDwellTime(minutes);
-                        if (category === 'micro-pause') categories['Micro-pause (<3m)']++;
-                        else if (category === 'short-stop') categories['Short stop (3-15m)']++;
-                        else if (category === 'medium-dwell') categories['Medium dwell (15-60m)']++;
-                        else if (category === 'extended-stay') categories['Extended stay (>60m)']++;
-                    }
-                }
-            });
-
-            return categories;
-        }
-
-        // Calculate dwell time heatmap data (hour × day of week)
-        function getDwellTimeHeatmapData() {
-            const awayVisits = getAwayVisits();
-
-            // Initialize 24 hours × 7 days grid
-            const heatmap = Array(24).fill(0).map(() => Array(7).fill(0));
-
-            awayVisits.forEach(visit => {
-                if (visit.arrivalDate && visit.departureDate) {
-                    const arrival = new Date(visit.arrivalDate);
-                    const departure = new Date(visit.departureDate);
-                    const minutes = (departure.getTime() - arrival.getTime()) / 1000 / 60;
-
-                    if (minutes > 0) {
-                        const hour = arrival.getHours();
-                        const day = arrival.getDay(); // 0 = Sunday, 6 = Saturday
-                        heatmap[hour][day]++;
-                    }
-                }
-            });
-
-            return heatmap;
-        }
-
-        // Calculate dwell signature statistics
-        function calculateDwellSignature() {
-            const awayVisits = getAwayVisits();
-
-            if (awayVisits.length === 0) {
-                return {
-                    totalDwell: 0,
-                    avgDwell: 0,
-                    mostCommonCategory: '--',
-                    consistency: 0
-                };
-            }
-
-            const durations = [];
-            const categoryCounts = {
-                'micro-pause': 0,
-                'short-stop': 0,
-                'medium-dwell': 0,
-                'extended-stay': 0
-            };
-
-            awayVisits.forEach(visit => {
-                if (visit.arrivalDate && visit.departureDate) {
-                    const arrival = new Date(visit.arrivalDate).getTime();
-                    const departure = new Date(visit.departureDate).getTime();
-                    const minutes = (departure - arrival) / 1000 / 60;
-
-                    if (minutes > 0) {
-                        durations.push(minutes);
-                        const category = classifyDwellTime(minutes);
-                        categoryCounts[category]++;
-                    }
-                }
-            });
-
-            const totalDwell = durations.reduce((a, b) => a + b, 0);
-            const avgDwell = totalDwell / durations.length;
-
-            // Find most common category
-            let maxCount = 0;
-            let mostCommon = '--';
-            const categoryLabels = {
-                'micro-pause': 'Micro-pause',
-                'short-stop': 'Short stop',
-                'medium-dwell': 'Medium dwell',
-                'extended-stay': 'Extended stay'
-            };
-
-            for (const [category, count] of Object.entries(categoryCounts)) {
-                if (count > maxCount) {
-                    maxCount = count;
-                    mostCommon = categoryLabels[category];
-                }
-            }
-
-            // Calculate consistency (coefficient of variation)
-            const mean = avgDwell;
-            const variance = durations.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / durations.length;
-            const stdDev = Math.sqrt(variance);
-            const cv = (stdDev / mean) * 100; // coefficient of variation as percentage
-
-            // Lower CV = more consistent
-            let consistencyLabel;
-            if (cv < 50) consistencyLabel = 'Very consistent';
-            else if (cv < 100) consistencyLabel = 'Consistent';
-            else if (cv < 150) consistencyLabel = 'Variable';
-            else consistencyLabel = 'Highly variable';
-
-            return {
-                totalDwell,
-                avgDwell,
-                mostCommonCategory: mostCommon,
-                consistency: consistencyLabel
-            };
-        }
-
         // Calculate total distance traveled
         function calculateTotalDistance() {
             if (locationsData.length < 2) return 0;
@@ -3013,8 +2660,7 @@
                 }
             });
 
-            // Clear properties instead of creating new object (preserves window reference)
-            Object.keys(analyticsCharts).forEach(key => delete analyticsCharts[key]);
+            analyticsCharts = {};
         }
 
         // Detect home clusters using nighttime density (proper DBSCAN expansion)
@@ -3091,144 +2737,6 @@
         }
 
         // ============================================================
-        // PLACE ATTACHMENT ANALYTICS
-        // ============================================================
-
-        // Cluster visits by spatial proximity (50m radius)
-        function clusterVisitsByLocation() {
-            const awayVisits = getAwayVisits();
-            if (awayVisits.length === 0) return [];
-
-            const CLUSTER_RADIUS = 50; // 50m radius for place clustering
-            const clusters = [];
-            const visited = new Set();
-
-            awayVisits.forEach((visit, idx) => {
-                if (visited.has(idx)) return;
-
-                const cluster = {
-                    visits: [visit],
-                    visitIndices: [idx]
-                };
-                visited.add(idx);
-                const queue = [idx];
-
-                // DBSCAN-like clustering
-                while (queue.length > 0) {
-                    const currentIdx = queue.shift();
-                    const currentVisit = awayVisits[currentIdx];
-
-                    awayVisits.forEach((otherVisit, otherIdx) => {
-                        if (visited.has(otherIdx)) return;
-
-                        const distance = haversineDistance(
-                            currentVisit.latitude, currentVisit.longitude,
-                            otherVisit.latitude, otherVisit.longitude
-                        );
-
-                        if (distance <= CLUSTER_RADIUS) {
-                            cluster.visits.push(otherVisit);
-                            cluster.visitIndices.push(otherIdx);
-                            visited.add(otherIdx);
-                            queue.push(otherIdx);
-                        }
-                    });
-                }
-
-                clusters.push(cluster);
-            });
-
-            return clusters;
-        }
-
-        // Calculate attachment score for a place cluster
-        function calculateAttachmentScore(cluster) {
-            if (cluster.visits.length === 0) return 0;
-
-            // Get observation period in days
-            const startInput = document.getElementById('date-start').value;
-            const endInput = document.getElementById('date-end').value;
-            const startDate = parseLocalDate(startInput);
-            const endDate = parseLocalDate(endInput);
-            const observationDays = Math.max(1, (endDate - startDate) / (1000 * 60 * 60 * 24));
-
-            // 1. Frequency: visits per day
-            const frequency = cluster.visits.length / observationDays;
-
-            // 2. Temporal Regularity: inverse of std dev of time between visits
-            let regularity = 0;
-            if (cluster.visits.length > 1) {
-                const timestamps = cluster.visits
-                    .filter(v => v.arrivalDate)
-                    .map(v => new Date(v.arrivalDate).getTime())
-                    .sort((a, b) => a - b);
-
-                if (timestamps.length > 1) {
-                    const intervals = [];
-                    for (let i = 1; i < timestamps.length; i++) {
-                        intervals.push((timestamps[i] - timestamps[i-1]) / (1000 * 60 * 60 * 24)); // days
-                    }
-
-                    if (intervals.length > 0) {
-                        const meanInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
-                        const variance = intervals.reduce((sum, val) => sum + Math.pow(val - meanInterval, 2), 0) / intervals.length;
-                        const stdDev = Math.sqrt(variance);
-
-                        // Regularity is inverse of std dev, normalized
-                        // Higher regularity = more consistent visit pattern
-                        regularity = stdDev > 0 ? 1 / (1 + stdDev) : 1;
-                    }
-                }
-            }
-
-            // 3. Duration Investment: total time spent / total observed time
-            let totalDwellMinutes = 0;
-            cluster.visits.forEach(visit => {
-                if (visit.arrivalDate && visit.departureDate) {
-                    const arrival = new Date(visit.arrivalDate).getTime();
-                    const departure = new Date(visit.departureDate).getTime();
-                    const duration = (departure - arrival) / 1000 / 60; // minutes
-                    if (duration > 0) {
-                        totalDwellMinutes += duration;
-                    }
-                }
-            });
-            const totalObservedMinutes = observationDays * 24 * 60;
-            const durationInvestment = totalDwellMinutes / totalObservedMinutes;
-
-            // Composite score with weights (frequency=0.4, regularity=0.3, duration=0.3)
-            const attachmentScore = (0.4 * frequency * 100) + (0.3 * regularity * 100) + (0.3 * durationInvestment * 10000);
-
-            // Calculate centroid
-            const lat = cluster.visits.reduce((sum, v) => sum + v.latitude, 0) / cluster.visits.length;
-            const lng = cluster.visits.reduce((sum, v) => sum + v.longitude, 0) / cluster.visits.length;
-
-            return {
-                score: attachmentScore,
-                frequency,
-                regularity,
-                durationInvestment,
-                visitCount: cluster.visits.length,
-                totalDwellMinutes,
-                lat,
-                lng,
-                visits: cluster.visits
-            };
-        }
-
-        // Get top high-attachment places
-        function getHighAttachmentPlaces() {
-            const clusters = clusterVisitsByLocation();
-
-            const placesWithScores = clusters.map(cluster => calculateAttachmentScore(cluster));
-
-            // Sort by attachment score (descending)
-            placesWithScores.sort((a, b) => b.score - a.score);
-
-            return placesWithScores;
-        }
-
-        // ============================================================
         // WALK SCORE ANALYTICS
         // ============================================================
 
@@ -3272,91 +2780,6 @@
             if (score >= 25) return { label: 'Car-Dependent', bucket: 'low', color: '#f97316' };
             return { label: 'Almost All Errands Require a Car', bucket: 'very-low', color: '#ef4444' };
         }
-
-        // ============================================================
-        // REVERSE GEOCODING (Nominatim/OpenStreetMap)
-        // ============================================================
-
-        const GEOCODING_CACHE_KEY = 'mix-geocoding-cache';
-        const GEOCODING_CACHE_TTL = 30 * 24 * 60 * 60 * 1000; // 30 days
-        const GEOCODING_RATE_LIMIT_MS = 1000; // Nominatim requires 1 request per second
-        let lastGeocodingRequest = 0;
-
-        // Get geocoding cache from localStorage
-        function getGeocodingCache() {
-            try {
-                const cached = localStorage.getItem(GEOCODING_CACHE_KEY);
-                return cached ? JSON.parse(cached) : {};
-            } catch (e) {
-                console.warn('Failed to read geocoding cache:', e);
-                return {};
-            }
-        }
-
-        // Save geocoding cache to localStorage
-        function saveGeocodingCache(cache) {
-            try {
-                localStorage.setItem(GEOCODING_CACHE_KEY, JSON.stringify(cache));
-            } catch (e) {
-                console.warn('Failed to save geocoding cache:', e);
-            }
-        }
-
-        // Reverse geocode a coordinate to get city name
-        async function reverseGeocode(lat, lon) {
-            const cacheKey = `${lat.toFixed(3)},${lon.toFixed(3)}`;
-            const cache = getGeocodingCache();
-
-            // Check cache first
-            if (cache[cacheKey] && (Date.now() - cache[cacheKey].fetchedAt) < GEOCODING_CACHE_TTL) {
-                return cache[cacheKey].city;
-            }
-
-            // Rate limiting
-            const now = Date.now();
-            const timeSinceLastRequest = now - lastGeocodingRequest;
-            if (timeSinceLastRequest < GEOCODING_RATE_LIMIT_MS) {
-                await new Promise(resolve => setTimeout(resolve, GEOCODING_RATE_LIMIT_MS - timeSinceLastRequest));
-            }
-            lastGeocodingRequest = Date.now();
-
-            try {
-                const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&zoom=10`;
-                const response = await fetch(url, {
-                    headers: {
-                        'User-Agent': 'MIX Dashboard (Location Analytics)'
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-
-                const data = await response.json();
-                const city = data.address?.city ||
-                            data.address?.town ||
-                            data.address?.village ||
-                            data.address?.county ||
-                            data.address?.state ||
-                            'Unknown';
-
-                // Save to cache
-                cache[cacheKey] = {
-                    city,
-                    fetchedAt: Date.now()
-                };
-                saveGeocodingCache(cache);
-
-                return city;
-            } catch (error) {
-                console.warn('Geocoding failed for', lat, lon, error);
-                return 'Unknown';
-            }
-        }
-
-        // ============================================================
-        // END REVERSE GEOCODING
-        // ============================================================
 
         // Fetch Walk Score from Firebase function
         async function fetchWalkScore(lat, lon) {
@@ -3548,12 +2971,8 @@
                 if (score === undefined) return;
 
                 if (!cellData[gridKey]) {
-                    // Parse lat/lon from gridKey (format: "lat,lon")
-                    const [lat, lon] = gridKey.split(',').map(Number);
                     cellData[gridKey] = {
                         score,
-                        lat,
-                        lon,
                         walking: 0,
                         other: 0,
                         total: 0
@@ -3651,7 +3070,7 @@
             const totalTime = timeByZone.high + timeByZone.medium + timeByZone.low + timeByZone.veryLow;
 
             if (totalTime === 0) {
-                ctx.parentElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--mix-text-muted);">No walkability data</div>';
+                ctx.parentElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #6b7280;">No walkability data</div>';
                 return;
             }
 
@@ -3698,151 +3117,20 @@
             });
         }
 
-        // Create Walking vs Walk Score scatter chart (with reverse geocoding)
-        async function createWalkingVsWalkscoreChart(analytics) {
-            console.log('createWalkingVsWalkscoreChart called', { analytics });
-            const card = document.getElementById('walking-vs-walkscore-card');
-            if (card) card.classList.add('card-loading');
-
+        // Create Walking vs Walk Score scatter chart
+        function createWalkingVsWalkscoreChart(analytics) {
             const ctx = document.getElementById('walking-vs-walkscore-chart');
-            if (!ctx) {
-                console.warn('walking-vs-walkscore-chart canvas not found');
-                if (card) card.classList.remove('card-loading');
-                return;
-            }
-            console.log('Canvas element found:', ctx);
+            if (!ctx) return;
 
             const darkMode = isDarkMode();
             const cellData = analytics.cellData;
 
-            // Geocode all cells and aggregate by city
-            const cityData = {}; // city -> { points: [...], totalDataPoints: N, totalWalkScore: N }
-            const cellsArray = Object.entries(cellData);
-
-            // First, try to use cached geocoding data
-            const geocodingCache = getGeocodingCache();
-            const cellsWithCities = [];
-
-            for (const [gridKey, cell] of cellsArray) {
-                // Defensive check for lat/lon
-                if (cell.lat === undefined || cell.lon === undefined) {
-                    console.warn('Cell missing lat/lon:', { gridKey, cell });
-                    continue;
-                }
-
-                const cacheKey = `${cell.lat.toFixed(3)},${cell.lon.toFixed(3)}`;
-                let city = 'Unknown';
-
-                if (geocodingCache[cacheKey] && (Date.now() - geocodingCache[cacheKey].fetchedAt) < GEOCODING_CACHE_TTL) {
-                    city = geocodingCache[cacheKey].city;
-                } else {
-                    // Will geocode later for top cells only
-                    city = null;
-                }
-
-                cellsWithCities.push({ gridKey, cell, city, cacheKey });
-            }
-
-            // Identify cells to geocode (prioritize by data points)
-            // Only geocode top 5 cells to avoid long delays (rate limited to 1/sec)
-            const cellsToGeocode = cellsWithCities
-                .filter(item => item.city === null)
-                .sort((a, b) => b.cell.total - a.cell.total)
-                .slice(0, 5);
-
-            // Geocode with timeout per cell
-            const geocodeWithTimeout = (lat, lon, timeout = 5000) => {
-                return Promise.race([
-                    reverseGeocode(lat, lon),
-                    new Promise((_, reject) =>
-                        setTimeout(() => reject(new Error('Geocoding timeout')), timeout)
-                    )
-                ]);
-            };
-
-            for (const item of cellsToGeocode) {
-                try {
-                    item.city = await geocodeWithTimeout(item.cell.lat, item.cell.lon);
-                } catch (error) {
-                    console.warn('Failed to geocode', item.cell.lat, item.cell.lon, error.message);
-                    item.city = 'Unknown';
-                }
-            }
-
-            // Aggregate by city
-            cellsWithCities.forEach(({ cell, city }) => {
-                if (!city) city = 'Unknown';
-
-                if (!cityData[city]) {
-                    cityData[city] = {
-                        points: [],
-                        totalDataPoints: 0,
-                        totalWalkScore: 0
-                    };
-                }
-
-                const walkingPct = cell.total > 0 ? (cell.walking / cell.total) * 100 : 0;
-
-                cityData[city].points.push({
-                    x: cell.score,
-                    y: walkingPct,
-                    r: Math.min(Math.sqrt(cell.total) * 2, 15),
-                    lat: cell.lat,
-                    lon: cell.lon,
-                    city: city
-                });
-                cityData[city].totalDataPoints += cell.total;
-                cityData[city].totalWalkScore += cell.score;
-            });
-
-            // Identify top 4 cities by total data points (most visited)
-            const citiesByVisits = Object.entries(cityData)
-                .sort((a, b) => b[1].totalDataPoints - a[1].totalDataPoints)
-                .slice(0, 4);
-
-            const topCities = new Set(citiesByVisits.map(([city]) => city));
-
-            // Color palette for top 4 cities
-            const cityColors = {
-                0: { bg: 'rgba(239, 68, 68, 0.6)', border: '#ef4444' },   // Red
-                1: { bg: 'rgba(59, 130, 246, 0.6)', border: '#3b82f6' },  // Blue
-                2: { bg: 'rgba(34, 197, 94, 0.6)', border: '#22c55e' },   // Green
-                3: { bg: 'rgba(168, 85, 247, 0.6)', border: '#a855f7' }   // Purple
-            };
-            const otherColor = { bg: 'rgba(156, 163, 175, 0.4)', border: '#9ca3af' }; // Gray
-
-            // Build datasets: one for each top city + one for "Other"
-            const datasets = [];
-            console.log('Building datasets for top cities:', citiesByVisits.map(([city]) => city));
-
-            citiesByVisits.forEach(([city, data], idx) => {
-                const color = cityColors[idx];
-                datasets.push({
-                    label: city,
-                    data: data.points,
-                    backgroundColor: color.bg,
-                    borderColor: color.border,
-                    borderWidth: 1
-                });
-            });
-
-            // Add "Other" dataset for non-top cities
-            const otherPoints = [];
-            Object.entries(cityData).forEach(([city, data]) => {
-                if (!topCities.has(city)) {
-                    otherPoints.push(...data.points);
-                }
-            });
-
-            if (otherPoints.length > 0) {
-                datasets.push({
-                    label: 'Other',
-                    data: otherPoints,
-                    backgroundColor: otherColor.bg,
-                    borderColor: otherColor.border,
-                    borderWidth: 1
-                });
-            }
+            // Prepare scatter data
+            const scatterData = Object.values(cellData).map(cell => ({
+                x: cell.score,
+                y: cell.total > 0 ? (cell.walking / cell.total) * 100 : 0,
+                r: Math.min(Math.sqrt(cell.total) * 2, 15) // Bubble size based on time spent
+            }));
 
             // Expected walking line (Walk Score → expected walking %)
             const expectedLine = [
@@ -3850,26 +3138,30 @@
                 { x: 100, y: 70 }
             ];
 
-            datasets.push({
-                label: 'Expected Rate',
-                data: expectedLine,
-                type: 'line',
-                borderColor: '#9ca3af',
-                borderDash: [5, 5],
-                borderWidth: 2,
-                pointRadius: 0,
-                pointStyle: 'line',
-                fill: false
-            });
-
-            // Destroy existing chart if it exists
-            if (analyticsCharts.walkingVsWalkscore) {
-                analyticsCharts.walkingVsWalkscore.destroy();
-            }
-
             analyticsCharts.walkingVsWalkscore = new Chart(ctx.getContext('2d'), {
                 type: 'bubble',
-                data: { datasets },
+                data: {
+                    datasets: [
+                        {
+                            label: 'Your Walking Rate',
+                            data: scatterData,
+                            backgroundColor: 'rgba(59, 130, 246, 0.6)',
+                            borderColor: '#3b82f6',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Expected Rate',
+                            data: expectedLine,
+                            type: 'line',
+                            borderColor: '#9ca3af',
+                            borderDash: [5, 5],
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            pointStyle: 'line',
+                            fill: false
+                        }
+                    ]
+                },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
@@ -3877,22 +3169,14 @@
                         legend: {
                             labels: {
                                 color: darkMode ? '#d1d5db' : '#4b5563',
-                                usePointStyle: true,
-                                padding: 8,
-                                font: { size: 10 }
-                            },
-                            position: 'bottom'
+                                usePointStyle: true
+                            }
                         },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
                                     if (context.dataset.type === 'line') return null;
-                                    const point = context.raw;
-                                    return [
-                                        `${point.city || 'Unknown'}`,
-                                        `Walk Score: ${point.x}`,
-                                        `Walking: ${point.y.toFixed(1)}%`
-                                    ];
+                                    return `Walk Score: ${context.raw.x}, Walking: ${context.raw.y.toFixed(1)}%`;
                                 }
                             }
                         }
@@ -3926,8 +3210,6 @@
                     }
                 }
             });
-
-            if (card) card.classList.remove('card-loading');
         }
 
         // Update Walk Score efficiency display
@@ -3970,8 +3252,8 @@
                 return;
             }
 
-            document.getElementById('stat-avg-walkscore').textContent = analytics.avgScore.toString();
-            document.getElementById('stat-weighted-walkscore').textContent = analytics.weightedAvgScore.toString();
+            document.getElementById('stat-avg-walkscore').textContent = analytics.avgScore;
+            document.getElementById('stat-weighted-walkscore').textContent = analytics.weightedAvgScore;
             document.getElementById('stat-walking-high').textContent =
                 analytics.walkingRateByZone.high.toFixed(1) + '%';
             document.getElementById('stat-walking-low').textContent =
@@ -3993,8 +3275,6 @@
         // Main function to render Walk Score analytics
         async function renderWalkScoreAnalytics() {
             updateWalkScoreStatus('Calculating walkability metrics...');
-            const statsCard = document.getElementById('walkscore-stats-card');
-            if (statsCard) statsCard.classList.add('card-loading');
 
             try {
                 // Get Walk Scores (from cache or estimation)
@@ -4025,21 +3305,15 @@
                     updateWalkScoreStatus(`Analyzed ${cachedCount} grid cells. Using estimated scores.`);
                 }
 
-                // Render visualizations - update stats first, then async chart
+                // Render visualizations
                 createWalkabilityZoneChart(analytics);
+                createWalkingVsWalkscoreChart(analytics);
                 updateWalkingEfficiencyDisplay(analytics);
                 updateWalkScoreStatistics(analytics);
-                if (statsCard) statsCard.classList.remove('card-loading');
-
-                // Async chart with geocoding - don't block stats update
-                createWalkingVsWalkscoreChart(analytics).catch(err => {
-                    console.warn('Error creating walking vs walkscore chart:', err);
-                });
 
             } catch (error) {
                 console.error('Walk Score analytics error:', error);
                 updateWalkScoreStatus('Error calculating walkability metrics: ' + error.message);
-                if (statsCard) statsCard.classList.remove('card-loading');
             }
         }
 
@@ -4505,10 +3779,6 @@
         // Main function to render activity inference analytics
         function renderActivityInferenceAnalytics() {
             updateInferenceStatus('Calculating speed-based activity inference...');
-            const headerCard = document.getElementById('activity-inference-header');
-            const routesCard = document.getElementById('walking-routes-card');
-            if (headerCard) headerCard.classList.add('card-loading');
-            if (routesCard) routesCard.classList.add('card-loading');
 
             try {
                 // Calculate speed and inferred activity for all GPS points
@@ -4551,14 +3821,9 @@
                 createSpeedHistogramChart(analytics);
                 updateWalkingRoutesDisplay(analytics);
 
-                if (headerCard) headerCard.classList.remove('card-loading');
-                if (routesCard) routesCard.classList.remove('card-loading');
-
             } catch (error) {
                 console.error('Activity inference error:', error);
                 updateInferenceStatus('Error calculating activity inference: ' + error.message);
-                if (headerCard) headerCard.classList.remove('card-loading');
-                if (routesCard) routesCard.classList.remove('card-loading');
             }
         }
 
@@ -4573,7 +3838,7 @@
 
             const homes = detectHomeClusters();
             if (homes.length === 0) {
-                container.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--mix-text-muted);">No nighttime data available</div>';
+                container.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #6b7280;">No nighttime data available</div>';
                 return;
             }
 
@@ -4586,7 +3851,8 @@
             L.tileLayer(tileUrl, {
                 attribution: '&copy; OpenStreetMap &copy; CARTO',
                 subdomains: 'abcd',
-                maxZoom: 19
+                maxZoom: 19,
+                detectRetina: true
             }).addTo(homeMap);
 
             // Collect all markers to calculate bounds
@@ -4823,184 +4089,45 @@
             console.log(`Average time at home: ${homePercentage.toFixed(1)}%`);
         }
 
-        // Calculate weekly entropy for a set of locations
-        function calculateEntropyForLocations(locations) {
-            if (locations.length === 0) return 0;
-
-            // Grid locations into ~100m cells
-            const cellCounts = {};
-            locations.forEach(loc => {
-                const cellLat = Math.round(loc.latitude * 1000);
-                const cellLng = Math.round(loc.longitude * 1000);
-                const cellKey = `${cellLat},${cellLng}`;
-                cellCounts[cellKey] = (cellCounts[cellKey] || 0) + 1;
-            });
-
-            const total = locations.length;
-            let entropy = 0;
-
-            // Calculate Shannon entropy: H = -Σ(p_i * log2(p_i))
-            Object.values(cellCounts).forEach(count => {
-                const p = count / total;
-                if (p > 0) {
-                    entropy -= p * Math.log2(p);
-                }
-            });
-
-            // Normalize to 0-1 range assuming max possible unique locations
-            const maxEntropy = Math.log2(Math.min(total, Object.keys(cellCounts).length * 2));
-            return maxEntropy > 0 ? entropy / maxEntropy : 0;
-        }
-
-        // Create routine stability index display and chart
+        // Create exploration variance display
         function createExplorationVariance() {
-            if (locationsData.length === 0) return;
+            const homes = detectHomeClusters();
+            if (homes.length === 0 || locationsData.length === 0) return;
 
-            // Group locations by week
-            const weeklyLocations = {};
+            const dailyMaxDistances = {};
+
             locationsData.forEach(loc => {
-                const date = new Date(loc.timestamp);
-                const weekStart = new Date(date);
-                weekStart.setDate(date.getDate() - date.getDay()); // Sunday
-                const weekKey = weekStart.toISOString().split('T')[0];
+                const date = new Date(loc.timestamp).toISOString().split('T')[0];
 
-                if (!weeklyLocations[weekKey]) {
-                    weeklyLocations[weekKey] = [];
+                // Find distance to NEAREST home (not just primary)
+                const distancesToHomes = homes.map(home =>
+                    haversineDistance(home.lat, home.lng, loc.latitude, loc.longitude) / 1000
+                );
+                const distance = Math.min(...distancesToHomes);
+
+                if (!dailyMaxDistances[date] || distance > dailyMaxDistances[date]) {
+                    dailyMaxDistances[date] = distance;
                 }
-                weeklyLocations[weekKey].push(loc);
             });
 
-            // Calculate entropy for each week
-            const weeklyEntropy = {};
-            Object.entries(weeklyLocations).forEach(([week, locs]) => {
-                weeklyEntropy[week] = calculateEntropyForLocations(locs);
-            });
+            const distances = Object.values(dailyMaxDistances);
+            const mean = distances.reduce((a, b) => a + b, 0) / distances.length;
+            const variance = distances.reduce((sum, d) => sum + Math.pow(d - mean, 2), 0) / distances.length;
+            const stdDev = Math.sqrt(variance);
 
-            // Sort weeks chronologically
-            const sortedWeeks = Object.keys(weeklyEntropy).sort();
-            const entropyValues = sortedWeeks.map(week => weeklyEntropy[week]);
+            document.getElementById('variance-value').textContent = stdDev.toFixed(2);
 
-            // Calculate stability metrics
-            const meanEntropy = entropyValues.reduce((a, b) => a + b, 0) / entropyValues.length;
-            const coefficientOfVariation = meanEntropy > 0
-                ? Math.sqrt(entropyValues.reduce((sum, e) => sum + Math.pow(e - meanEntropy, 2), 0) / entropyValues.length) / meanEntropy
-                : 0;
-            const stabilityScore = Math.max(0, Math.min(1, 1 - coefficientOfVariation));
-
-            // Get dark mode once for all styling
-            const darkMode = isDarkMode();
-
-            // Classify user archetype based on mean entropy
-            let archetype = '';
-            let archetypeColor = '';
-            let archetypeBg = '';
-            if (meanEntropy < 0.3) {
-                archetype = 'ROUTINE';
-                archetypeColor = darkMode ? '#10b981' : '#059669'; // green
-                archetypeBg = darkMode ? 'rgba(16, 185, 129, 0.2)' : '#d1fae5';
-            } else if (meanEntropy <= 0.7) {
-                archetype = 'BALANCED';
-                archetypeColor = darkMode ? '#60a5fa' : '#3b82f6'; // blue
-                archetypeBg = darkMode ? 'rgba(96, 165, 250, 0.2)' : '#dbeafe';
+            let label = '';
+            if (stdDev < 5) {
+                label = 'Very Routine - Consistent daily patterns';
+            } else if (stdDev < 15) {
+                label = 'Moderately Routine - Some variation';
+            } else if (stdDev < 30) {
+                label = 'Exploratory - Significant variation';
             } else {
-                archetype = 'EXPLORER';
-                archetypeColor = darkMode ? '#f87171' : '#dc2626'; // red
-                archetypeBg = darkMode ? 'rgba(248, 113, 113, 0.2)' : '#fee2e2';
+                label = 'Highly Exploratory - Large day-to-day differences';
             }
-
-            // Detect exploration events (weeks with entropy spike > 1.5 std devs above mean)
-            const stdDev = Math.sqrt(entropyValues.reduce((sum, e) => sum + Math.pow(e - meanEntropy, 2), 0) / entropyValues.length);
-            const threshold = meanEntropy + (1.5 * stdDev);
-            const explorationEvents = entropyValues.filter(e => e > threshold).length;
-
-            // Update display
-            const badge = document.getElementById('archetype-badge');
-            badge.textContent = archetype;
-            badge.style.color = archetypeColor;
-            badge.style.backgroundColor = archetypeBg;
-
-            document.getElementById('stability-value').textContent = (stabilityScore * 100).toFixed(0) + '%';
-            document.getElementById('exploration-events').textContent = explorationEvents;
-
-            // Create weekly entropy chart
-            const ctx = document.getElementById('weekly-entropy-chart').getContext('2d');
-
-            // Format week labels
-            const labels = sortedWeeks.map(week => {
-                const [year, month, day] = week.split('-').map(Number);
-                const d = new Date(year, month - 1, day);
-                return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-            });
-
-            analyticsCharts.weeklyEntropy = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Weekly Entropy',
-                        data: entropyValues,
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.3,
-                        pointRadius: 3,
-                        pointHoverRadius: 5
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return `Entropy: ${context.parsed.y.toFixed(3)}`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 1,
-                            ticks: {
-                                color: darkMode ? '#d1d5db' : '#6b7280',
-                                callback: function(value) {
-                                    return value.toFixed(1);
-                                }
-                            },
-                            grid: {
-                                color: darkMode ? '#374151' : '#e5e7eb'
-                            },
-                            title: {
-                                display: true,
-                                text: 'Normalized Entropy (0-1)',
-                                color: darkMode ? '#d1d5db' : '#6b7280',
-                                font: {
-                                    size: 11
-                                }
-                            }
-                        },
-                        x: {
-                            ticks: {
-                                color: darkMode ? '#d1d5db' : '#6b7280',
-                                maxRotation: 45,
-                                minRotation: 45,
-                                font: {
-                                    size: 10
-                                }
-                            },
-                            grid: {
-                                display: false
-                            }
-                        }
-                    }
-                }
-            });
+            document.getElementById('variance-label').textContent = label;
         }
 
         // Create radius of gyration chart
@@ -5165,290 +4292,6 @@
             document.getElementById('stat-total-visits').textContent = stats.totalVisits.toLocaleString();
         }
 
-        // Create dwell category distribution chart
-        function createDwellCategoryChart() {
-            const distribution = getDwellCategoryDistribution();
-            const labels = Object.keys(distribution);
-            const data = Object.values(distribution);
-
-            const ctx = document.getElementById('dwell-category-chart').getContext('2d');
-            const darkMode = isDarkMode();
-
-            const colors = ['#10b981', '#34d399', '#6ee7b7', '#a7f3d0'];
-
-            analyticsCharts.dwellCategory = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Number of Visits',
-                        data: data,
-                        backgroundColor: colors,
-                        borderColor: colors.map(c => c),
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                color: darkMode ? '#d1d5db' : '#6b7280',
-                                stepSize: 1
-                            },
-                            grid: {
-                                color: darkMode ? '#374151' : '#e5e7eb'
-                            }
-                        },
-                        x: {
-                            ticks: {
-                                color: darkMode ? '#d1d5db' : '#6b7280',
-                                maxRotation: 45,
-                                minRotation: 45
-                            },
-                            grid: {
-                                display: false
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Create dwell time heatmap chart
-        function createDwellHeatmapChart() {
-            const heatmapData = getDwellTimeHeatmapData();
-            const darkMode = isDarkMode();
-
-            // Flatten data for Chart.js matrix
-            const dataPoints = [];
-            const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-            for (let hour = 0; hour < 24; hour++) {
-                for (let day = 0; day < 7; day++) {
-                    dataPoints.push({
-                        x: day,
-                        y: hour,
-                        v: heatmapData[hour][day]
-                    });
-                }
-            }
-
-            // Find max value for color scaling
-            const maxValue = Math.max(...dataPoints.map(d => d.v), 1);
-
-            const ctx = document.getElementById('dwell-heatmap-chart').getContext('2d');
-
-            analyticsCharts.dwellHeatmap = new Chart(ctx, {
-                type: 'scatter',
-                data: {
-                    datasets: [{
-                        label: 'Visits',
-                        data: dataPoints,
-                        backgroundColor: function(context) {
-                            const value = context.raw.v;
-                            const intensity = value / maxValue;
-                            const r = Math.round(16 + (185 * intensity));
-                            const g = Math.round(185 + (57 * intensity));
-                            const b = Math.round(129 + (22 * intensity));
-                            return `rgba(${r}, ${g}, ${b}, 0.8)`;
-                        },
-                        borderColor: getCSSVariable('--mix-border'),
-                        borderWidth: 1,
-                        pointRadius: function(context) {
-                            return 8;
-                        },
-                        pointStyle: 'rect'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                title: function(items) {
-                                    const item = items[0];
-                                    const day = dayLabels[item.raw.x];
-                                    const hour = item.raw.y;
-                                    return `${day} ${hour}:00`;
-                                },
-                                label: function(item) {
-                                    return `Visits: ${item.raw.v}`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            type: 'linear',
-                            position: 'bottom',
-                            min: -0.5,
-                            max: 6.5,
-                            ticks: {
-                                stepSize: 1,
-                                callback: function(value) {
-                                    return dayLabels[value] || '';
-                                },
-                                color: darkMode ? '#d1d5db' : '#6b7280'
-                            },
-                            grid: {
-                                display: false
-                            }
-                        },
-                        y: {
-                            type: 'linear',
-                            min: -0.5,
-                            max: 23.5,
-                            reverse: false,
-                            ticks: {
-                                stepSize: 2,
-                                callback: function(value) {
-                                    if (value >= 0 && value <= 23 && value % 2 === 0) {
-                                        return value + ':00';
-                                    }
-                                    return '';
-                                },
-                                color: darkMode ? '#d1d5db' : '#6b7280'
-                            },
-                            grid: {
-                                color: darkMode ? '#374151' : '#e5e7eb'
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Update dwell signature display
-        function updateDwellSignature() {
-            const signature = calculateDwellSignature();
-
-            document.getElementById('sig-total-dwell').textContent = formatDuration(signature.totalDwell);
-            document.getElementById('sig-avg-dwell').textContent = formatDuration(signature.avgDwell);
-            document.getElementById('sig-common-category').textContent = signature.mostCommonCategory;
-            document.getElementById('sig-consistency').textContent = signature.consistency;
-        }
-
-        // Render Place Attachment analytics
-        function renderPlaceAttachment() {
-            const places = getHighAttachmentPlaces();
-            const topPlaces = places.slice(0, 10);
-
-            // Update summary stats
-            const highAttachmentThreshold = places.length > 0 ? places[0].score * 0.5 : 0;
-            const highAttachmentCount = places.filter(p => p.score >= highAttachmentThreshold).length;
-            document.getElementById('stat-high-attachment-count').textContent = highAttachmentCount;
-
-            if (topPlaces.length > 0) {
-                const avgVisits = topPlaces.reduce((sum, p) => sum + p.visitCount, 0) / topPlaces.length;
-                document.getElementById('stat-avg-visits-top').textContent = avgVisits.toFixed(1);
-            } else {
-                document.getElementById('stat-avg-visits-top').textContent = '0';
-            }
-
-            // Populate table
-            const tbody = document.getElementById('attachment-table-body');
-            if (topPlaces.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px; color: var(--mix-text-muted);">No places found</td></tr>';
-            } else {
-                tbody.innerHTML = topPlaces.map((place, idx) => {
-                    const coords = `${place.lat.toFixed(4)}, ${place.lng.toFixed(4)}`;
-                    return `
-                        <tr style="border-bottom: 1px solid var(--mix-border);">
-                            <td style="padding: 8px 4px; color: var(--mix-text-muted);">${idx + 1}</td>
-                            <td style="padding: 8px 4px; color: var(--mix-text); font-family: monospace; font-size: 10px;">${coords}</td>
-                            <td style="padding: 8px 4px; text-align: right; color: var(--mix-text); font-weight: 600;">${place.score.toFixed(1)}</td>
-                            <td style="padding: 8px 4px; text-align: right; color: var(--mix-text);">${place.visitCount}</td>
-                        </tr>
-                    `;
-                }).join('');
-            }
-
-            // Create mini map
-            const container = document.getElementById('attachment-map');
-            container.innerHTML = '';
-
-            if (topPlaces.length === 0) {
-                container.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--mix-text-muted);">No data available</div>';
-                return;
-            }
-
-            const darkMode = isDarkMode();
-            const tileUrl = darkMode
-                ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-                : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
-
-            const attachmentMap = L.map(container).setView([0, 0], 2);
-            L.tileLayer(tileUrl, {
-                attribution: '&copy; OpenStreetMap &copy; CARTO',
-                subdomains: 'abcd',
-                maxZoom: 19
-            }).addTo(attachmentMap);
-
-            const markers = [];
-
-            // Add markers for top places with color coding by attachment level
-            topPlaces.forEach((place, idx) => {
-                // Color gradient from purple (high) to cyan (low)
-                let color;
-                if (idx < 3) {
-                    color = '#a855f7'; // High attachment - purple
-                } else if (idx < 6) {
-                    color = '#3b82f6'; // Medium attachment - blue
-                } else {
-                    color = '#22d3ee'; // Lower attachment - cyan
-                }
-
-                const marker = L.circleMarker([place.lat, place.lng], {
-                    radius: 8,
-                    fillColor: color,
-                    color: '#ffffff',
-                    weight: 2,
-                    opacity: 1,
-                    fillOpacity: 0.8
-                }).addTo(attachmentMap).bindPopup(`
-                    <div class="popup-content">
-                        <div style="font-weight: 700; margin-bottom: 8px; color: var(--mix-text);">Rank ${idx + 1}</div>
-                        <div style="font-size: 11px;">
-                            <div style="display: flex; justify-content: space-between; padding: 4px 0;">
-                                <span style="color: var(--mix-text-muted);">Attachment Score:</span>
-                                <span style="color: var(--mix-text); font-weight: 600;">${place.score.toFixed(1)}</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 4px 0;">
-                                <span style="color: var(--mix-text-muted);">Visits:</span>
-                                <span style="color: var(--mix-text);">${place.visitCount}</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 4px 0;">
-                                <span style="color: var(--mix-text-muted);">Total Time:</span>
-                                <span style="color: var(--mix-text);">${formatDuration(place.totalDwellMinutes)}</span>
-                            </div>
-                        </div>
-                    </div>
-                `);
-
-                markers.push(marker);
-            });
-
-            // Fit bounds to show all markers
-            if (markers.length > 0) {
-                const group = L.featureGroup(markers);
-                attachmentMap.fitBounds(group.getBounds(), { padding: [30, 30] });
-            }
-
-            analyticsCharts.attachmentMap = attachmentMap;
-        }
-
         // Main render analytics function
         function renderAnalytics() {
             // Destroy old charts
@@ -5474,26 +4317,7 @@
             createExplorationVariance();
             createRadiusGyrationChart();
             createDwellDistributionChart();
-
-            const dwellStatsCard = document.getElementById('dwell-stats-card');
-            if (dwellStatsCard) dwellStatsCard.classList.add('card-loading');
             updateDwellTimeStatistics();
-            if (dwellStatsCard) dwellStatsCard.classList.remove('card-loading');
-
-            // Create Dwell Time Patterns analytics
-            createDwellCategoryChart();
-            createDwellHeatmapChart();
-
-            const dwellSigCard = document.getElementById('dwell-signature-card');
-            if (dwellSigCard) dwellSigCard.classList.add('card-loading');
-            updateDwellSignature();
-            if (dwellSigCard) dwellSigCard.classList.remove('card-loading');
-
-            // Create Place Attachment analytics
-            const placeCard = document.getElementById('place-attachment-card');
-            if (placeCard) placeCard.classList.add('card-loading');
-            renderPlaceAttachment();
-            if (placeCard) placeCard.classList.remove('card-loading');
 
             // Create Walk Score analytics
             renderWalkScoreAnalytics();
