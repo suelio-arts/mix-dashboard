@@ -594,7 +594,7 @@
             height: 100vh;
             overflow-y: auto;
             background: #f3f4f6;
-            padding: 24px;
+            padding: 80px 24px 24px 24px;
             display: none;
         }
 
@@ -924,7 +924,7 @@
 
         @media (max-width: 768px) {
             #analytics-view {
-                padding: 16px;
+                padding: 68px 16px 16px 16px;
             }
             .metrics-row {
                 grid-template-columns: 1fr;
@@ -1192,7 +1192,7 @@
             <!-- Radius of Gyration -->
             <div class="analytics-card wide thesis-metric">
                 <h3>Radius of Gyration Over Time <span class="thesis-badge">Spatial</span></h3>
-                <p class="card-description">Daily spatial spread from your activity centroid. Only includes days where you started and ended at the same home location (excludes travel days).</p>
+                <p class="card-description">Daily spatial spread from your activity centroid. Excludes travel days (>100km daily spread).</p>
                 <div class="analytics-chart-container" style="height: 200px;">
                     <canvas id="radius-gyration-chart"></canvas>
                 </div>
@@ -2495,9 +2495,24 @@
             });
 
             if (tabName === 'analytics') {
+                // 1. IMMEDIATELY switch the visual tab state
                 mapView.style.display = 'none';
                 analyticsView.style.display = 'block';
-                renderAnalytics();
+
+                // 2. Show loading states on ALL analytics cards immediately
+                const metricCards = analyticsView.querySelectorAll('.metric-card');
+                const analyticsCards = analyticsView.querySelectorAll('.analytics-card');
+                metricCards.forEach(card => card.classList.add('card-loading'));
+                analyticsCards.forEach(card => card.classList.add('card-loading'));
+
+                // 3. DEFER the actual data loading to next frame so UI updates first
+                requestAnimationFrame(() => {
+                    setTimeout(() => {
+                        renderAnalytics();
+                        // Remove loading states from metric cards (analytics cards remove their own)
+                        metricCards.forEach(card => card.classList.remove('card-loading'));
+                    }, 0);
+                });
             } else {
                 mapView.style.display = 'block';
                 analyticsView.style.display = 'none';
@@ -4769,56 +4784,49 @@
         function createRadiusGyrationChart() {
             if (locationsData.length === 0) return;
 
-            const homes = detectHomeClusters();
-            const HOME_THRESHOLD = 500; // meters
-
-            // Helper to find which home a point is near (returns home index or -1)
-            function getNearestHomeIndex(lat, lng) {
-                for (let i = 0; i < homes.length; i++) {
-                    const dist = haversineDistance(homes[i].lat, homes[i].lng, lat, lng);
-                    if (dist <= HOME_THRESHOLD) return i;
-                }
-                return -1;
-            }
+            const TRAVEL_THRESHOLD_KM = 100; // Days with >100km max spread are travel days
 
             // Group locations by day
             const dailyLocations = {};
             locationsData.forEach(loc => {
                 const date = new Date(loc.timestamp).toISOString().split('T')[0];
-
                 if (!dailyLocations[date]) {
                     dailyLocations[date] = [];
                 }
                 dailyLocations[date].push(loc);
             });
 
-            // Filter to only days where start and end are at SAME home
+            // Filter out travel days (max distance > 100km)
             const validDays = {};
             let skippedTravelDays = 0;
 
             Object.entries(dailyLocations).forEach(([date, locs]) => {
-                if (locs.length < 2) return; // Need at least 2 points
+                if (locs.length < 2) {
+                    validDays[date] = locs; // Include single-point days
+                    return;
+                }
 
-                // Sort by timestamp to get first and last
-                const sorted = [...locs].sort((a, b) =>
-                    new Date(a.timestamp) - new Date(b.timestamp)
-                );
+                // Calculate max distance between any two points
+                let maxDistance = 0;
+                for (let i = 0; i < locs.length; i++) {
+                    for (let j = i + 1; j < locs.length; j++) {
+                        const dist = haversineDistance(
+                            locs[i].latitude, locs[i].longitude,
+                            locs[j].latitude, locs[j].longitude
+                        ) / 1000; // Convert to km
+                        if (dist > maxDistance) maxDistance = dist;
+                    }
+                }
 
-                const firstLoc = sorted[0];
-                const lastLoc = sorted[sorted.length - 1];
-
-                const startHomeIdx = getNearestHomeIndex(firstLoc.latitude, firstLoc.longitude);
-                const endHomeIdx = getNearestHomeIndex(lastLoc.latitude, lastLoc.longitude);
-
-                // Only include if started and ended at SAME home
-                if (startHomeIdx >= 0 && startHomeIdx === endHomeIdx) {
+                if (maxDistance <= TRAVEL_THRESHOLD_KM) {
                     validDays[date] = locs;
                 } else {
                     skippedTravelDays++;
+                    console.log(`RoG: Skipped ${date} - max distance ${maxDistance.toFixed(0)}km`);
                 }
             });
 
-            console.log(`RoG: Including ${Object.keys(validDays).length} days, skipped ${skippedTravelDays} travel days`);
+            console.log(`RoG: Including ${Object.keys(validDays).length} days, skipped ${skippedTravelDays} travel days (>100km spread)`);
 
             // Calculate radius of gyration for each valid day
             const sortedDates = Object.keys(validDays).sort();
