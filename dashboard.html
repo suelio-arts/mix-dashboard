@@ -1191,8 +1191,17 @@
 
             <!-- Radius of Gyration -->
             <div class="analytics-card wide thesis-metric">
-                <h3>Radius of Gyration Over Time <span class="thesis-badge">Spatial</span></h3>
-                <p class="card-description">Daily spatial spread from your activity centroid. Excludes travel days (>100km daily spread).</p>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <h3>Radius of Gyration Over Time <span class="thesis-badge">Spatial</span></h3>
+                    <select id="rog-mode-filter" style="font-size: 11px; padding: 4px 8px; border-radius: 4px; border: 1px solid var(--mix-border); background: var(--mix-card-bg); color: var(--mix-text);">
+                        <option value="all">All Modes</option>
+                        <option value="automotive">Automotive</option>
+                        <option value="walking">Walking</option>
+                        <option value="cycling">Cycling</option>
+                        <option value="non-automotive">Non-Automotive</option>
+                    </select>
+                </div>
+                <p class="card-description">Daily spatial spread from your activity centroid. Filter by transport mode to analyze movement patterns. Excludes travel days (>100km daily spread).</p>
                 <div class="analytics-chart-container" style="height: 200px;">
                     <canvas id="radius-gyration-chart"></canvas>
                 </div>
@@ -2371,6 +2380,11 @@
 
             document.querySelectorAll('[data-activity]').forEach(checkbox => {
                 checkbox.addEventListener('change', renderLocations);
+            });
+
+            // Radius of Gyration mode filter
+            document.getElementById('rog-mode-filter')?.addEventListener('change', () => {
+                createRadiusGyrationChart();
             });
 
             // Legend item click handlers - sync with checkboxes
@@ -4786,9 +4800,39 @@
 
             const TRAVEL_THRESHOLD_KM = 100; // Days with >100km max spread are travel days
 
+            // Get mode filter
+            const modeFilter = document.getElementById('rog-mode-filter')?.value || 'all';
+
+            // Filter locations by transport mode
+            let filteredLocations = locationsData;
+            if (modeFilter !== 'all') {
+                filteredLocations = locationsData.filter(loc => {
+                    const motion = findNearestMotion(loc.timestamp, motionData);
+                    const activity = getActivityType(motion);
+
+                    if (modeFilter === 'automotive') return activity === 'automotive';
+                    if (modeFilter === 'walking') return activity === 'walking';
+                    if (modeFilter === 'cycling') return activity === 'cycling';
+                    if (modeFilter === 'non-automotive') {
+                        return ['walking', 'cycling', 'stationary', 'running'].includes(activity);
+                    }
+                    return true;
+                });
+            }
+
+            // Handle case where no data matches filter
+            if (filteredLocations.length === 0) {
+                const ctx = document.getElementById('radius-gyration-chart').getContext('2d');
+                if (analyticsCharts.radiusGyration) {
+                    analyticsCharts.radiusGyration.destroy();
+                }
+                // Show message that no data is available for this mode
+                return;
+            }
+
             // Group locations by day
             const dailyLocations = {};
-            locationsData.forEach(loc => {
+            filteredLocations.forEach(loc => {
                 const date = new Date(loc.timestamp).toISOString().split('T')[0];
                 if (!dailyLocations[date]) {
                     dailyLocations[date] = [];
@@ -4854,6 +4898,11 @@
 
             const ctx = document.getElementById('radius-gyration-chart').getContext('2d');
             const darkMode = isDarkMode();
+
+            // Destroy existing chart if it exists
+            if (analyticsCharts.radiusGyration) {
+                analyticsCharts.radiusGyration.destroy();
+            }
 
             analyticsCharts.radiusGyration = new Chart(ctx, {
                 type: 'line',
