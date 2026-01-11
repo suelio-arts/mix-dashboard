@@ -7,7 +7,8 @@
     "export": "node export-firebase-data.js"
   },
   "dependencies": {
-    "firebase-admin": "^12.0.0"
+    "firebase-admin": "^12.0.0",
+    "playwright": "^1.57.0"
   },
   "type": "commonjs"
 }
