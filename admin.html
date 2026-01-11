@@ -219,6 +219,130 @@
             height: calc(100vh - 120px);
             border: none;
         }
+
+        /* Settings Tab Styles */
+        .settings-container {
+            max-width: 600px;
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #111827;
+            box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-row .form-group {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 640px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        #save-settings-btn {
+            flex: 1;
+            padding: 12px 24px;
+            background: #111827;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        #save-settings-btn:hover:not(:disabled) {
+            background: #1f2937;
+        }
+
+        #save-settings-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .settings-message {
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .settings-message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
+
+        .settings-message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .settings-message ul {
+            margin: 8px 0 0 20px;
+        }
+
+        .settings-message li {
+            margin: 4px 0;
+        }
     </style>
 </head>
 <body>
@@ -280,9 +404,61 @@
         </div>
 
         <div id="settings-tab" class="tab-content">
-            <div class="placeholder-section">
-                <h2>⚙️ Settings</h2>
-                <p>Admin user management and system configuration will appear here.</p>
+            <div class="settings-container">
+                <h2 style="margin-bottom: 24px; font-size: 20px; font-weight: 600; color: #111827;">⚙️ Narrative Settings</h2>
+
+                <div id="settings-message" class="settings-message"></div>
+
+                <form id="settings-form">
+                    <div class="form-group">
+                        <label for="system-prompt">System Prompt (Optional)</label>
+                        <textarea id="system-prompt" placeholder="Custom system prompt for narrative generation..."></textarea>
+                        <div class="form-hint">Leave blank to use default system prompt</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="word-count-min">Word Count Min</label>
+                            <input type="number" id="word-count-min" min="1" required>
+                            <div class="form-hint">Minimum words for narrative</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="word-count-max">Word Count Max</label>
+                            <input type="number" id="word-count-max" min="1" required>
+                            <div class="form-hint">Maximum words for narrative</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="voice-select">Voice</label>
+                        <select id="voice-select" required>
+                            <option value="alloy">Alloy</option>
+                            <option value="echo">Echo</option>
+                            <option value="fable">Fable</option>
+                            <option value="onyx">Onyx</option>
+                            <option value="nova">Nova</option>
+                            <option value="shimmer">Shimmer</option>
+                        </select>
+                        <div class="form-hint">TTS voice for narrative audio</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="distance-threshold-far">Distance Threshold Far (meters)</label>
+                            <input type="number" id="distance-threshold-far" min="0" step="0.1" required>
+                            <div class="form-hint">Far distance threshold</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="distance-threshold-close">Distance Threshold Close (meters)</label>
+                            <input type="number" id="distance-threshold-close" min="0" step="0.1" required>
+                            <div class="form-hint">Close distance threshold</div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" id="save-settings-btn">Save Settings</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -291,6 +467,7 @@
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
         import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { initializeSettingsTab } from './js/narrative-settings.js';
 
         // Firebase configuration (matches existing dashboard config)
         const firebaseConfig = {
@@ -342,6 +519,9 @@
             adminInterface.style.display = 'block';
             userAvatar.src = user.photoURL || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><rect width="32" height="32" fill="%23e5e7eb"/></svg>';
             userName.textContent = user.displayName || user.email;
+
+            // Initialize settings tab
+            initializeSettingsTab();
         }
 
         // Show login screen
