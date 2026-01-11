@@ -213,7 +213,8 @@
             font-size: 14px;
         }
 
-        #analytics-content {
+        #analytics-content,
+        #narrative-history-content {
             width: 100%;
             height: calc(100vh - 120px);
             border: none;
@@ -258,7 +259,7 @@
         <nav class="tabs">
             <button class="tab active" data-tab="analytics">📊 Analytics</button>
             <button class="tab" data-tab="tours">🗺️ Tours</button>
-            <button class="tab" data-tab="content">📝 Content</button>
+            <button class="tab" data-tab="content">📚 Narrative History</button>
             <button class="tab" data-tab="settings">⚙️ Settings</button>
         </nav>
 
@@ -275,11 +276,7 @@
         </div>
 
         <div id="content-tab" class="tab-content">
-            <div class="placeholder-section">
-                <h2>📝 Content Management</h2>
-                <p>Narrative settings, templates, and content moderation tools will appear here.</p>
-                <p style="margin-top: 8px; font-size: 13px; color: #9ca3af;">Requires narrative-admin-dashboard PRD implementation.</p>
-            </div>
+            <iframe id="narrative-history-content" src="narrative-history.html"></iframe>
         </div>
 
         <div id="settings-tab" class="tab-content">
