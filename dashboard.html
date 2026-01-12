@@ -1096,6 +1096,69 @@
             </div>
         </div>
 
+        <!-- Engagement Analytics Section -->
+        <div class="sidebar-section" id="engagement-analytics-section">
+            <h2>Engagement Analytics</h2>
+
+            <!-- Date Range Filter -->
+            <div class="filter-group">
+                <label for="engagement-start-date">Start Date:</label>
+                <input type="date" id="engagement-start-date" />
+
+                <label for="engagement-end-date">End Date:</label>
+                <input type="date" id="engagement-end-date" />
+
+                <button id="apply-date-filter" style="margin-top: 8px; padding: 8px 16px; background: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer; width: 100%;">Apply</button>
+                <button id="reset-filters" style="margin-top: 4px; padding: 8px 16px; background: #6b7280; color: white; border: none; border-radius: 6px; cursor: pointer; width: 100%;">Reset</button>
+            </div>
+
+            <!-- Weekly Stats Summary -->
+            <div id="weekly-stats-summary" style="margin: 16px 0;">
+                <div class="stat-item">
+                    <span>Narratives Heard:</span>
+                    <span class="stat-value" id="total-narratives">-</span>
+                </div>
+                <div class="stat-item">
+                    <span>Minutes Listened:</span>
+                    <span class="stat-value" id="total-minutes">-</span>
+                </div>
+                <div class="stat-item">
+                    <span>Unique Places:</span>
+                    <span class="stat-value" id="unique-places">-</span>
+                </div>
+            </div>
+
+            <!-- Chart Canvas -->
+            <canvas id="engagement-chart" style="max-height: 300px; margin: 16px 0;"></canvas>
+
+            <!-- User Breakdown Table -->
+            <h3 style="font-size: 16px; font-weight: 600; margin: 16px 0 8px 0;">Per-User Breakdown</h3>
+            <div class="filter-group">
+                <label for="user-filter">Filter by User:</label>
+                <select id="user-filter" multiple style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
+                    <option value="">All Users</option>
+                </select>
+            </div>
+
+            <div style="max-height: 400px; overflow-y: auto; margin: 16px 0;">
+                <table id="user-breakdown-table" style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                    <thead>
+                        <tr style="background: #f3f4f6; position: sticky; top: 0;">
+                            <th data-sort="userId" style="padding: 8px; text-align: left; border-bottom: 2px solid #e5e7eb;">User ID</th>
+                            <th data-sort="week" style="padding: 8px; text-align: left; border-bottom: 2px solid #e5e7eb;">Week</th>
+                            <th data-sort="narrativesHeard" style="padding: 8px; text-align: right; border-bottom: 2px solid #e5e7eb;">Narratives</th>
+                            <th data-sort="totalMinutes" style="padding: 8px; text-align: right; border-bottom: 2px solid #e5e7eb;">Minutes</th>
+                            <th data-sort="uniquePlaces" style="padding: 8px; text-align: right; border-bottom: 2px solid #e5e7eb;">Places</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- Export Button -->
+            <button id="export-csv" style="margin-top: 8px; padding: 8px 16px; background: #059669; color: white; border: none; border-radius: 6px; cursor: pointer; width: 100%;">Export to CSV</button>
+        </div>
+
         <!-- Build Info -->
         <div id="build-info" style="padding: 12px 20px; font-size: 10px; color: #9ca3af; border-top: 1px solid #e5e7eb; margin-top: auto;">
             <span id="build-commit">Loading...</span>
@@ -1579,6 +1642,9 @@
 
     <!-- Motion Algorithms -->
     <script src="motion-algorithms.js"></script>
+
+    <!-- Engagement Analytics -->
+    <script src="js/engagement-analytics.js"></script>
 
     <!-- Firebase SDK -->
     <script type="module">
@@ -2561,11 +2627,94 @@
                 switchTab('analytics');
             }
 
+            // Initialize engagement analytics
+            initializeEngagementAnalytics();
+
             // Watch for dark mode changes
             if (window.matchMedia) {
                 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
                     location.reload(); // Reload to update map tiles
                 });
+            }
+        }
+
+        // Initialize Engagement Analytics section
+        let currentEngagementData = null;
+
+        function initializeEngagementAnalytics() {
+            const section = document.getElementById('engagement-analytics-section');
+            if (!section) return;
+
+            // Set default date range (last 30 days)
+            const defaultEndDate = new Date().toISOString().split('T')[0];
+            const defaultStartDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+            document.getElementById('engagement-start-date').value = defaultStartDate;
+            document.getElementById('engagement-end-date').value = defaultEndDate;
+
+            // Load initial data
+            loadEngagementData(defaultStartDate, defaultEndDate);
+
+            // Event listeners
+            document.getElementById('apply-date-filter').addEventListener('click', () => {
+                const startDate = document.getElementById('engagement-start-date').value;
+                const endDate = document.getElementById('engagement-end-date').value;
+                loadEngagementData(startDate, endDate);
+            });
+
+            document.getElementById('reset-filters').addEventListener('click', () => {
+                document.getElementById('engagement-start-date').value = defaultStartDate;
+                document.getElementById('engagement-end-date').value = defaultEndDate;
+                loadEngagementData(defaultStartDate, defaultEndDate);
+            });
+
+            document.getElementById('export-csv').addEventListener('click', () => {
+                const startDate = document.getElementById('engagement-start-date').value;
+                const endDate = document.getElementById('engagement-end-date').value;
+                if (currentEngagementData) {
+                    exportToCSV(currentEngagementData, startDate, endDate);
+                } else {
+                    alert('No data to export');
+                }
+            });
+        }
+
+        async function loadEngagementData(startDate, endDate) {
+            try {
+                showLoadingState(true);
+
+                // Note: getEngagementStats requires auth token
+                // For now, display mock data structure
+                // In production, get auth token from Firebase and call the function
+                const mockData = {
+                    weeklyStats: {
+                        narrativesHeard: 0,
+                        totalMinutesListened: 0,
+                        uniquePlaces: 0,
+                    },
+                    dailyBreakdown: [],
+                };
+
+                // Update summary stats
+                document.getElementById('total-narratives').textContent = mockData.weeklyStats.narrativesHeard;
+                document.getElementById('total-minutes').textContent = mockData.weeklyStats.totalMinutesListened;
+                document.getElementById('unique-places').textContent = mockData.weeklyStats.uniquePlaces;
+
+                // Create chart
+                if (mockData.dailyBreakdown && mockData.dailyBreakdown.length > 0) {
+                    createEngagementChart('engagement-chart', mockData, { startDate, endDate });
+                }
+
+                // Render table (if we had user breakdown data)
+                // For now, show empty state
+                currentEngagementData = [];
+                renderUserBreakdownTable('user-breakdown-table', currentEngagementData);
+
+                showLoadingState(false);
+            } catch (error) {
+                console.error('Failed to load engagement data:', error);
+                showLoadingState(false);
+                alert('Failed to load engagement data. Please try again.');
             }
         }
 
