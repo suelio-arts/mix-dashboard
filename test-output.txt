@@ -1,0 +1,112 @@
+
+> mix-dashboard-exporter@1.0.0 test
+> jest
+
+(node:93982) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+FAIL js/__tests__/motion-algorithms.test.js
+  Transportation Mode Detection Algorithms
+    Baseline Algorithm - Speed Thresholds
+      ✓ should classify walking trajectory correctly (1 ms)
+      ✓ should classify cycling trajectory correctly
+      ✓ should classify bus trajectory as bus-or-car (1 ms)
+      ✓ should classify car trajectory as bus-or-car
+      ✕ should classify train trajectory correctly (2 ms)
+      ✓ should handle stationary trajectory (speed = 0)
+      ✓ should handle very fast speeds (ultra-high speed transport)
+      ✓ should handle edge case: speed at threshold boundary
+      ✓ should calculate accuracy for baseline algorithm (2 ms)
+    Percentile95 Algorithm - Outlier-Resistant Classification
+      ✓ should be more robust to speed spikes than baseline (1 ms)
+      ✓ should correctly classify walking with noisy GPS
+      ✓ should correctly classify cycling with outliers
+      ✓ should distinguish cycling from bus with percentile method (1 ms)
+      ✓ should handle 95th percentile calculation correctly
+      ✓ should improve accuracy over baseline on noisy data (3 ms)
+      ✓ should validate that percentile < max speed
+    Stop Pattern Algorithm - Bus vs Car Detection
+      ✓ should identify bus trajectory by frequent stops (3 ms)
+      ✓ should identify car trajectory by infrequent stops (1 ms)
+      ✓ should detect stops correctly in trajectory (1 ms)
+      ✓ should calculate distance between stops (1 ms)
+      ✓ should handle trajectory with no stops
+      ✓ should return null for non-automotive speed ranges (1 ms)
+      ✓ should differentiate between bus and car stop patterns (1 ms)
+      ✓ should validate stop duration is reasonable (1 ms)
+    Heading Change Algorithm - Fixed Route Detection
+      ✓ should identify train as fixed-route by low heading variance (1 ms)
+      ✓ should identify bus as fixed-route by low heading variance
+      ✓ should identify car as variable-route by high heading variance (1 ms)
+      ✓ should calculate heading changes correctly (1 ms)
+      ✓ should normalize heading changes to [-π, π]
+      ✓ should distinguish fixed vs variable routes
+      ✓ should handle straight-line trajectory
+      ✓ should handle erratic trajectory (1 ms)
+      ✓ should calculate standard deviation of heading changes
+    Confusion Matrix and Metrics
+      ✓ should build confusion matrix correctly (1 ms)
+      ✓ should calculate accuracy from confusion matrix
+      ✓ should calculate precision for each mode
+      ✓ should calculate recall for each mode
+      ✓ should calculate F1 score
+      ✓ should handle empty confusion matrix
+      ✓ should generate classification report (1 ms)
+      ✓ should validate that total predictions equals sum of matrix
+    Edge Cases and Error Handling
+      ✓ should handle empty trajectory (1 ms)
+      ✓ should handle single-point trajectory
+      ✓ should handle all-zero speeds
+      ✓ should handle all-same speeds
+      ✓ should handle negative speeds gracefully
+      ✓ should handle very large timestamps
+      ✓ should handle identical latitude/longitude points
+      ✕ should handle antipodal points (opposite sides of earth)
+    Integration Tests
+      ✓ should classify all modes correctly using baseline algorithm (1 ms)
+      ✓ should provide consistent results for same trajectory
+      ✓ should process large trajectory efficiently (3 ms)
+      ✓ should handle mixed trajectory (multiple modes)
+
+  ● Transportation Mode Detection Algorithms › Baseline Algorithm - Speed Thresholds › should classify train trajectory correctly
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "train"
+    Received: "bus-or-car"
+
+      176 |       const points = generateTrajectory('train', 300);
+      177 |       const result = baselineClassify(points);
+    > 178 |       expect(result).toBe('train');
+          |                      ^
+      179 |     });
+      180 |
+      181 |     test('should handle stationary trajectory (speed = 0)', () => {
+
+      at Object.toBe (js/__tests__/motion-algorithms.test.js:178:22)
+
+  ● Transportation Mode Detection Algorithms › Edge Cases and Error Handling › should handle antipodal points (opposite sides of earth)
+
+    expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 20037000
+    Received: 20031979.139718924
+
+    Expected precision:    -3
+    Expected difference: < 500
+    Received difference:   5020.860281076282
+
+      770 |
+      771 |       const distance = getDistanceBetweenPoints(point1, point2);
+    > 772 |       expect(distance).toBeCloseTo(20037000, -3); // ~20,000 km
+          |                        ^
+      773 |     });
+      774 |   });
+      775 |
+
+      at Object.toBeCloseTo (js/__tests__/motion-algorithms.test.js:772:24)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 51 passed, 53 total
+Snapshots:   0 total
+Time:        0.277 s, estimated 1 s
+Ran all test suites.
