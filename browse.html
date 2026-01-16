@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firestore Browser - MIX Dashboard</title>
+  <link rel="stylesheet" href="css/browser-common.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <nav class="breadcrumb" id="breadcrumb">
+          <a href="index.html">Home</a>
+        </nav>
+        <h1 id="page-title">Collections</h1>
+        <p class="subtitle" id="page-subtitle">Browse all Firestore collections</p>
+      </div>
+      <div class="header-actions">
+        <button class="dark-mode-toggle" id="dark-mode-toggle">
+          <span id="dark-mode-icon">🌙</span>
+          <span id="dark-mode-label">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main content area - populated by JavaScript -->
+    <main id="main-content">
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="js/dynamic-browser.js"></script>
+  <script>
+    // Dark mode toggle
+    const toggle = document.getElementById('dark-mode-toggle');
+    const icon = document.getElementById('dark-mode-icon');
+    const label = document.getElementById('dark-mode-label');
+
+    // Check for saved preference
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      icon.textContent = '☀️';
+      label.textContent = 'Light';
+    }
+
+    toggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDark);
+      icon.textContent = isDark ? '☀️' : '🌙';
+      label.textContent = isDark ? 'Light' : 'Dark';
+    });
+  </script>
+</body>
+</html>

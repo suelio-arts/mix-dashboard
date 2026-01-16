@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layers - MIX Data Browser</title>
+  <link rel="stylesheet" href="../css/browser-common.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <a href="../index.html" class="back-link">← Back to Browser</a>
+        <h1>🗺️ Layers</h1>
+        <p class="subtitle">AR experience layers with geographic regions</p>
+      </div>
+      <div class="header-actions">
+        <button class="dark-mode-toggle" id="dark-mode-toggle">
+          <span id="dark-mode-icon">🌙</span>
+          <span id="dark-mode-label">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="table-container">
+      <div id="table-container">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Loading layers...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { fetchCollection, formatDate, formatGeoPoint, truncateText } from '../js/firestore-browser.js';
+    import { renderTable, sortData, showLoading, showError, resetSort } from '../js/table-utils.js';
+
+    // Column configuration
+    const columns = [
+      { key: 'name', label: 'Name', type: 'text' },
+      { key: 'description', label: 'Description', type: 'text', truncate: 80 },
+      { key: 'location', label: 'Location', type: 'geopoint' },
+      { key: 'elements', label: 'Elements', type: 'references' },
+      { key: 'availability', label: 'Availability', type: 'badge' },
+      { key: 'created', label: 'Created', type: 'date' }
+    ];
+
+    let layersData = [];
+
+    async function loadLayers() {
+      try {
+        layersData = await fetchCollection('layers', {
+          orderByField: 'created',
+          orderDirection: 'desc',
+          maxResults: 100
+        });
+
+        renderTable('table-container', layersData, columns, {
+          onSort: handleSort
+        });
+      } catch (error) {
+        showError('table-container', 'Failed to load layers: ' + error.message);
+      }
+    }
+
+    function handleSort(key, direction) {
+      const sorted = sortData(layersData, key, direction);
+      renderTable('table-container', sorted, columns, {
+        onSort: handleSort
+      });
+    }
+
+    // Dark mode toggle
+    const toggle = document.getElementById('dark-mode-toggle');
+    const icon = document.getElementById('dark-mode-icon');
+    const label = document.getElementById('dark-mode-label');
+
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      icon.textContent = '☀️';
+      label.textContent = 'Light';
+    }
+
+    toggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDark);
+      icon.textContent = isDark ? '☀️' : '🌙';
+      label.textContent = isDark ? 'Light' : 'Dark';
+    });
+
+    // Load data
+    loadLayers();
+  </script>
+</body>
+</html>

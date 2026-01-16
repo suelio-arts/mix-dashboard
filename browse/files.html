@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Files - MIX Data Browser</title>
+  <link rel="stylesheet" href="../css/browser-common.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <a href="../index.html" class="back-link">← Back to Browser</a>
+        <h1>📁 Files</h1>
+        <p class="subtitle">Media files including 3D models, audio, and video</p>
+      </div>
+      <div class="header-actions">
+        <button class="dark-mode-toggle" id="dark-mode-toggle">
+          <span id="dark-mode-icon">🌙</span>
+          <span id="dark-mode-label">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="table-container">
+      <div id="table-container">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Loading files...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { fetchCollection, escapeHtml } from '../js/firestore-browser.js';
+    import { renderTable, sortData, showError } from '../js/table-utils.js';
+
+    // File type icons
+    const typeIcons = {
+      'usdz': '🎮',
+      'mp3': '🎵',
+      'mp4': '🎬',
+      'wav': '🎵',
+      'mov': '🎬',
+      'png': '🖼️',
+      'jpg': '🖼️',
+      'jpeg': '🖼️'
+    };
+
+    function getTypeIcon(type) {
+      if (!type) return '📄';
+      const lowerType = String(type).toLowerCase();
+      return typeIcons[lowerType] || '📄';
+    }
+
+    // Column configuration
+    const columns = [
+      { key: 'name', label: 'Name', type: 'text' },
+      {
+        key: 'type',
+        label: 'Type',
+        type: 'text',
+        render: (value) => {
+          const icon = getTypeIcon(value);
+          return `${icon} <span style="text-transform: uppercase; font-size: 12px;">${escapeHtml(value || 'unknown')}</span>`;
+        }
+      },
+      { key: 'file_path', label: 'File Path', type: 'text', truncate: 60 },
+      { key: 'availability', label: 'Availability', type: 'badge' },
+      { key: 'owner', label: 'Owner', type: 'text', truncate: 20 },
+      { key: 'created', label: 'Created', type: 'date' }
+    ];
+
+    let filesData = [];
+
+    async function loadFiles() {
+      try {
+        filesData = await fetchCollection('files', {
+          orderByField: 'created',
+          orderDirection: 'desc',
+          maxResults: 100
+        });
+
+        renderTable('table-container', filesData, columns, {
+          onSort: handleSort
+        });
+      } catch (error) {
+        showError('table-container', 'Failed to load files: ' + error.message);
+      }
+    }
+
+    function handleSort(key, direction) {
+      const sorted = sortData(filesData, key, direction);
+      renderTable('table-container', sorted, columns, {
+        onSort: handleSort
+      });
+    }
+
+    // Dark mode toggle
+    const toggle = document.getElementById('dark-mode-toggle');
+    const icon = document.getElementById('dark-mode-icon');
+    const label = document.getElementById('dark-mode-label');
+
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      icon.textContent = '☀️';
+      label.textContent = 'Light';
+    }
+
+    toggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDark);
+      icon.textContent = isDark ? '☀️' : '🌙';
+      label.textContent = isDark ? 'Light' : 'Dark';
+    });
+
+    // Load data
+    loadFiles();
+  </script>
+</body>
+</html>

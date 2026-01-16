@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIX Data Browser</title>
+  <link rel="stylesheet" href="css/browser-common.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>MIX Data Browser</h1>
+        <p class="subtitle">Browse Firestore collections</p>
+      </div>
+      <div class="header-actions">
+        <button class="dark-mode-toggle" id="dark-mode-toggle">
+          <span id="dark-mode-icon">🌙</span>
+          <span id="dark-mode-label">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Utility Pages -->
+    <h2 class="section-title">Utilities</h2>
+    <div class="nav-grid">
+      <a href="narrative-history.html" class="nav-card">
+        <div class="nav-card-icon">📚</div>
+        <div class="nav-card-title">Narrative History</div>
+        <div class="nav-card-description">View user listening history for narratives</div>
+      </a>
+
+      <a href="dashboard.html" class="nav-card">
+        <div class="nav-card-icon">📊</div>
+        <div class="nav-card-title">Location Dashboard</div>
+        <div class="nav-card-description">Activity visualization and location tracking</div>
+      </a>
+    </div>
+
+    <!-- Dynamic Firestore Collections -->
+    <h2 class="section-title">Firestore Collections</h2>
+    <div class="nav-grid" id="collections-grid">
+      <div class="loading-inline">
+        <div class="spinner"></div>
+        <span>Loading collections...</span>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { functions, httpsCallable } from './js/firestore-browser.js';
+
+    // Icon mapping for common collections
+    const collectionIcons = {
+      layers: '🗺️',
+      elements: '📍',
+      creators: '👤',
+      files: '📁',
+      users: '👥',
+      stories: '📖',
+      tour_visits: '🚶',
+      narrative_history: '📚',
+      engagement_stats: '📊',
+      location_records: '📍',
+      motion_records: '🏃',
+      experiences: '✨',
+      narrative_settings: '⚙️',
+      temp_models: '🎨',
+      fiction_story_templates: '📝'
+    };
+
+    const defaultIcon = '📄';
+
+    // Load collections dynamically
+    async function loadCollections() {
+      const grid = document.getElementById('collections-grid');
+
+      try {
+        const listCollectionsFn = httpsCallable(functions, 'listCollections');
+        const result = await listCollectionsFn();
+        const collections = result.data.collections || [];
+
+        if (collections.length === 0) {
+          grid.innerHTML = '<p class="text-muted">No collections found</p>';
+          return;
+        }
+
+        // Sort alphabetically
+        collections.sort((a, b) => a.id.localeCompare(b.id));
+
+        grid.innerHTML = collections.map(col => `
+          <a href="browse.html?collection=${encodeURIComponent(col.id)}" class="nav-card">
+            <div class="nav-card-icon">${collectionIcons[col.id] || defaultIcon}</div>
+            <div class="nav-card-title">${escapeHtml(col.id)}</div>
+            <div class="nav-card-description">Browse ${escapeHtml(col.id)} documents</div>
+          </a>
+        `).join('');
+
+      } catch (error) {
+        console.error('Error loading collections:', error);
+        grid.innerHTML = `<p class="error-inline">Failed to load collections: ${escapeHtml(error.message)}</p>`;
+      }
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = String(text || '');
+      return div.innerHTML;
+    }
+
+    // Dark mode toggle
+    const toggle = document.getElementById('dark-mode-toggle');
+    const icon = document.getElementById('dark-mode-icon');
+    const label = document.getElementById('dark-mode-label');
+
+    // Check for saved preference
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      icon.textContent = '☀️';
+      label.textContent = 'Light';
+    }
+
+    toggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDark);
+      icon.textContent = isDark ? '☀️' : '🌙';
+      label.textContent = isDark ? 'Light' : 'Dark';
+    });
+
+    // Load collections on page load
+    loadCollections();
+  </script>
+</body>
+</html>
