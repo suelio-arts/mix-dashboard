@@ -253,6 +253,7 @@
             <button class="tab active" data-tab="analytics">📊 Analytics</button>
             <button class="tab" data-tab="tours">🗺️ Tours</button>
             <button class="tab" data-tab="content">📚 Narrative History</button>
+            <button class="tab" data-tab="stories">🎙️ Stories</button>
             <button class="tab" data-tab="settings">⚙️ Settings</button>
         </nav>
 
@@ -270,6 +271,58 @@
 
         <div id="content-tab" class="tab-content">
             <iframe id="narrative-history-content" src="narrative-history.html"></iframe>
+        </div>
+
+        <div id="stories-tab" class="tab-content">
+            <div class="settings-container">
+                <h2 style="margin-bottom: 24px; font-size: 20px; font-weight: 600; color: #111827;">🎙️ Story Voice Settings</h2>
+
+                <div id="stories-message" class="settings-message"></div>
+
+                <div class="form-group">
+                    <label for="story-selector">Select Story</label>
+                    <select id="story-selector">
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="place-picker-prompt">Place Picker Prompt</label>
+                    <textarea id="place-picker-prompt" rows="8" placeholder="Custom prompt for selecting the next location..."></textarea>
+                    <div class="form-hint">Leave blank to use default place picker logic</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="narrative-prompt">Narrative Prompt</label>
+                    <textarea id="narrative-prompt" rows="8" placeholder="Custom system prompt for narrative generation..."></textarea>
+                    <div class="form-hint">Leave blank to use default narrative prompt</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="voice-id">Voice</label>
+                        <select id="voice-id">
+                            <!-- Populated dynamically from constants -->
+                        </select>
+                        <div class="form-hint">OpenAI TTS voice</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="story-word-count-min">Word Count Min</label>
+                        <input type="number" id="story-word-count-min" min="1" max="1000">
+                        <div class="form-hint">Minimum words</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="story-word-count-max">Word Count Max</label>
+                        <input type="number" id="story-word-count-max" min="1" max="1000">
+                        <div class="form-hint">Maximum words</div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" id="save-story-btn">Save Story Settings</button>
+                </div>
+                <span id="story-save-status" style="margin-left: 12px; color: #059669;"></span>
+            </div>
         </div>
 
         <div id="settings-tab" class="tab-content">
@@ -335,7 +388,9 @@
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFunctions } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js';
         import { initializeSettingsTab } from './js/narrative-settings.js';
+        import { initializeStoriesTab } from './js/story-prompts.js';
 
         // Firebase configuration (matches existing dashboard config)
         const firebaseConfig = {
@@ -349,9 +404,11 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const functions = getFunctions(app);
 
         // Initialize the admin interface
         initializeSettingsTab();
+        initializeStoriesTab(functions);
 
         // Tab Navigation
         const tabs = document.querySelectorAll('.tab');
