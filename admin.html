@@ -189,7 +189,7 @@
             margin-top: 24px;
         }
 
-        #save-settings-btn {
+        #save-story-btn {
             flex: 1;
             padding: 12px 24px;
             background: #111827;
@@ -202,11 +202,11 @@
             transition: background 0.2s;
         }
 
-        #save-settings-btn:hover:not(:disabled) {
+        #save-story-btn:hover:not(:disabled) {
             background: #1f2937;
         }
 
-        #save-settings-btn:disabled {
+        #save-story-btn:disabled {
             background: #9ca3af;
             cursor: not-allowed;
         }
@@ -251,22 +251,13 @@
 
         <nav class="tabs">
             <button class="tab active" data-tab="analytics">📊 Analytics</button>
-            <button class="tab" data-tab="tours">🗺️ Tours</button>
             <button class="tab" data-tab="content">📚 Narrative History</button>
             <button class="tab" data-tab="stories">🎙️ Stories</button>
-            <button class="tab" data-tab="settings">⚙️ Settings</button>
+            <button class="tab" data-tab="data">📂 Data</button>
         </nav>
 
         <div id="analytics-tab" class="tab-content active">
             <iframe id="analytics-content" src="dashboard.html"></iframe>
-        </div>
-
-        <div id="tours-tab" class="tab-content">
-            <div class="placeholder-section">
-                <h2>🗺️ Tour Analytics</h2>
-                <p>Tour completion rates and engagement metrics will appear here.</p>
-                <p style="margin-top: 8px; font-size: 13px; color: #9ca3af;">Requires tour-visit-tracking PRD implementation.</p>
-            </div>
         </div>
 
         <div id="content-tab" class="tab-content">
@@ -325,63 +316,8 @@
             </div>
         </div>
 
-        <div id="settings-tab" class="tab-content">
-            <div class="settings-container">
-                <h2 style="margin-bottom: 24px; font-size: 20px; font-weight: 600; color: #111827;">⚙️ Narrative Settings</h2>
-
-                <div id="settings-message" class="settings-message"></div>
-
-                <form id="settings-form">
-                    <div class="form-group">
-                        <label for="system-prompt">System Prompt (Optional)</label>
-                        <textarea id="system-prompt" placeholder="Custom system prompt for narrative generation..."></textarea>
-                        <div class="form-hint">Leave blank to use default system prompt</div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="word-count-min">Word Count Min</label>
-                            <input type="number" id="word-count-min" min="1" required>
-                            <div class="form-hint">Minimum words for narrative</div>
-                        </div>
-                        <div class="form-group">
-                            <label for="word-count-max">Word Count Max</label>
-                            <input type="number" id="word-count-max" min="1" required>
-                            <div class="form-hint">Maximum words for narrative</div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="voice-select">Voice</label>
-                        <select id="voice-select" required>
-                            <option value="alloy">Alloy</option>
-                            <option value="echo">Echo</option>
-                            <option value="fable">Fable</option>
-                            <option value="onyx">Onyx</option>
-                            <option value="nova">Nova</option>
-                            <option value="shimmer">Shimmer</option>
-                        </select>
-                        <div class="form-hint">TTS voice for narrative audio</div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="distance-threshold-far">Distance Threshold Far (meters)</label>
-                            <input type="number" id="distance-threshold-far" min="0" step="0.1" required>
-                            <div class="form-hint">Far distance threshold</div>
-                        </div>
-                        <div class="form-group">
-                            <label for="distance-threshold-close">Distance Threshold Close (meters)</label>
-                            <input type="number" id="distance-threshold-close" min="0" step="0.1" required>
-                            <div class="form-hint">Close distance threshold</div>
-                        </div>
-                    </div>
-
-                    <div class="button-group">
-                        <button type="submit" id="save-settings-btn">Save Settings</button>
-                    </div>
-                </form>
-            </div>
+        <div id="data-tab" class="tab-content">
+            <iframe id="data-content" src="browse.html" style="width: 100%; height: calc(100vh - 120px); border: none;"></iframe>
         </div>
     </div>
 
@@ -389,7 +325,6 @@
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { getFunctions } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-functions.js';
-        import { initializeSettingsTab } from './js/narrative-settings.js';
         import { initializeStoriesTab } from './js/story-prompts.js';
 
         // Firebase configuration (matches existing dashboard config)
@@ -407,7 +342,6 @@
         const functions = getFunctions(app);
 
         // Initialize the admin interface
-        initializeSettingsTab();
         initializeStoriesTab(functions);
 
         // Tab Navigation
