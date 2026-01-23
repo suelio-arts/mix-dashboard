@@ -61,6 +61,7 @@ async function loadStoryPrompts(storyId) {
         getEl(DOM_IDS.VOICE_ID).value = data.openAIVoiceId || OpenAIVoiceId.ONYX;
         getEl('story-word-count-min').value = data.wordCountMin || 75;
         getEl('story-word-count-max').value = data.wordCountMax || 150;
+        getEl('beat-history-count').value = data.beatHistoryCount || 3;
     } catch (error) {
         console.error('Failed to load story prompts:', error);
         showMessage(`Failed to load story: ${error.message}`, true);
@@ -82,6 +83,7 @@ async function saveStoryPrompts() {
             openAIVoiceId: getEl(DOM_IDS.VOICE_ID).value,
             wordCountMin: parseInt(getEl('story-word-count-min').value) || 75,
             wordCountMax: parseInt(getEl('story-word-count-max').value) || 150,
+            beatHistoryCount: parseInt(getEl('beat-history-count').value) || 3,
         });
 
         showMessage('Story settings saved!');
