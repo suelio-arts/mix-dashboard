@@ -63,6 +63,7 @@ async function loadStoryPrompts(storyId) {
         getEl('story-word-count-min').value = data.wordCountMin || 75;
         getEl('story-word-count-max').value = data.wordCountMax || 150;
         getEl('beat-history-count').value = data.beatHistoryCount || 3;
+        getEl('story-published').checked = data.published || false;
     } catch (error) {
         console.error('Failed to load story prompts:', error);
         showMessage(`Failed to load story: ${error.message}`, true);
@@ -86,6 +87,7 @@ async function saveStoryPrompts() {
             wordCountMin: parseInt(getEl('story-word-count-min').value) || 75,
             wordCountMax: parseInt(getEl('story-word-count-max').value) || 150,
             beatHistoryCount: parseInt(getEl('beat-history-count').value) || 3,
+            published: getEl('story-published').checked,
         });
 
         showMessage('Story settings saved!');
