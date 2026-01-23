@@ -56,6 +56,7 @@ async function loadStoryPrompts(storyId) {
         const result = await getStoryPrompts({ storyId });
 
         const data = result.data;
+        getEl('story-title').value = data.title || '';
         getEl(DOM_IDS.NARRATIVE_PROMPT).value = data.systemPrompt || '';
         getEl(DOM_IDS.PLACE_PICKER_PROMPT).value = data.placePickerPrompt || '';
         getEl(DOM_IDS.VOICE_ID).value = data.openAIVoiceId || OpenAIVoiceId.ONYX;
@@ -78,6 +79,7 @@ async function saveStoryPrompts() {
         const updateStoryPrompts = httpsCallable(functionsInstance, FUNCTIONS.UPDATE_STORY_PROMPTS);
         await updateStoryPrompts({
             storyId: currentStoryId,
+            title: getEl('story-title').value,
             systemPrompt: getEl(DOM_IDS.NARRATIVE_PROMPT).value,
             placePickerPrompt: getEl(DOM_IDS.PLACE_PICKER_PROMPT).value,
             openAIVoiceId: getEl(DOM_IDS.VOICE_ID).value,
