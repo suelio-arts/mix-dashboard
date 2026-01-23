@@ -98,6 +98,103 @@ async function saveStoryPrompts() {
 }
 
 /**
+ * Show the create story form
+ */
+function showCreateForm() {
+    const form = document.getElementById('create-story-form');
+    const titleInput = document.getElementById('new-story-title');
+    if (form) {
+        form.style.display = 'block';
+    }
+    if (titleInput) {
+        titleInput.focus();
+    }
+}
+
+/**
+ * Hide the create story form and clear the input
+ */
+function hideCreateForm() {
+    const form = document.getElementById('create-story-form');
+    const titleInput = document.getElementById('new-story-title');
+    if (form) {
+        form.style.display = 'none';
+    }
+    if (titleInput) {
+        titleInput.value = '';
+    }
+}
+
+/**
+ * Refresh the stories list dropdown
+ * @param {string|null} selectStoryId Optional story ID to auto-select after refresh
+ */
+async function refreshStoriesList(selectStoryId = null) {
+    const listStories = httpsCallable(functionsInstance, FUNCTIONS.LIST_STORIES);
+    const result = await listStories();
+    const stories = result.data;
+    const selector = getEl(DOM_IDS.STORY_SELECTOR);
+
+    if (selector && stories.length > 0) {
+        selector.innerHTML = stories.map(s =>
+            `<option value="${s.id}">${s.title}</option>`
+        ).join('');
+
+        if (selectStoryId) {
+            selector.value = selectStoryId;
+        }
+    }
+    return stories;
+}
+
+/**
+ * Create a new story
+ */
+async function createNewStory() {
+    const titleInput = document.getElementById('new-story-title');
+    const createBtn = document.getElementById('confirm-create-btn');
+
+    if (!titleInput || !functionsInstance) return;
+
+    const title = titleInput.value.trim();
+    if (!title) {
+        showMessage('Story title is required', true);
+        return;
+    }
+
+    try {
+        // Disable button during API call
+        if (createBtn) {
+            createBtn.disabled = true;
+        }
+
+        const createStory = httpsCallable(functionsInstance, FUNCTIONS.CREATE_STORY);
+        const result = await createStory({ title });
+        const newStoryId = result.data.storyId;
+
+        // Hide form
+        hideCreateForm();
+
+        // Show success message
+        showMessage('Story created!');
+
+        // Refresh stories list and select the new story
+        await refreshStoriesList(newStoryId);
+
+        // Load the new story's prompts
+        await loadStoryPrompts(newStoryId);
+    } catch (error) {
+        console.error('Failed to create story:', error);
+        showMessage(`Failed to create story: ${error.message}`, true);
+    } finally {
+        // Re-enable button
+        if (createBtn) {
+            createBtn.disabled = false;
+        }
+    }
+}
+
+/**
  * Initialize the stories tab
  * @param {Functions} functions Firebase Functions instance
  */
@@ -120,18 +217,27 @@ export async function initializeStoriesTab(functions) {
         saveBtn.addEventListener('click', saveStoryPrompts);
     }
 
+    const createBtn = document.getElementById('create-story-btn');
+    if (createBtn) {
+        createBtn.addEventListener('click', showCreateForm);
+    }
+
+    const cancelCreateBtn = document.getElementById('cancel-create-btn');
+    if (cancelCreateBtn) {
+        cancelCreateBtn.addEventListener('click', hideCreateForm);
+    }
+
+    const confirmCreateBtn = document.getElementById('confirm-create-btn');
+    if (confirmCreateBtn) {
+        confirmCreateBtn.addEventListener('click', createNewStory);
+    }
+
     // Load stories list
     try {
-        const listStories = httpsCallable(functionsInstance, FUNCTIONS.LIST_STORIES);
-        const result = await listStories();
-        const stories = result.data;
+        const stories = await refreshStoriesList();
 
-        if (selector && stories.length > 0) {
-            selector.innerHTML = stories.map(s =>
-                `<option value="${s.id}">${s.title}</option>`
-            ).join('');
-
-            // Load first story's prompts
+        // Load first story's prompts
+        if (stories.length > 0) {
             loadStoryPrompts(stories[0].id);
         }
     } catch (error) {

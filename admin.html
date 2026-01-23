@@ -277,6 +277,26 @@
                     </select>
                 </div>
 
+                <div style="margin-bottom: 16px;">
+                    <button id="create-story-btn" style="padding: 8px 16px; background: #111827; color: white; border: none; border-radius: 6px; font-size: 14px; cursor: pointer; transition: background 0.2s;">
+                        Create New Story
+                    </button>
+                    <div id="create-story-form" style="display: none; margin-top: 16px; padding: 16px; background: #f9fafb; border-radius: 6px; border: 1px solid #e5e7eb;">
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label for="new-story-title">Story Title</label>
+                            <input type="text" id="new-story-title" required placeholder="Enter story title...">
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button id="confirm-create-btn" style="padding: 8px 16px; background: #111827; color: white; border: none; border-radius: 6px; font-size: 14px; cursor: pointer; transition: background 0.2s;">
+                                Create
+                            </button>
+                            <button id="cancel-create-btn" style="padding: 8px 16px; background: #6b7280; color: white; border: none; border-radius: 6px; font-size: 14px; cursor: pointer; transition: background 0.2s;">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label for="story-title">Story Title</label>
                     <input type="text" id="story-title" required placeholder="Enter story title...">

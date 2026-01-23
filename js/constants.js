@@ -24,6 +24,7 @@ export const FUNCTIONS = {
     GET_STORY_PROMPTS: "getStoryPrompts",
     UPDATE_STORY_PROMPTS: "updateStoryPrompts",
     LIST_STORIES: "listStories",
+    CREATE_STORY: "createStory",
 };
 
 /**
