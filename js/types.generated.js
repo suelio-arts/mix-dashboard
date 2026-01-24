@@ -1,8 +1,8 @@
 // AUTO-GENERATED FILE - DO NOT EDIT
 // Generated from mix-backend/functions/src/utils/types.ts
 // Generator: generate-jsdoc.ts
-// Source hash: 981629f61ab945fa
-// Generated at: 2026-01-24T18:28:07.331Z
+// Source hash: 2aaab489e94fc4bc
+// Generated at: 2026-01-24T20:46:33.852Z
 //
 // Regenerate: cd mix-backend/functions && npm run schema:generate:jsdoc
 //
