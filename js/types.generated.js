@@ -1,8 +1,8 @@
 // AUTO-GENERATED FILE - DO NOT EDIT
 // Generated from mix-backend/functions/src/utils/types.ts
 // Generator: generate-jsdoc.ts
-// Source hash: 2aaab489e94fc4bc
-// Generated at: 2026-01-24T20:46:33.852Z
+// Source hash: b19aa6b4fefdc238
+// Generated at: 2026-01-25T19:09:25.571Z
 //
 // Regenerate: cd mix-backend/functions && npm run schema:generate:jsdoc
 //
@@ -90,8 +90,8 @@
 /**
  * @typedef {Object} DigitalElementContent
  * @property {'digital'} type
- * @property {string[]} placements
- * @property {(string[]|undefined)} [localPlacements]
+ * @property {Object[]} placements
+ * @property {(Object[]|undefined)} [localPlacements]
  * @property {Object[]} accessAreas
  * @property {string[]} creators
  * @property {boolean} requiresProximity
@@ -107,6 +107,7 @@
 /**
  * @typedef {Object} Layer
  * @property {string} id
+ * @property {(string|undefined)} [documentID]
  * @property {string} name
  * @property {(string|undefined)} [description]
  * @property {Object} location
@@ -132,12 +133,13 @@
 /**
  * @typedef {Object} Element
  * @property {string} id
+ * @property {(string|undefined)} [documentID]
  * @property {string} name
  * @property {Object} location
  * @property {number} latitude
  * @property {number} longitude
- * @property {(string[]|undefined)} [placements]
- * @property {(string[]|undefined)} [localPlacements]
+ * @property {(Object[]|undefined)} [placements]
+ * @property {(Object[]|undefined)} [localPlacements]
  * @property {(string|undefined)} [imagePath]
  * @property {(string|undefined)} [description]
  * @property {(Object[]|undefined)} [accessAreas]
@@ -155,6 +157,7 @@
 /**
  * @typedef {Object} Placement
  * @property {string} id
+ * @property {(string|undefined)} [documentID]
  * @property {Object} content
  * @property {Object} placement
  * @property {(number|undefined)} [createdAt]
@@ -163,6 +166,7 @@
 /**
  * @typedef {Object} File
  * @property {string} id
+ * @property {(string|undefined)} [documentID]
  * @property {string} filePath
  * @property {'mp3'|'mp4'|'usdz'} type
  * @property {(string|undefined)} [previewImagePath]
@@ -176,6 +180,7 @@
 /**
  * @typedef {Object} Creator
  * @property {string} id
+ * @property {(string|undefined)} [documentID]
  * @property {string} name
  * @property {(string|undefined)} [description]
  * @property {(string|undefined)} [locationText]
@@ -188,6 +193,7 @@
 /**
  * @typedef {Object} Story
  * @property {string} id
+ * @property {(string|undefined)} [documentID]
  * @property {string} title
  * @property {(string|undefined)} [description]
  * @property {(number|undefined)} [duration]
@@ -204,6 +210,7 @@
 /**
  * @typedef {Object} SpatialStory
  * @property {string} id
+ * @property {(string|undefined)} [documentID]
  * @property {string} title
  * @property {(string|undefined)} [description]
  * @property {number} createdAt
