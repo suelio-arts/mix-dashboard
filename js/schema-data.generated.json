@@ -1,0 +1,1014 @@
+{
+  "generatedAt": "2026-01-25T17:15:01.747Z",
+  "sourceHash": "b19aa6b4fefdc238",
+  "mermaid": "erDiagram\n    Layer ||--|| GeoPoint : \"location\"\n    Layer ||--|{ Creator : \"creators\"\n    Element ||--|| GeoPoint : \"location\"\n    Element ||--|{ Placement : \"placements\"\n    Element ||--|{ LocalPlacement : \"localPlacements\"\n    Element ||--|{ Creator : \"creators\"\n    Element ||--|{ Creator : \"editors\"\n    Element }|--|| Layer : \"layer\"\n    Element ||--|{ Placement : \"content.placements\"\n    Element ||--|{ LocalPlacement : \"content.localPlacements\"\n    Element ||--|| TourAudio : \"tourAudio\"\n    Placement ||--|| Content : \"content\"\n    Placement ||--|| GeoPosition : \"placement\"\n    LocalPlacement ||--|| Content : \"content\"\n    LocalPlacement ||--|| Transform : \"transform\"\n    File ||--|{ Creator : \"creators\"\n    Story ||--|{ Creator : \"creators\"\n    Story ||--|| GeoPoint : \"location\"\n    GeoLocation ||--|| GeoPoint : \"point\"\n    GeoPosition ||--|| GeoLocation : \"location\"\n    GeoPosition ||--|| Transform : \"transform\"\n\n    Layer {\n        string id PK\n        string documentID PK\n        string name\n        GeoPoint location\n    }\n    Element {\n        string id PK\n        string documentID PK\n        string name\n        GeoPoint location\n        number latitude\n    }\n    Placement {\n        string id PK\n        string documentID PK\n        Content content\n        GeoPosition placement\n    }\n    LocalPlacement {\n        string id PK\n        string documentID PK\n        Content content\n        Transform transform\n    }\n    Content {\n        string id PK\n        union(type) model\n        union(type) media\n    }\n    File {\n        string id PK\n        string documentID PK\n        string filePath\n        \"mp3\" | \"mp4\" | \"usdz\" type\n        string-array creators\n    }\n    Creator {\n        string id PK\n        string documentID PK\n        string name\n    }\n    Story {\n        string id PK\n        string documentID PK\n        string title\n        string-array creators\n    }\n    SpatialStory {\n        string id PK\n        string documentID PK\n        string title\n        number createdAt\n        union(type) content\n    }\n    SpatialBeat {\n        string id PK\n        string storyId\n        union(type) storyLocation\n        object userLocation\n        string narrativeText\n    }",
+  "entities": {
+    "Layer": {
+      "name": "LayerSchemaFull",
+      "displayName": "Layer",
+      "isCore": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "documentID",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "location",
+          "type": "GeoPoint",
+          "required": true,
+          "isReference": true,
+          "referenceTarget": "GeoPoint"
+        },
+        {
+          "name": "headerImage",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "locationDescription",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "area",
+          "type": "object",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "creators",
+          "type": "string[]",
+          "required": false,
+          "isReference": true,
+          "referenceTarget": "Creator"
+        },
+        {
+          "name": "availability",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "experienceType",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "numberOfStops",
+          "type": "number",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "hasGamification",
+          "type": "boolean",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "hasARPreview",
+          "type": "boolean",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "tagline",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "requiredPermissions",
+          "type": "string[]",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "layerType",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "filterTags",
+          "type": "string[]",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "createdAt",
+          "type": "number",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "number",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "translations",
+          "type": "Record<string, object>",
+          "required": false,
+          "isReference": false
+        }
+      ],
+      "relationships": [
+        {
+          "source": "Layer",
+          "target": "GeoPoint",
+          "type": "contains",
+          "label": "location"
+        },
+        {
+          "source": "Layer",
+          "target": "Creator",
+          "type": "one-to-many",
+          "label": "creators"
+        }
+      ]
+    },
+    "Element": {
+      "name": "ElementSchemaFull",
+      "displayName": "Element",
+      "isCore": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "documentID",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "location",
+          "type": "GeoPoint",
+          "required": true,
+          "isReference": true,
+          "referenceTarget": "GeoPoint"
+        },
+        {
+          "name": "latitude",
+          "type": "number",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "longitude",
+          "type": "number",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "placements",
+          "type": "Placement[]",
+          "required": false,
+          "isReference": true,
+          "referenceTarget": "Placement"
+        },
+        {
+          "name": "localPlacements",
+          "type": "LocalPlacement[]",
+          "required": false,
+          "isReference": true,
+          "referenceTarget": "LocalPlacement"
+        },
+        {
+          "name": "imagePath",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "accessAreas",
+          "type": "object[]",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "creators",
+          "type": "string[]",
+          "required": false,
+          "isReference": true,
+          "referenceTarget": "Creator"
+        },
+        {
+          "name": "editors",
+          "type": "string[]",
+          "required": true,
+          "isReference": true,
+          "referenceTarget": "Creator"
+        },
+        {
+          "name": "layer",
+          "type": "string",
+          "required": false,
+          "isReference": true,
+          "referenceTarget": "Layer"
+        },
+        {
+          "name": "visibility",
+          "type": "\"draft\" | \"public\"",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "requiresLocation",
+          "type": "boolean",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "content",
+          "type": "union(type)",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "tourAudio",
+          "type": "TourAudio",
+          "required": false,
+          "isReference": true,
+          "referenceTarget": "TourAudio"
+        },
+        {
+          "name": "createdAt",
+          "type": "number",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "number",
+          "required": false,
+          "isReference": false
+        }
+      ],
+      "relationships": [
+        {
+          "source": "Element",
+          "target": "GeoPoint",
+          "type": "contains",
+          "label": "location"
+        },
+        {
+          "source": "Element",
+          "target": "Placement",
+          "type": "one-to-many",
+          "label": "placements"
+        },
+        {
+          "source": "Element",
+          "target": "LocalPlacement",
+          "type": "one-to-many",
+          "label": "localPlacements"
+        },
+        {
+          "source": "Element",
+          "target": "Creator",
+          "type": "one-to-many",
+          "label": "creators"
+        },
+        {
+          "source": "Element",
+          "target": "Creator",
+          "type": "one-to-many",
+          "label": "editors"
+        },
+        {
+          "source": "Element",
+          "target": "Layer",
+          "type": "many-to-one",
+          "label": "layer"
+        },
+        {
+          "source": "Element",
+          "target": "Placement",
+          "type": "one-to-many",
+          "label": "content.placements"
+        },
+        {
+          "source": "Element",
+          "target": "LocalPlacement",
+          "type": "one-to-many",
+          "label": "content.localPlacements"
+        },
+        {
+          "source": "Element",
+          "target": "TourAudio",
+          "type": "contains",
+          "label": "tourAudio"
+        }
+      ]
+    },
+    "Placement": {
+      "name": "PlacementSchemaFull",
+      "displayName": "Placement",
+      "isCore": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "documentID",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "content",
+          "type": "Content",
+          "required": true,
+          "isReference": true,
+          "referenceTarget": "Content"
+        },
+        {
+          "name": "placement",
+          "type": "GeoPosition",
+          "required": true,
+          "isReference": true,
+          "referenceTarget": "GeoPosition"
+        },
+        {
+          "name": "createdAt",
+          "type": "number",
+          "required": false,
+          "isReference": false
+        }
+      ],
+      "relationships": [
+        {
+          "source": "Placement",
+          "target": "Content",
+          "type": "contains",
+          "label": "content"
+        },
+        {
+          "source": "Placement",
+          "target": "GeoPosition",
+          "type": "contains",
+          "label": "placement"
+        }
+      ]
+    },
+    "LocalPlacement": {
+      "name": "LocalPlacementSchemaFull",
+      "displayName": "LocalPlacement",
+      "isCore": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "documentID",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "content",
+          "type": "Content",
+          "required": true,
+          "isReference": true,
+          "referenceTarget": "Content"
+        },
+        {
+          "name": "transform",
+          "type": "Transform",
+          "required": true,
+          "isReference": true,
+          "referenceTarget": "Transform"
+        },
+        {
+          "name": "createdAt",
+          "type": "number",
+          "required": false,
+          "isReference": false
+        }
+      ],
+      "relationships": [
+        {
+          "source": "LocalPlacement",
+          "target": "Content",
+          "type": "contains",
+          "label": "content"
+        },
+        {
+          "source": "LocalPlacement",
+          "target": "Transform",
+          "type": "contains",
+          "label": "transform"
+        }
+      ]
+    },
+    "Content": {
+      "name": "ContentSchema",
+      "displayName": "Content",
+      "isCore": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "model",
+          "type": "union(type)",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "media",
+          "type": "union(type)",
+          "required": true,
+          "isReference": false
+        }
+      ],
+      "relationships": []
+    },
+    "File": {
+      "name": "FileSchemaFull",
+      "displayName": "File",
+      "isCore": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "documentID",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "filePath",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "type",
+          "type": "\"mp3\" | \"mp4\" | \"usdz\"",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "previewImagePath",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "creators",
+          "type": "string[]",
+          "required": true,
+          "isReference": true,
+          "referenceTarget": "Creator"
+        },
+        {
+          "name": "owner",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "availability",
+          "type": "\"private\" | \"public\" | \"draft\"",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "createdAt",
+          "type": "number",
+          "required": false,
+          "isReference": false
+        }
+      ],
+      "relationships": [
+        {
+          "source": "File",
+          "target": "Creator",
+          "type": "one-to-many",
+          "label": "creators"
+        }
+      ]
+    },
+    "Creator": {
+      "name": "CreatorSchemaFull",
+      "displayName": "Creator",
+      "isCore": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "documentID",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "locationText",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "imagePath",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "link",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "associatedUserId",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "createdAt",
+          "type": "number",
+          "required": false,
+          "isReference": false
+        }
+      ],
+      "relationships": []
+    },
+    "Story": {
+      "name": "StorySchemaFull",
+      "displayName": "Story",
+      "isCore": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "documentID",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "coverImagePath",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "creators",
+          "type": "string[]",
+          "required": true,
+          "isReference": true,
+          "referenceTarget": "Creator"
+        },
+        {
+          "name": "published",
+          "type": "boolean",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "location",
+          "type": "GeoPoint",
+          "required": false,
+          "isReference": true,
+          "referenceTarget": "GeoPoint"
+        },
+        {
+          "name": "tags",
+          "type": "string[]",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "content",
+          "type": "union(type)",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "translations",
+          "type": "Record<string, object>",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "createdAt",
+          "type": "number",
+          "required": false,
+          "isReference": false
+        }
+      ],
+      "relationships": [
+        {
+          "source": "Story",
+          "target": "Creator",
+          "type": "one-to-many",
+          "label": "creators"
+        },
+        {
+          "source": "Story",
+          "target": "GeoPoint",
+          "type": "contains",
+          "label": "location"
+        }
+      ]
+    },
+    "SpatialStory": {
+      "name": "SpatialStorySchema",
+      "displayName": "SpatialStory",
+      "isCore": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "documentID",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "createdAt",
+          "type": "number",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "content",
+          "type": "union(type)",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "translations",
+          "type": "Record<string, object>",
+          "required": false,
+          "isReference": false
+        }
+      ],
+      "relationships": []
+    },
+    "SpatialBeat": {
+      "name": "SpatialBeatSchema",
+      "displayName": "SpatialBeat",
+      "isCore": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "storyId",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "storyLocation",
+          "type": "union(type)",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "userLocation",
+          "type": "object",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "narrativeText",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "relevantUrls",
+          "type": "string[]",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "audio",
+          "type": "object",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "generatedAt",
+          "type": "number",
+          "required": true,
+          "isReference": false
+        }
+      ],
+      "relationships": []
+    },
+    "GeoPoint": {
+      "name": "GeoPointSchema",
+      "displayName": "GeoPoint",
+      "isCore": false,
+      "fields": [
+        {
+          "name": "latitude",
+          "type": "number",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "longitude",
+          "type": "number",
+          "required": true,
+          "isReference": false
+        }
+      ],
+      "relationships": []
+    },
+    "GeoLocation": {
+      "name": "GeoLocationSchema",
+      "displayName": "GeoLocation",
+      "isCore": false,
+      "fields": [
+        {
+          "name": "point",
+          "type": "GeoPoint",
+          "required": true,
+          "isReference": true,
+          "referenceTarget": "GeoPoint"
+        },
+        {
+          "name": "altitude",
+          "type": "number",
+          "required": false,
+          "isReference": false
+        }
+      ],
+      "relationships": [
+        {
+          "source": "GeoLocation",
+          "target": "GeoPoint",
+          "type": "contains",
+          "label": "point"
+        }
+      ]
+    },
+    "GeoPosition": {
+      "name": "GeoPositionSchema",
+      "displayName": "GeoPosition",
+      "isCore": false,
+      "fields": [
+        {
+          "name": "location",
+          "type": "GeoLocation",
+          "required": true,
+          "isReference": true,
+          "referenceTarget": "GeoLocation"
+        },
+        {
+          "name": "transform",
+          "type": "Transform",
+          "required": true,
+          "isReference": true,
+          "referenceTarget": "Transform"
+        }
+      ],
+      "relationships": [
+        {
+          "source": "GeoPosition",
+          "target": "GeoLocation",
+          "type": "contains",
+          "label": "location"
+        },
+        {
+          "source": "GeoPosition",
+          "target": "Transform",
+          "type": "contains",
+          "label": "transform"
+        }
+      ]
+    },
+    "Transform": {
+      "name": "TransformSchema",
+      "displayName": "Transform",
+      "isCore": false,
+      "fields": [
+        {
+          "name": "column_0",
+          "type": "object",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "column_1",
+          "type": "object",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "column_2",
+          "type": "object",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "column_3",
+          "type": "object",
+          "required": true,
+          "isReference": false
+        }
+      ],
+      "relationships": []
+    },
+    "VoiceConfig": {
+      "name": "VoiceConfigSchema",
+      "displayName": "VoiceConfig",
+      "isCore": false,
+      "fields": [
+        {
+          "name": "systemPrompt",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "placePickerPrompt",
+          "type": "string",
+          "required": false,
+          "isReference": false
+        },
+        {
+          "name": "openAIVoiceId",
+          "type": "enum",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "wordCountMin",
+          "type": "number",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "wordCountMax",
+          "type": "number",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "beatHistoryCount",
+          "type": "number",
+          "required": true,
+          "isReference": false
+        }
+      ],
+      "relationships": []
+    },
+    "TourAudio": {
+      "name": "TourAudioSchema",
+      "displayName": "TourAudio",
+      "isCore": false,
+      "fields": [
+        {
+          "name": "audioUrl",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "durationSeconds",
+          "type": "number",
+          "required": true,
+          "isReference": false
+        },
+        {
+          "name": "narrationText",
+          "type": "string",
+          "required": true,
+          "isReference": false
+        }
+      ],
+      "relationships": []
+    }
+  }
+}

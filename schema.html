@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIX Schema Visualization</title>
+    <link rel="stylesheet" href="css/schema-viewer.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="schema-container">
+        <!-- Header -->
+        <header class="schema-header">
+            <div class="header-left">
+                <h1>Firestore Schema</h1>
+                <span class="meta-info" id="meta-info">Loading...</span>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-secondary" id="zoom-out-btn" title="Zoom Out">-</button>
+                <span class="zoom-level" id="zoom-level">100%</span>
+                <button class="btn btn-secondary" id="zoom-in-btn" title="Zoom In">+</button>
+                <button class="btn btn-secondary" id="zoom-reset-btn" title="Reset Zoom">Reset</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="schema-main">
+            <!-- Diagram Panel -->
+            <div class="diagram-panel" id="diagram-panel">
+                <div class="diagram-wrapper" id="diagram-wrapper">
+                    <div class="mermaid" id="mermaid-diagram">
+                        Loading diagram...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entity Detail Panel -->
+            <aside class="detail-panel" id="detail-panel">
+                <div class="panel-header">
+                    <h2 id="entity-name">Select an Entity</h2>
+                    <span class="entity-badge" id="entity-badge"></span>
+                </div>
+                <div class="panel-content" id="panel-content">
+                    <p class="hint-text">Click on an entity in the diagram to view its fields and relationships.</p>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Entity Legend -->
+        <footer class="schema-footer">
+            <div class="legend">
+                <span class="legend-item">
+                    <span class="legend-dot core"></span>
+                    Core Entity
+                </span>
+                <span class="legend-item">
+                    <span class="legend-dot supporting"></span>
+                    Supporting Type
+                </span>
+                <span class="legend-item">
+                    <span class="legend-line one-to-many"></span>
+                    One-to-Many
+                </span>
+                <span class="legend-item">
+                    <span class="legend-line contains"></span>
+                    Contains
+                </span>
+            </div>
+        </footer>
+    </div>
+
+    <script type="module" src="js/schema-viewer.js"></script>
+</body>
+</html>
