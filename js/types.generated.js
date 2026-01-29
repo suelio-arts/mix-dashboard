@@ -1,8 +1,8 @@
 // AUTO-GENERATED FILE - DO NOT EDIT
 // Generated from mix-backend/functions/src/utils/types.ts
 // Generator: generate-jsdoc.ts
-// Source hash: b19aa6b4fefdc238
-// Generated at: 2026-01-25T19:09:25.571Z
+// Source hash: 5c426702eede5b49
+// Generated at: 2026-01-29T00:08:39.275Z
 //
 // Regenerate: cd mix-backend/functions && npm run schema:generate:jsdoc
 //
@@ -51,7 +51,6 @@
 /**
  * @typedef {Object} AudioData
  * @property {string} url
- * @property {number} durationSeconds
  */
 
 /**
@@ -384,6 +383,11 @@
  * @property {number} wordCountMin
  * @property {number} wordCountMax
  * @property {number} beatHistoryCount
+ * @property {(Object|undefined)} [wikipedia]
+ * @property {(Object|undefined)} [aiModel]
+ * @property {(Object|undefined)} [distanceThresholds]
+ * @property {(Object|undefined)} [tts]
+ * @property {(Object|undefined)} [continuity]
  */
 
 /**

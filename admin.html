@@ -238,6 +238,106 @@
         .settings-message li {
             margin: 4px 0;
         }
+
+        /* Phase section styling */
+        .phase-section {
+            margin-top: 32px;
+            padding: 24px;
+            background: white;
+            border-radius: 12px;
+            border-left: 4px solid var(--phase-color);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .phase-1 { --phase-color: #3b82f6; }
+        .phase-2 { --phase-color: #10b981; }
+        .phase-3 { --phase-color: #8b5cf6; }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .phase-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--phase-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .phase-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .phase-description {
+            margin: 0;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        /* Backend info box styling */
+        .backend-info-box {
+            background: #f8f9fa;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .backend-info-box h4 {
+            margin: 0 0 12px 0;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .backend-info-box pre {
+            margin: 0;
+            padding: 12px;
+            background: #1e293b;
+            color: #e2e8f0;
+            border-radius: 6px;
+            font-size: 11px;
+            line-height: 1.5;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+        }
+
+        /* Stories container - wider for phases */
+        .stories-container {
+            max-width: 900px;
+        }
+
+        /* Global settings section */
+        .global-settings {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .global-settings h2 {
+            margin-bottom: 24px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+        }
     </style>
 </head>
 <body>
@@ -266,23 +366,30 @@
         </div>
 
         <div id="stories-tab" class="tab-content">
-            <div class="settings-container">
-                <h2 style="margin-bottom: 24px; font-size: 20px; font-weight: 600; color: #111827;">🎙️ Story Voice Settings</h2>
+            <div class="settings-container stories-container">
+                <!-- Global Settings Section -->
+                <div class="global-settings">
+                    <h2>Story Voice Settings</h2>
 
-                <div id="stories-message" class="settings-message"></div>
+                    <div id="stories-message" class="settings-message"></div>
 
-                <div class="form-group">
-                    <label for="story-selector">Select Story</label>
-                    <select id="story-selector">
-                        <!-- Populated dynamically -->
-                    </select>
-                </div>
+                    <div class="form-group">
+                        <label for="story-selector">Select Story</label>
+                        <select id="story-selector">
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
 
-                <div style="margin-bottom: 16px;">
-                    <button id="create-story-btn" style="padding: 8px 16px; background: #111827; color: white; border: none; border-radius: 6px; font-size: 14px; cursor: pointer; transition: background 0.2s;">
-                        Create New Story
-                    </button>
-                    <div id="create-story-form" style="display: none; margin-top: 16px; padding: 16px; background: #f9fafb; border-radius: 6px; border: 1px solid #e5e7eb;">
+                    <div style="margin-bottom: 16px; display: flex; gap: 12px; flex-wrap: wrap;">
+                        <button id="create-story-btn" style="padding: 8px 16px; background: #111827; color: white; border: none; border-radius: 6px; font-size: 14px; cursor: pointer; transition: background 0.2s;">
+                            Create New Story
+                        </button>
+                        <button type="button" id="duplicate-story-btn" style="padding: 8px 16px; background: #6b7280; color: white; border: none; border-radius: 6px; font-size: 14px; cursor: pointer; transition: background 0.2s;">
+                            Duplicate Story
+                        </button>
+                    </div>
+
+                    <div id="create-story-form" style="display: none; margin-bottom: 16px; padding: 16px; background: #f9fafb; border-radius: 6px; border: 1px solid #e5e7eb;">
                         <div class="form-group" style="margin-bottom: 12px;">
                             <label for="new-story-title">Story Title</label>
                             <input type="text" id="new-story-title" required placeholder="Enter story title...">
@@ -296,246 +403,310 @@
                             </button>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="story-title">Story Title</label>
-                    <input type="text" id="story-title" required placeholder="Enter story title...">
-                </div>
-
-                <div class="form-group">
-                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                        <input type="checkbox" id="story-published" style="width: auto;">
-                        Published
-                    </label>
-                    <div class="form-hint">Published stories appear in the iOS app. Unpublished stories are drafts.</div>
-                </div>
-
-                <div class="form-group">
-                    <label for="place-picker-prompt">Place Picker Prompt</label>
-                    <textarea id="place-picker-prompt" rows="8" placeholder="Custom prompt for selecting the next location..."></textarea>
-                    <div class="form-hint">Leave blank to use default place picker logic</div>
-                </div>
-
-                <div class="form-group">
-                    <label for="narrative-prompt">Narrative Prompt</label>
-                    <textarea id="narrative-prompt" rows="8" placeholder="Custom system prompt for narrative generation..."></textarea>
-                    <div class="form-hint">Leave blank to use default narrative prompt</div>
-                </div>
-
-                <div class="form-row">
                     <div class="form-group">
-                        <label for="voice-id">Voice</label>
-                        <select id="voice-id">
-                            <!-- Populated dynamically from constants -->
-                        </select>
-                        <div class="form-hint">OpenAI TTS voice</div>
+                        <label for="story-title">Story Title</label>
+                        <input type="text" id="story-title" required placeholder="Enter story title...">
                     </div>
+
                     <div class="form-group">
-                        <label for="story-word-count-min">Word Count Min</label>
-                        <input type="number" id="story-word-count-min" min="1" max="1000">
-                        <div class="form-hint">Minimum words</div>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="story-published" style="width: auto;">
+                            Published
+                        </label>
+                        <div class="form-hint">Published stories appear in the iOS app. Unpublished stories are drafts.</div>
                     </div>
-                    <div class="form-group">
-                        <label for="story-word-count-max">Word Count Max</label>
-                        <input type="number" id="story-word-count-max" min="1" max="1000">
-                        <div class="form-hint">Maximum words</div>
+
+                    <div class="button-group" style="margin-top: 16px;">
+                        <button type="button" id="save-story-btn">Save Story Settings</button>
+                        <span id="story-save-status" style="margin-left: 12px; color: #059669;"></span>
                     </div>
                 </div>
 
-                <div class="form-row">
+                <!-- Phase 1: Place Selection -->
+                <section class="phase-section phase-1">
+                    <div class="phase-header">
+                        <div class="phase-number">1</div>
+                        <div>
+                            <h3>Place Selection</h3>
+                            <p class="phase-description">Settings that affect how the AI picks the next place</p>
+                        </div>
+                    </div>
+
+                    <div class="backend-info-box">
+                        <h4>Backend Scoring Criteria</h4>
+                        <pre>SCORING CRITERIA (weighted):
+
+1. Thematic Continuity (40%): Connect to themes from last 2-3 narratives
+   - Strong connection to prior themes: +40 points
+   - Weak/tangential connection: +20 points
+   - No connection: 0 points
+
+2. Proximity (30%): Prefer places the user can see or easily reach
+   - &lt;30m (RIGHT HERE): +30 points, include FULL visual details
+   - 30-100m (SHORT WALK): +25 points, brief mention of visible features
+   - 100-500m (NEARBY): +15 points, moderate context
+   - &gt;500m (FURTHER AWAY): +5 points, broader area context
+
+3. Novelty (20%): Avoid repeating place types or geographic areas
+   - New area not mentioned recently: +20 points
+   - Similar to recent places: +10 points
+   - Same place discussed recently: 0 points
+
+4. Engagement Potential (10%): Is this place genuinely interesting?
+   - High narrative potential: +10 points
+   - Moderate interest: +5 points
+   - Low interest: 0 points
+
+ZOOM RULES (determine scale level):
+- &lt;30m: scale="close", focus on visible details
+- 30-100m: scale="close", brief visual mention
+- 100-500m: scale="neighborhood", broader neighborhood context
+- &gt;500m OR no good nearby options: scale="city" or "region"</pre>
+                    </div>
+
                     <div class="form-group">
-                        <label for="beat-history-count">Beat History Count</label>
-                        <input type="number" id="beat-history-count" min="1" max="10" step="1" value="3">
-                        <div class="form-hint">Number of previous narratives to include as context for AI generation</div>
+                        <label for="place-picker-prompt">Custom Place Picker Prompt</label>
+                        <textarea id="place-picker-prompt" rows="6" placeholder="Custom prompt for selecting the next location..."></textarea>
+                        <div class="form-hint">Leave blank to use the default scoring criteria above. Custom prompts override all default logic.</div>
                     </div>
-                </div>
 
-                <!-- Advanced Configuration Section -->
-                <details style="margin-top: 24px; padding: 16px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
-                    <summary style="cursor: pointer; font-size: 15px; font-weight: 600; color: #111827;">
-                        Advanced Configuration
-                    </summary>
-
-                    <div style="margin-top: 16px;">
-                        <!-- Wikipedia Config -->
-                        <h4 style="font-size: 14px; font-weight: 600; color: #374151; margin-bottom: 12px;">Wikipedia Sources</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="wikipedia-search-radius">Search Radius (m)</label>
-                                <input type="number" id="wikipedia-search-radius" min="50" max="10000" value="500">
-                            </div>
-                            <div class="form-group">
-                                <label for="wikipedia-candidate-limit">Candidate Limit</label>
-                                <input type="number" id="wikipedia-candidate-limit" min="1" max="50" value="10">
-                            </div>
-                            <div class="form-group">
-                                <label for="wikipedia-narrative-limit">Sources for Narrative</label>
-                                <input type="number" id="wikipedia-narrative-limit" min="1" max="20" value="10">
-                            </div>
-                        </div>
-
-                        <!-- AI Model Config -->
-                        <h4 style="font-size: 14px; font-weight: 600; color: #374151; margin-top: 20px; margin-bottom: 12px;">AI Model</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="ai-narrative-model">Narrative Model</label>
-                                <select id="ai-narrative-model">
-                                    <option value="gpt-4o-mini">GPT-4o Mini (Fast)</option>
-                                    <option value="gpt-4o">GPT-4o (Quality)</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="ai-narrative-temperature">Temperature</label>
-                                <input type="number" id="ai-narrative-temperature" min="0" max="2" step="0.1" value="0.8">
-                            </div>
-                            <div class="form-group">
-                                <label for="ai-place-picker-model">Place Picker Model</label>
-                                <select id="ai-place-picker-model">
-                                    <option value="gpt-4o-mini">GPT-4o Mini (Fast)</option>
-                                    <option value="gpt-4o">GPT-4o (Quality)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Distance Thresholds -->
-                        <h4 style="font-size: 14px; font-weight: 600; color: #374151; margin-top: 20px; margin-bottom: 12px;">Distance Thresholds</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="distance-close">Close (m)</label>
-                                <input type="number" id="distance-close" min="1" value="30">
-                                <div class="form-hint">Full visual details</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="distance-medium">Medium (m)</label>
-                                <input type="number" id="distance-medium" min="1" value="100">
-                            </div>
-                            <div class="form-group">
-                                <label for="distance-far">Far (m)</label>
-                                <input type="number" id="distance-far" min="1" value="500">
-                            </div>
-                        </div>
-
-                        <!-- TTS Config -->
-                        <h4 style="font-size: 14px; font-weight: 600; color: #374151; margin-top: 20px; margin-bottom: 12px;">Text-to-Speech</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="tts-model">TTS Model</label>
-                                <select id="tts-model">
-                                    <option value="tts-1">TTS-1 (Standard)</option>
-                                    <option value="tts-1-hd">TTS-1 HD (High Quality)</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="tts-speed">Speech Speed</label>
-                                <input type="number" id="tts-speed" min="0.25" max="4" step="0.25" value="1.0">
-                            </div>
-                        </div>
-                    </div>
-                </details>
-
-                <!-- Narrative Continuity Section -->
-                <details style="margin-top: 16px; padding: 16px; background: #f0fdf4; border-radius: 8px; border: 1px solid #86efac;">
-                    <summary style="cursor: pointer; font-size: 15px; font-weight: 600; color: #166534;">
-                        Narrative Continuity
-                    </summary>
-
-                    <div style="margin-top: 16px;">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="full-beat-count">Full Beats (with narrative)</label>
-                                <input type="number" id="full-beat-count" min="0" max="20" value="3">
-                                <div class="form-hint">Recent beats with complete narrative text</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="location-history-count">Location History (names only)</label>
-                                <input type="number" id="location-history-count" min="0" max="200" value="50">
-                                <div class="form-hint">Older locations to avoid repetition</div>
-                            </div>
-                        </div>
-
+                    <div class="form-row">
                         <div class="form-group">
-                            <label for="continuity-prompt">Continuity Prompt</label>
-                            <textarea id="continuity-prompt" rows="5" placeholder="Instructions for thematic continuity..."></textarea>
-                            <div class="form-hint">Instructions for how AI should maintain thematic connections</div>
+                            <label for="ai-place-picker-model">AI Model</label>
+                            <select id="ai-place-picker-model">
+                                <option value="gpt-4o-mini">GPT-4o Mini (Fast)</option>
+                                <option value="gpt-4o">GPT-4o (Quality)</option>
+                            </select>
+                            <div class="form-hint">Model used for place selection decisions</div>
                         </div>
+                    </div>
 
+                    <div class="form-row">
                         <div class="form-group">
-                            <label for="transition-prompt">Transition Prompt</label>
-                            <textarea id="transition-prompt" rows="5" placeholder="Instructions for transitions between beats..."></textarea>
-                            <div class="form-hint">Instructions for opening phrases and seamless transitions</div>
+                            <label for="wikipedia-search-radius">Search Radius (m)</label>
+                            <input type="number" id="wikipedia-search-radius" min="50" max="10000" value="500">
+                            <div class="form-hint">How far to look for Wikipedia places (default: 500m)</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="wikipedia-candidate-limit">Candidate Limit</label>
+                            <input type="number" id="wikipedia-candidate-limit" min="1" max="50" value="10">
+                            <div class="form-hint">Max places to consider for scoring (default: 10)</div>
                         </div>
                     </div>
-                </details>
 
-                <!-- Duplicate Story Button -->
-                <div style="margin-top: 16px;">
-                    <button type="button" id="duplicate-story-btn" style="padding: 10px 20px; background: #6b7280; color: white; border: none; border-radius: 6px; font-size: 14px; cursor: pointer; transition: background 0.2s;">
-                        Duplicate Story
-                    </button>
-                </div>
-
-                <div class="button-group">
-                    <button type="button" id="save-story-btn">Save Story Settings</button>
-                </div>
-                <span id="story-save-status" style="margin-left: 12px; color: #059669;"></span>
-
-                <!-- OpenAI Context Schema Documentation -->
-                <details style="margin-top: 32px; padding: 20px; background: #f8f9fa; border: 1px solid #e5e7eb; border-radius: 8px;">
-                    <summary style="cursor: pointer; font-size: 15px; font-weight: 600; color: #111827; user-select: none;">
-                        OpenAI Context (what gets sent)
-                    </summary>
-
-                    <div style="margin-top: 20px; display: flex; gap: 24px; align-items: center; justify-content: center; flex-wrap: wrap;">
-                        <!-- Left: System Prompt -->
-                        <div style="background: #fff; border: 2px solid #3b82f6; border-radius: 8px; padding: 16px; max-width: 240px;">
-                            <div style="font-weight: 600; color: #111827; margin-bottom: 8px;">System Prompt</div>
-                            <div style="font-size: 13px; color: #6b7280; line-height: 1.5;">
-                                Rick Steves persona + word count guidance (min/max) + distance + scale + language + custom angle (if set)
-                            </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="distance-close">Close Threshold (m)</label>
+                            <input type="number" id="distance-close" min="1" value="30">
+                            <div class="form-hint">"RIGHT HERE" - full visual details (default: 30m)</div>
                         </div>
-
-                        <!-- Center: Arrow and OpenAI -->
-                        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-                            <div style="font-size: 24px; color: #9ca3af;">→</div>
-                            <div style="background: #111827; color: white; padding: 12px 20px; border-radius: 8px; font-weight: 600; font-size: 14px;">
-                                OpenAI
-                            </div>
-                            <div style="font-size: 24px; color: #9ca3af;">←</div>
+                        <div class="form-group">
+                            <label for="distance-medium">Medium Threshold (m)</label>
+                            <input type="number" id="distance-medium" min="1" value="100">
+                            <div class="form-hint">"SHORT WALK" - moderate details (default: 100m)</div>
                         </div>
-
-                        <!-- Right: Context Inputs (vertical stack) -->
-                        <div style="display: flex; flex-direction: column; gap: 12px; max-width: 320px;">
-                            <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; padding: 12px;">
-                                <div style="font-weight: 600; color: #111827; font-size: 14px; margin-bottom: 4px;">Beat History</div>
-                                <div style="font-size: 12px; color: #6b7280; line-height: 1.4;">
-                                    Last N narratives for context continuity (configurable via "Beat History Count" above)
-                                </div>
-                            </div>
-
-                            <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; padding: 12px;">
-                                <div style="font-weight: 600; color: #111827; font-size: 14px; margin-bottom: 4px;">Place Context</div>
-                                <div style="font-size: 12px; color: #6b7280; line-height: 1.4;">
-                                    Historical/background info about the location (max 800 chars)
-                                </div>
-                            </div>
-
-                            <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; padding: 12px;">
-                                <div style="font-weight: 600; color: #111827; font-size: 14px; margin-bottom: 4px;">Previous Themes</div>
-                                <div style="font-size: 12px; color: #6b7280; line-height: 1.4;">
-                                    Themes from prior beats to maintain story coherence
-                                </div>
-                            </div>
-
-                            <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; padding: 12px;">
-                                <div style="font-weight: 600; color: #111827; font-size: 14px; margin-bottom: 4px;">Suggested Angle</div>
-                                <div style="font-size: 12px; color: #6b7280; line-height: 1.4;">
-                                    Custom perspective hint from "Narrative Prompt" settings above (optional)
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <label for="distance-far">Far Threshold (m)</label>
+                            <input type="number" id="distance-far" min="1" value="500">
+                            <div class="form-hint">"FURTHER AWAY" - no visuals (default: 500m)</div>
                         </div>
                     </div>
-                </details>
+                </section>
+
+                <!-- Phase 2: Narrative Generation -->
+                <section class="phase-section phase-2">
+                    <div class="phase-header">
+                        <div class="phase-number">2</div>
+                        <div>
+                            <h3>Narrative Generation</h3>
+                            <p class="phase-description">Settings that affect how the story is written</p>
+                        </div>
+                    </div>
+
+                    <div class="backend-info-box">
+                        <h4>Default Rick Steves Style</h4>
+                        <pre>You are a warm, enthusiastic tour guide creating brief audio narratives
+for people exploring a city on foot - like Rick Steves with headphones.
+
+Rick Steves Style Guidelines:
+- Warm and conversational - like a knowledgeable friend
+- Address listener directly: "You're standing...", "Notice...", "Imagine..."
+- Mix short punchy sentences with longer explanatory ones
+- Use phrases like "Back when...", "Here's the trick...", "My favorite part..."
+- Share opinions openly and be enthusiastic
+- Weave history with sensory details and cultural insight
+- Playful but not cheesy - gentle humor welcome
+- Encourage exploration: "You'll find...", "Don't miss..."
+- Be fanatically positive and militantly optimistic
+- AVOID: "remarkable", "stunning", "fascinating", "absolutely", "simply"</pre>
+                    </div>
+
+                    <div class="backend-info-box">
+                        <h4>Distance-Aware Language Rules</h4>
+                        <pre>RIGHT HERE (&lt;30m): "Right here...", "Just beside you...", "You're standing at..."
+  → Include FULL VISUAL DETAILS: colors, materials, architectural features
+
+SHORT WALK (30-60m): "A short walk from here...", "Just down the block..."
+  → Include MODERATE VISUAL DETAILS: prominent features only
+
+NEARBY (60-100m): "Nearby in this neighborhood...", "A few blocks away..."
+  → DO NOT describe visual details. Focus on historical context.
+
+FURTHER AWAY (&gt;100m): Talk about broader area context
+  → DO NOT describe any visual details. Historical/cultural significance only.</pre>
+                    </div>
+
+                    <div class="backend-info-box">
+                        <h4>Word Count by Motion State</h4>
+                        <pre>- Driving: 30-50 words (quick highlight for someone driving by)
+- Walking/Running: 60-80 words (brief but engaging on the move)
+- Stationary: 100-150 words (richer detail for someone who stopped)
+- Unknown: 80-100 words (balanced)
+
+Note: Custom word count min/max below overrides these motion-based defaults.</pre>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="narrative-prompt">Custom Narrative Prompt</label>
+                        <textarea id="narrative-prompt" rows="6" placeholder="Custom system prompt for narrative generation..."></textarea>
+                        <div class="form-hint">Leave blank to use the default Rick Steves style above. Custom prompts replace the default persona.</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ai-narrative-model">AI Model</label>
+                            <select id="ai-narrative-model">
+                                <option value="gpt-4o-mini">GPT-4o Mini (Fast)</option>
+                                <option value="gpt-4o">GPT-4o (Quality)</option>
+                            </select>
+                            <div class="form-hint">Model used for narrative generation</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ai-narrative-temperature">Temperature</label>
+                            <input type="number" id="ai-narrative-temperature" min="0" max="2" step="0.1" value="0.8">
+                            <div class="form-hint">Creativity level: 0=deterministic, 2=creative (default: 0.8)</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="story-word-count-min">Word Count Min</label>
+                            <input type="number" id="story-word-count-min" min="1" max="1000">
+                            <div class="form-hint">Minimum words (overrides motion-based defaults)</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="story-word-count-max">Word Count Max</label>
+                            <input type="number" id="story-word-count-max" min="1" max="1000">
+                            <div class="form-hint">Maximum words (overrides motion-based defaults)</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="wikipedia-narrative-limit">Wikipedia Sources</label>
+                            <input type="number" id="wikipedia-narrative-limit" min="1" max="20" value="10">
+                            <div class="form-hint">Max Wikipedia sources to include (default: 10)</div>
+                        </div>
+                    </div>
+
+                    <div class="backend-info-box" style="margin-top: 24px;">
+                        <h4>Default Continuity Prompt</h4>
+                        <pre>CONTINUITY: Read the previous narratives carefully.
+Your narrative should feel like a natural continuation of the journey.
+Identify thematic threads, topics, or ideas from the previous beats
+and weave subtle connections.
+The connection should feel organic - don't force it if there's no genuine link.</pre>
+                    </div>
+
+                    <div class="backend-info-box">
+                        <h4>Default Transition Prompt</h4>
+                        <pre>TRANSITIONS: Your narrative should flow naturally from the previous beat.
+Consider opening with a phrase that connects to what was just discussed:
+- "Speaking of..." / "And just nearby..."
+- A thematic bridge that links the previous topic to this one
+- A geographical connection ("As we turn the corner..." / "Walking past...")
+Make the listener feel like they're on a continuous journey.</pre>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="beat-history-count">Beat History Count</label>
+                            <input type="number" id="beat-history-count" min="1" max="10" step="1" value="3">
+                            <div class="form-hint">Previous narratives sent as context (default: 3)</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="full-beat-count">Full Beat Count</label>
+                            <input type="number" id="full-beat-count" min="0" max="20" value="3">
+                            <div class="form-hint">Beats with complete text for continuity (default: 3)</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="location-history-count">Location History</label>
+                            <input type="number" id="location-history-count" min="0" max="200" value="50">
+                            <div class="form-hint">Older location names to avoid repetition (default: 50)</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="continuity-prompt">Custom Continuity Prompt</label>
+                        <textarea id="continuity-prompt" rows="4" placeholder="Instructions for thematic continuity..."></textarea>
+                        <div class="form-hint">Leave blank to use the default continuity prompt above.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transition-prompt">Custom Transition Prompt</label>
+                        <textarea id="transition-prompt" rows="4" placeholder="Instructions for transitions between beats..."></textarea>
+                        <div class="form-hint">Leave blank to use the default transition prompt above.</div>
+                    </div>
+                </section>
+
+                <!-- Phase 3: Audio Generation -->
+                <section class="phase-section phase-3">
+                    <div class="phase-header">
+                        <div class="phase-number">3</div>
+                        <div>
+                            <h3>Audio Generation</h3>
+                            <p class="phase-description">Settings that affect the TTS output</p>
+                        </div>
+                    </div>
+
+                    <div class="backend-info-box">
+                        <h4>Voice Options</h4>
+                        <pre>VOICE OPTIONS:
+- Alloy: Balanced and versatile, good for general use
+- Echo: Warm and conversational, slightly lower pitch
+- Fable: Expressive and dynamic, British accent
+- Onyx: Deep and authoritative (DEFAULT - recommended for narratives)
+- Nova: Friendly and upbeat, slightly higher pitch
+- Shimmer: Soft and soothing, gentle tone
+
+TTS MODELS:
+- tts-1 (Standard): Faster, good quality, lower cost
+- tts-1-hd (High Definition): Higher quality audio, 2x cost
+
+SPEED: 0.25 (very slow) → 1.0 (normal) → 4.0 (very fast)</pre>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="voice-id">Voice</label>
+                            <select id="voice-id">
+                                <!-- Populated dynamically from constants -->
+                            </select>
+                            <div class="form-hint">OpenAI TTS voice (default: Onyx)</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tts-model">TTS Model</label>
+                            <select id="tts-model">
+                                <option value="tts-1">TTS-1 (Standard)</option>
+                                <option value="tts-1-hd">TTS-1 HD (High Quality)</option>
+                            </select>
+                            <div class="form-hint">Audio quality level (default: tts-1)</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tts-speed">Speech Speed</label>
+                            <input type="number" id="tts-speed" min="0.25" max="4" step="0.25" value="1.0">
+                            <div class="form-hint">Playback speed 0.25-4.0 (default: 1.0)</div>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
 
