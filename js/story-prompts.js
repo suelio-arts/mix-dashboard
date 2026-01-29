@@ -64,6 +64,31 @@ async function loadStoryPrompts(storyId) {
         getEl('story-word-count-max').value = data.wordCountMax || 150;
         getEl('beat-history-count').value = data.beatHistoryCount || 3;
         getEl('story-published').checked = data.published || false;
+
+        // Advanced config - Wikipedia
+        getEl('wikipedia-search-radius').value = data.wikipedia?.searchRadius || 500;
+        getEl('wikipedia-candidate-limit').value = data.wikipedia?.candidateLimit || 10;
+        getEl('wikipedia-narrative-limit').value = data.wikipedia?.narrativeSourceLimit || 10;
+
+        // Advanced config - AI Model
+        getEl('ai-narrative-model').value = data.aiModel?.narrativeModel || 'gpt-4o-mini';
+        getEl('ai-narrative-temperature').value = data.aiModel?.narrativeTemperature || 0.8;
+        getEl('ai-place-picker-model').value = data.aiModel?.placePickerModel || 'gpt-4o-mini';
+
+        // Advanced config - Distance Thresholds
+        getEl('distance-close').value = data.distanceThresholds?.closeMeters || 30;
+        getEl('distance-medium').value = data.distanceThresholds?.mediumMeters || 100;
+        getEl('distance-far').value = data.distanceThresholds?.farMeters || 500;
+
+        // Advanced config - TTS
+        getEl('tts-model').value = data.tts?.model || 'tts-1';
+        getEl('tts-speed').value = data.tts?.speed || 1.0;
+
+        // Continuity config
+        getEl('full-beat-count').value = data.continuity?.fullBeatCount || 3;
+        getEl('location-history-count').value = data.continuity?.locationHistoryCount || 50;
+        getEl('continuity-prompt').value = data.continuity?.continuityPrompt || '';
+        getEl('transition-prompt').value = data.continuity?.transitionPrompt || '';
     } catch (error) {
         console.error('Failed to load story prompts:', error);
         showMessage(`Failed to load story: ${error.message}`, true);
@@ -88,6 +113,36 @@ async function saveStoryPrompts() {
             wordCountMax: parseInt(getEl('story-word-count-max').value) || 150,
             beatHistoryCount: parseInt(getEl('beat-history-count').value) || 3,
             published: getEl('story-published').checked,
+            // Advanced config - Wikipedia
+            wikipedia: {
+                searchRadius: parseInt(getEl('wikipedia-search-radius').value) || 500,
+                candidateLimit: parseInt(getEl('wikipedia-candidate-limit').value) || 10,
+                narrativeSourceLimit: parseInt(getEl('wikipedia-narrative-limit').value) || 10,
+            },
+            // Advanced config - AI Model
+            aiModel: {
+                narrativeModel: getEl('ai-narrative-model').value || 'gpt-4o-mini',
+                narrativeTemperature: parseFloat(getEl('ai-narrative-temperature').value) || 0.8,
+                placePickerModel: getEl('ai-place-picker-model').value || 'gpt-4o-mini',
+            },
+            // Advanced config - Distance Thresholds
+            distanceThresholds: {
+                closeMeters: parseInt(getEl('distance-close').value) || 30,
+                mediumMeters: parseInt(getEl('distance-medium').value) || 100,
+                farMeters: parseInt(getEl('distance-far').value) || 500,
+            },
+            // Advanced config - TTS
+            tts: {
+                model: getEl('tts-model').value || 'tts-1',
+                speed: parseFloat(getEl('tts-speed').value) || 1.0,
+            },
+            // Continuity config
+            continuity: {
+                fullBeatCount: parseInt(getEl('full-beat-count').value) || 3,
+                locationHistoryCount: parseInt(getEl('location-history-count').value) || 50,
+                continuityPrompt: getEl('continuity-prompt').value || undefined,
+                transitionPrompt: getEl('transition-prompt').value || undefined,
+            },
         });
 
         showMessage('Story settings saved!');
@@ -195,6 +250,31 @@ async function createNewStory() {
 }
 
 /**
+ * Duplicate the current story
+ */
+async function duplicateCurrentStory() {
+    if (!functionsInstance || !currentStoryId) return;
+
+    const newTitle = prompt('Enter title for duplicated story:');
+    if (!newTitle) return;
+
+    try {
+        const duplicateStory = httpsCallable(functionsInstance, FUNCTIONS.DUPLICATE_STORY);
+        const result = await duplicateStory({ storyId: currentStoryId, newTitle });
+        const newStoryId = result.data.storyId;
+
+        showMessage('Story duplicated!');
+
+        // Refresh and select the new story
+        await refreshStoriesList(newStoryId);
+        await loadStoryPrompts(newStoryId);
+    } catch (error) {
+        console.error('Failed to duplicate story:', error);
+        showMessage(`Failed to duplicate: ${error.message}`, true);
+    }
+}
+
+/**
  * Initialize the stories tab
  * @param {Functions} functions Firebase Functions instance
  */
@@ -230,6 +310,11 @@ export async function initializeStoriesTab(functions) {
     const confirmCreateBtn = document.getElementById('confirm-create-btn');
     if (confirmCreateBtn) {
         confirmCreateBtn.addEventListener('click', createNewStory);
+    }
+
+    const duplicateBtn = document.getElementById('duplicate-story-btn');
+    if (duplicateBtn) {
+        duplicateBtn.addEventListener('click', duplicateCurrentStory);
     }
 
     // Load stories list

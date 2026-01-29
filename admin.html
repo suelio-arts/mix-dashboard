@@ -351,6 +351,130 @@
                     </div>
                 </div>
 
+                <!-- Advanced Configuration Section -->
+                <details style="margin-top: 24px; padding: 16px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
+                    <summary style="cursor: pointer; font-size: 15px; font-weight: 600; color: #111827;">
+                        Advanced Configuration
+                    </summary>
+
+                    <div style="margin-top: 16px;">
+                        <!-- Wikipedia Config -->
+                        <h4 style="font-size: 14px; font-weight: 600; color: #374151; margin-bottom: 12px;">Wikipedia Sources</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="wikipedia-search-radius">Search Radius (m)</label>
+                                <input type="number" id="wikipedia-search-radius" min="50" max="10000" value="500">
+                            </div>
+                            <div class="form-group">
+                                <label for="wikipedia-candidate-limit">Candidate Limit</label>
+                                <input type="number" id="wikipedia-candidate-limit" min="1" max="50" value="10">
+                            </div>
+                            <div class="form-group">
+                                <label for="wikipedia-narrative-limit">Sources for Narrative</label>
+                                <input type="number" id="wikipedia-narrative-limit" min="1" max="20" value="10">
+                            </div>
+                        </div>
+
+                        <!-- AI Model Config -->
+                        <h4 style="font-size: 14px; font-weight: 600; color: #374151; margin-top: 20px; margin-bottom: 12px;">AI Model</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ai-narrative-model">Narrative Model</label>
+                                <select id="ai-narrative-model">
+                                    <option value="gpt-4o-mini">GPT-4o Mini (Fast)</option>
+                                    <option value="gpt-4o">GPT-4o (Quality)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ai-narrative-temperature">Temperature</label>
+                                <input type="number" id="ai-narrative-temperature" min="0" max="2" step="0.1" value="0.8">
+                            </div>
+                            <div class="form-group">
+                                <label for="ai-place-picker-model">Place Picker Model</label>
+                                <select id="ai-place-picker-model">
+                                    <option value="gpt-4o-mini">GPT-4o Mini (Fast)</option>
+                                    <option value="gpt-4o">GPT-4o (Quality)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Distance Thresholds -->
+                        <h4 style="font-size: 14px; font-weight: 600; color: #374151; margin-top: 20px; margin-bottom: 12px;">Distance Thresholds</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="distance-close">Close (m)</label>
+                                <input type="number" id="distance-close" min="1" value="30">
+                                <div class="form-hint">Full visual details</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="distance-medium">Medium (m)</label>
+                                <input type="number" id="distance-medium" min="1" value="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="distance-far">Far (m)</label>
+                                <input type="number" id="distance-far" min="1" value="500">
+                            </div>
+                        </div>
+
+                        <!-- TTS Config -->
+                        <h4 style="font-size: 14px; font-weight: 600; color: #374151; margin-top: 20px; margin-bottom: 12px;">Text-to-Speech</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="tts-model">TTS Model</label>
+                                <select id="tts-model">
+                                    <option value="tts-1">TTS-1 (Standard)</option>
+                                    <option value="tts-1-hd">TTS-1 HD (High Quality)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="tts-speed">Speech Speed</label>
+                                <input type="number" id="tts-speed" min="0.25" max="4" step="0.25" value="1.0">
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Narrative Continuity Section -->
+                <details style="margin-top: 16px; padding: 16px; background: #f0fdf4; border-radius: 8px; border: 1px solid #86efac;">
+                    <summary style="cursor: pointer; font-size: 15px; font-weight: 600; color: #166534;">
+                        Narrative Continuity
+                    </summary>
+
+                    <div style="margin-top: 16px;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="full-beat-count">Full Beats (with narrative)</label>
+                                <input type="number" id="full-beat-count" min="0" max="20" value="3">
+                                <div class="form-hint">Recent beats with complete narrative text</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="location-history-count">Location History (names only)</label>
+                                <input type="number" id="location-history-count" min="0" max="200" value="50">
+                                <div class="form-hint">Older locations to avoid repetition</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="continuity-prompt">Continuity Prompt</label>
+                            <textarea id="continuity-prompt" rows="5" placeholder="Instructions for thematic continuity..."></textarea>
+                            <div class="form-hint">Instructions for how AI should maintain thematic connections</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="transition-prompt">Transition Prompt</label>
+                            <textarea id="transition-prompt" rows="5" placeholder="Instructions for transitions between beats..."></textarea>
+                            <div class="form-hint">Instructions for opening phrases and seamless transitions</div>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Duplicate Story Button -->
+                <div style="margin-top: 16px;">
+                    <button type="button" id="duplicate-story-btn" style="padding: 10px 20px; background: #6b7280; color: white; border: none; border-radius: 6px; font-size: 14px; cursor: pointer; transition: background 0.2s;">
+                        Duplicate Story
+                    </button>
+                </div>
+
                 <div class="button-group">
                     <button type="button" id="save-story-btn">Save Story Settings</button>
                 </div>
